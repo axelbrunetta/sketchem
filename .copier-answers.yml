@@ -1,0 +1,9 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 3179c16
+_src_path: gh:schwallergroup/copier-liac-minimal
+author_email: axel.brunetta@gmail.com
+author_name: Axel Brunetta
+github_org: axelbrunetta
+package_name: sketchem
+project_name: sketchem
+short_description: A molecular pictionary
