@@ -243,8 +243,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-#Mindmap
-.scap
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks,windows,macos
 
