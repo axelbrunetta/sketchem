@@ -57,13 +57,22 @@ class MoleculeDrawingGame {
         this.ctx.lineWidth = 2;
         this.ctx.lineCap = 'round';
         this.ctx.lineJoin = 'round';
+        
+        // Clear any existing content
+        this.clearCanvas();
+        
+        // Ensure canvas is visible
+        const canvasContainer = document.querySelector('.canvas-container');
+        canvasContainer.classList.remove('hidden');
+        this.canvas.style.display = 'block';
     }
     
     resizeCanvas() {
         const container = this.canvas.parentElement;
-        this.canvas.width = container.clientWidth;
-        this.canvas.height = container.clientHeight - 
-            document.querySelector('.tools').clientHeight;
+        const rect = container.getBoundingClientRect();
+        this.canvas.width = rect.width;
+        this.canvas.height = rect.height - document.querySelector('.tools').clientHeight;
+        console.log('Canvas resized to:', this.canvas.width, 'x', this.canvas.height);
     }
 
     setupEventListeners() {
@@ -292,21 +301,10 @@ class MoleculeDrawingGame {
     updateGameDisplay() {
         if (!this.gameState) {
             console.log('No game state available');
-            this.forceHideGameOver(); // Hide game over regardless
             return;
         }
         
         console.log('Updating game display with state:', this.gameState);
-        console.log('Game status:', this.gameState.status);
-        console.log('Current round:', this.gameState.round);
-        
-        // First ensure game over is hidden by default
-        this.forceHideGameOver();
-        
-        // Debug game over element
-        console.log('Game over panel element:', this.gameOverPanel);
-        console.log('Game over panel hidden?', this.gameOverPanel.classList.contains('hidden'));
-        console.log('Game over current style:', this.gameOverPanel.style.display);
         
         // Update status
         const statusElement = document.getElementById('room-status');
@@ -315,70 +313,40 @@ class MoleculeDrawingGame {
             : this.gameState.status === 'playing' 
                 ? 'Game in progress' 
                 : 'Game finished';
-        console.log('Setting status text to:', statusText);
         statusElement.textContent = statusText;
         
-        // Update scoreboard
+        // Update scoreboard and round info
         this.updateScoreboard();
-        
-        // Update round info
-        const currentRound = document.getElementById('current-round');
-        const maxRounds = document.getElementById('max-rounds');
-        currentRound.textContent = this.gameState.round;
-        maxRounds.textContent = this.gameState.max_rounds;
+        document.getElementById('current-round').textContent = this.gameState.round;
+        document.getElementById('max-rounds').textContent = this.gameState.max_rounds;
         
         // Show/hide start button for host
         const startButton = document.getElementById('start-game');
         if (this.isHost && (this.gameState.status === 'lobby' || this.gameState.status === 'waiting')) {
-            console.log('Showing start button for host');
             startButton.classList.remove('hidden');
         } else {
-            console.log('Hiding start button');
             startButton.classList.add('hidden');
         }
         
         // Update current molecule
         this.updateMoleculeDisplay();
         
-        // Setup game canvas - hide if in lobby/waiting, show if playing
+        // Handle canvas visibility
         const canvasContainer = document.querySelector('.canvas-container');
         const lobbyMessage = document.getElementById('lobby-message') || this.createLobbyMessage();
         
         if (this.gameState.status === 'lobby' || this.gameState.status === 'waiting') {
-            console.log('Showing lobby message, hiding canvas');
-            // Hide canvas and show lobby message
             canvasContainer.classList.add('hidden');
             lobbyMessage.classList.remove('hidden');
             
-            // Update lobby message
             const message = this.isHost 
                 ? 'You are the host. Click "Start Game" when everyone has joined.'
                 : 'Waiting for the host to start the game...';
             lobbyMessage.querySelector('p').textContent = message;
         } else {
-            console.log('Showing canvas, hiding lobby message');
-            // Show canvas and hide lobby message
             canvasContainer.classList.remove('hidden');
             lobbyMessage.classList.add('hidden');
-        }
-        
-        // ONLY handle game over when round is truly finished
-        const shouldShowGameOver = this.gameState.status === 'finished' && this.gameState.round > 0;
-        console.log('Should show game over?', shouldShowGameOver, 'Status:', this.gameState.status, 'Round:', this.gameState.round);
-        
-        if (shouldShowGameOver) {
-            console.log('Showing game over screen');
-            this.showGameOver();
-        } else {
-            console.log('Ensuring game over is hidden');
-            this.forceHideGameOver();
-            
-            // Double check after a delay to catch any race conditions
-            setTimeout(() => {
-                if (shouldShowGameOver === false) {
-                    this.forceHideGameOver();
-                }
-            }, 200);
+            this.setupCanvas(); // Reinitialize canvas when game starts
         }
     }
     
@@ -481,17 +449,40 @@ class MoleculeDrawingGame {
         }
     }
 
+    getCoordinates(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const scaleX = this.canvas.width / rect.width;
+        const scaleY = this.canvas.height / rect.height;
+        
+        // Get the actual mouse position relative to the canvas
+        const x = (e.clientX - rect.left) * scaleX;
+        const y = (e.clientY - rect.top) * scaleY;
+        
+        console.log('Mouse position:', e.clientX, e.clientY);
+        console.log('Canvas rect:', rect);
+        console.log('Calculated coordinates:', x, y);
+        
+        return [x, y];
+    }
+
     startDrawing(e) {
-        if (this.gameState?.status !== 'playing') return;
+        if (this.gameState?.status !== 'playing') {
+            console.log('Cannot draw: game not in playing state');
+            return;
+        }
         
         this.isDrawing = true;
-        [this.lastX, this.lastY] = this.getCoordinates(e);
+        const [x, y] = this.getCoordinates(e);
+        this.lastX = x;
+        this.lastY = y;
+        console.log('Started drawing at:', x, y);
     }
 
     draw(e) {
         if (!this.isDrawing) return;
 
         const [x, y] = this.getCoordinates(e);
+        console.log('Drawing to:', x, y);
         
         this.ctx.beginPath();
         this.ctx.moveTo(this.lastX, this.lastY);
@@ -533,14 +524,6 @@ class MoleculeDrawingGame {
     handleTouchMove(e) {
         e.preventDefault();
         this.draw(e.touches[0]);
-    }
-
-    getCoordinates(e) {
-        const rect = this.canvas.getBoundingClientRect();
-        return [
-            e.clientX - rect.left,
-            e.clientY - rect.top
-        ];
     }
 
     clearCanvas() {
