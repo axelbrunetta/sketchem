@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Sketchem - Molecule Drawing Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}?v={{ range(1000, 9999) | random }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sketchem</h1>
+            <p class="tagline">Draw molecules and compete with your friends!</p>
+            <a href="/reset" class="reset-button">Reset Game</a>
+        </header>
+        
+        <div id="game-setup" class="panel">
+            <h2>Play Sketchem</h2>
+            <div class="setup-options">
+                <div class="option-card">
+                    <h3>Create New Game</h3>
+                    <p>Start a new game and invite friends</p>
+                    <button id="create-room">Create Game</button>
+                </div>
+                <div class="option-card">
+                    <h3>Join Existing Game</h3>
+                    <p>Enter room code to join</p>
+                    <div class="join-controls">
+                        <input type="text" id="room-id" placeholder="Enter room code">
+                        <button id="join-room">Join Game</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="game-room" class="panel hidden">
+            <div class="room-header">
+                <h2>Game Room: <span id="room-code"></span></h2>
+                <div id="room-status">Waiting for players...</div>
+                <button id="start-game" class="hidden">Start Game</button>
+            </div>
+            
+            <div class="game-content">
+                <div class="molecule-container">
+                    <h3>Draw this molecule:</h3>
+                    <div id="current-molecule">
+                        <div id="molecule-name"></div>
+                        <div id="molecule-formula"></div>
+                        <img id="molecule-image" src="" alt="Molecule to draw">
+                    </div>
+                </div>
+                
+                <div class="canvas-container">
+                    <canvas id="drawing-canvas"></canvas>
+                    <div class="tools">
+                        <button id="clear-canvas">Clear</button>
+                        <button id="submit-drawing">Submit</button>
+                    </div>
+                </div>
+                
+                <div class="scoreboard">
+                    <h3>Scoreboard</h3>
+                    <div id="players-list"></div>
+                    <div id="round-info">
+                        Round: <span id="current-round">0</span>/<span id="max-rounds">5</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="result-overlay" class="hidden">
+                <div class="result-content">
+                    <h2 id="result-message"></h2>
+                    <button id="continue-game">Continue</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game over panel moved outside of game-room div -->
+        <div id="game-over" class="hidden" style="display: none !important;">
+            <h2>Game Over!</h2>
+            <div id="final-scores"></div>
+            <button id="new-game">Play Again</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', path='script.js') }}?v={{ range(1000, 9999) | random }}"></script>
+</body>
+</html> 
