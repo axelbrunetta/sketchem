@@ -25,7 +25,7 @@ def validate_drawing(image_path: str, target_smiles: str, method: str = 'mcs', t
         model_name = "Canonical"
 
         # Returned as a tuple that looks like ('CC[O]', [('C', 0.7732562), ('C', 0.8388427), ('[', 0.5454414), ('O', 0.9842202), (']', 0.6354147)]) hence need only the first element
-        predicted_smiles = DECIMER.predict_SMILES(image_path, model_name)[0] 
+        predicted_smiles = DECIMER.predict_SMILES(image_path, model_name, hand_drawn = True)[0] 
         print(f"Predicted SMILES: {predicted_smiles}") 
 
 
