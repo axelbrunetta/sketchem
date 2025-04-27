@@ -62,14 +62,9 @@ keep in mind that mulptiplayer game mode is not available when running the app l
 GEMINI_API_KEY=your-gemini-api-key
 ```
 
-2. Install dependencies:
+2. Run the app:
 ```
-pip install -r requirements.txt
-```
-
-3. Run the app:
-```
-streamlit run streamlit_app.py
+streamlit run src/sketchem/main.py
 ```
 
 ### Run tests and coverage
