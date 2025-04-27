@@ -3,14 +3,27 @@
 import subprocess
 import sys
 from pathlib import Path
+import os
+from .environment import is_running_locally
+
+def get_decimer_path():
+    """Get the appropriate DECIMER path based on environment"""
+    if is_running_locally():
+        return Path.home() / '.decimer' # Local path
+    return Path('/mount/decimer')  # Streamlit Cloud path
 
 def install_decimer_model():
-    """Install the DECIMER Canonical model if not already installed."""
+    """Install the DECIMER Canonical model if not already installed"""
     try:
-        # Check if model is already installed
-        decimer_path = Path.home() / '.decimer' / 'DECIMER_model_weights' / 'Canonical'
+        # Use environment-specific path
+        decimer_path = get_decimer_path() / 'DECIMER_model_weights' / 'Canonical'
+        
         if decimer_path.exists():
             return True
+            
+        if not is_running_locally():
+            # In cloud, ensure mount directory exists
+            os.makedirs('/mount/decimer', exist_ok=True)
             
         print("Installing DECIMER Canonical model...")
         result = subprocess.run(
