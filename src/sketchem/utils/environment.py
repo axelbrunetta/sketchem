@@ -4,4 +4,4 @@ import os
 
 def is_running_locally():
     """Check if the app is running locally or in Streamlit cloud"""
-    return not os.environ.get("STREAMLIT_DEPLOYMENT", False)
+    return not bool(os.getenv('STREAMLIT_RUNTIME_BACKEND', ''))
