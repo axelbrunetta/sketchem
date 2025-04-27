@@ -39,29 +39,37 @@ If you need jupyter lab, install it
 (sketchem) $ pip install jupyterlab
 ```
 
-
-## 🛠️ Development installation
-
+## How to deploy on Streamlit Cloud
 
 
-Note: You should have create an empty repository on `https://github.com:axelbrunetta/sketchem`.
+### Setup Streamlit Cloud
 
-```
-git init
-
-git add .*
-
-git branch -M main
-
-git push -u origin main
-```
-
-
-
-To install the package, run
+1. Fork or push this repository to your GitHub account
+2. Connect your repository to Streamlit Cloud
+3. Add the following secret in the Streamlit Cloud dashboard:
 
 ```
-(sketchem) $ pip install -e ".[test,doc]"
+GEMINI_API_KEY = "your-gemini-api-key"
+```
+
+### Local Development
+
+keep in mind that mulptiplayer game mode is not available when running the app locally, it only works on the deployed version
+
+
+1. Create a `.env` file in the root of your project with:
+```
+GEMINI_API_KEY=your-gemini-api-key
+```
+
+2. Install dependencies:
+```
+pip install -r requirements.txt
+```
+
+3. Run the app:
+```
+streamlit run streamlit_app.py
 ```
 
 ### Run tests and coverage
