@@ -1,5 +1,5 @@
 import streamlit as st
-from ..utils.environment import is_running_locally
+from sketchem.utils.environment import is_running_locally
 
 def render_home_page():
     st.markdown("## Choose Game Mode")

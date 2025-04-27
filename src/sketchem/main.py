@@ -1,6 +1,6 @@
 import streamlit as st
-from .utils.game_state import initialize_game_state
-from .pages.home_page import render_home_page
+from sketchem.utils.game_state import initialize_game_state
+from sketchem.pages.home_page import render_home_page
 
 
 
