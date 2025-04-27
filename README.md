@@ -52,7 +52,7 @@ If you need jupyter lab, install it
 GEMINI_API_KEY = "your-gemini-api-key"
 ```
 
-### Local Development
+## Local Development
 
 keep in mind that mulptiplayer game mode is not available when running the app locally, it only works on the deployed version
 
@@ -67,7 +67,7 @@ GEMINI_API_KEY=your-gemini-api-key
 streamlit run src/sketchem/main.py
 ```
 
-### Run tests and coverage
+## Run tests and coverage
 
 ```
 (conda_env) $ pip install tox
