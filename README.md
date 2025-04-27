@@ -13,7 +13,7 @@ A molecular pictionary
 
 
 
-## 👩‍💻 Installation
+## Environment 
 
 Create a new environment, you may also give the environment a different name.
 
@@ -26,12 +26,22 @@ conda activate sketchem
 (conda_env) $ pip install .
 ```
 
-The DECIMER Canonical model will be automatically downloaded during installation. If you need to manually trigger the model download, you can run:
+## Requirements
+
+### DECIMER
+The DECIMER Canonical model for molecule recognitio will be automatically downloaded during installation. If you need to manually trigger the model download, you can run:
 
 ```bash
 sketchem-setup
-```
 
+```
+### Gemini AI
+
+To use the Gemini AI for molecule recognition, you need to set up your Google Generative AI API key. Go to [Google Generative AI](https://aistudio.google.com/app/apikey) and create an API key. 
+
+
+
+### JUPYTER
 
 If you need jupyter lab, install it 
 
@@ -39,10 +49,10 @@ If you need jupyter lab, install it
 (sketchem) $ pip install jupyterlab
 ```
 
+
+
 ## How to deploy on Streamlit Cloud
 
-
-### Setup Streamlit Cloud
 
 1. Fork or push this repository to your GitHub account
 2. Connect your repository to Streamlit Cloud
@@ -54,7 +64,7 @@ GEMINI_API_KEY = "your-gemini-api-key"
 
 ## Local Development
 
-keep in mind that mulptiplayer game mode is not available when running the app locally, it only works on the deployed version
+Keep in mind that mulptiplayer game mode is not available when running the app locally, it only works on the deployed version
 
 
 1. Create a `.env` file in the root of your project with:
