@@ -5,6 +5,4 @@ import platform
 
 def is_running_locally():
     """Check if the app is running locally or in Streamlit cloud"""
-    if platform.processor() == None:
-        return False
-    return True
+    return platform.processor() != ''
