@@ -54,7 +54,7 @@ doc = [
 ]
 
 [project.scripts]
-sketchem-setup = "sketchem.post_install:main"
+sketchem-setup = "sketchem.utils.post_install:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/sketchem"]

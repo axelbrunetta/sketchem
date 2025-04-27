@@ -1,4 +1,4 @@
-# This file is used to install the DECIMER model if it is not already installed
+# This is used to install the DECIMER model if it is not already installed
 
 import subprocess
 import sys

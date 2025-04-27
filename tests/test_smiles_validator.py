@@ -2,7 +2,7 @@
 
 import pytest
 from pathlib import Path
-from sketchem.smiles_validator import validate_drawing
+from sketchem.utils.smiles_validator import validate_drawing
 
 # Get current working directory and construct test data path
 current_directory = Path(__file__).parent.parent
