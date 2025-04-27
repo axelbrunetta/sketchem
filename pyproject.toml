@@ -21,6 +21,7 @@ streamlit = "*"
 streamlit-drawable-canvas = "*"
 python-dotenv = "*"
 google-generativeai = "*"
+platform = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
