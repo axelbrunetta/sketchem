@@ -95,14 +95,9 @@ def render_multiplayer_setup():
             )
 
             if selected_category:
-                # Store the selected category
-                st.session_state.selected_molecule_category = selected_category
-                
-                # For debugging
-                st.write(f"Debug - Selected category: {st.session_state.selected_molecule_category}")
-                st.write(f"Debug - Type: {type(st.session_state.selected_molecule_category)}")
-                
+               
                 # Display molecules in selected category
+                st.session_state.selected_molecule_category = selected_category
                 st.markdown(f"**Molecules in {selected_category}:**")
                 for molecule in MOLECULE_CATEGORIES[selected_category].keys():
                     st.markdown(f"- {molecule}")

@@ -18,9 +18,9 @@ def render_waiting_room():
     if st.session_state.game_mode == "created_multi":
         st.markdown(f"Selected Category: **{st.session_state.selected_molecule_category}**")
         st.markdown("### Molecules:")
-        category = st.session_state.selected_molecule_category[0]
+        category = st.session_state.selected_molecule_category
         logger.info(f"Category: {category}")
-        
+
         for molecule in MOLECULE_CATEGORIES[category].keys():
             st.markdown(f"- {molecule}")
 

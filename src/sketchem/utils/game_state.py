@@ -21,7 +21,7 @@ def initialize_game_state():
         st.session_state.game_duration = 60
         
     if "selected_molecule_category" not in st.session_state:
-        st.session_state.selected_molecule_category = []
+        st.session_state.selected_molecule_category = ""
 
 def reset_game_state():
     """Reset game state"""
