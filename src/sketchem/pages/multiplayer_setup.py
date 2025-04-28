@@ -77,18 +77,18 @@ def render_multiplayer_setup():
    
 
     with col1:
-        # Use state var show_new_game_button to show/hide button as nothing else worked...
+        # Initialize state 
         if "show_new_game_button" not in st.session_state:
             st.session_state.show_new_game_button = True
             
-        # Only show the button if the state variable is True
+        def hide_new_game_button():
+            st.session_state.show_new_game_button = False
+            
+        # Show button or game options based on state 
         if st.session_state.show_new_game_button:
-            if st.button("New Game", use_container_width=True):
-                # Set the state variable to False when clicked
-                st.session_state.show_new_game_button = False
-        
-        if not st.session_state.show_new_game_button:
-            # Select game duration
+            st.button("New Game", on_click=hide_new_game_button, use_container_width=True)
+        else:
+            # Game settings 
             st.markdown("### Game Settings")
             st.session_state.game_duration = st.slider(
                 "Game Duration (seconds)",
