@@ -11,7 +11,7 @@ readme = "README.md"
 license = "LICENSE"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.13"  # Allow Python 3.12
+python = ">=3.10,<3.12"  
 rdkit = "*"
 decimer = "*"
 numpy = ">=1.26.0,<1.27.0" 
