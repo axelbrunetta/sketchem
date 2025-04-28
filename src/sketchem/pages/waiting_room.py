@@ -3,6 +3,10 @@ import time
 from sketchem.db.mock_db import get_game, start_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 
+
+import logging
+logger = logging.getLogger("sketchem_app")
+
 def render_waiting_room():
     """Renders the waiting room for both host and joining players"""
 
@@ -14,7 +18,10 @@ def render_waiting_room():
     if st.session_state.game_mode == "created_multi":
         st.markdown(f"Selected Category: **{st.session_state.selected_molecule_category}**")
         st.markdown("### Molecules:")
-        for molecule in MOLECULE_CATEGORIES[st.session_state.selected_molecule_category].keys():
+        category = st.session_state.selected_molecule_category[0]
+        logger.info(f"Category: {category}")
+        
+        for molecule in MOLECULE_CATEGORIES[category].keys():
             st.markdown(f"- {molecule}")
 
     # Get and display current players
