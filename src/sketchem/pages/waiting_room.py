@@ -1,6 +1,6 @@
 import streamlit as st
 import time
-from sketchem.db.mock_db import get_game, start_game, get_players
+from sketchem.db.mock_db import get_game, start_game
 
 def render_waiting_room():
     """Renders the waiting room for both host and joining players"""
