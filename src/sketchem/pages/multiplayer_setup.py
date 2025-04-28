@@ -81,24 +81,25 @@ def render_multiplayer_setup():
         step=10
     )
 
-    # Molecule category selection
-    st.markdown("### Select Molecule Category")
-    selected_category = st.selectbox(
-        "Choose a category:",
-        options=list(MOLECULE_CATEGORIES.keys()),
-        key="molecule_category"
-    )
     
-    if selected_category:
-        
-        # Display molecules in selected category
-        st.markdown(f"**Molecules in {selected_category}:**")
-        for molecule in MOLECULE_CATEGORIES[selected_category].keys():
-            st.markdown(f"- {molecule}")
-
     col1, col2 = st.columns(2)
 
     with col1:
+        # Molecule category selection
+        st.markdown("### Select Molecule Category")
+        selected_category = st.selectbox(
+            "Choose a category:",
+            options=list(MOLECULE_CATEGORIES.keys()),
+            key="molecule_category"
+        )
+        
+        if selected_category:
+            
+            # Display molecules in selected category
+            st.markdown(f"**Molecules in {selected_category}:**")
+            for molecule in MOLECULE_CATEGORIES[selected_category].keys():
+                st.markdown(f"- {molecule}")
+
         create_disabled = selected_category is None #Disable button below if no category selected
         if st.button("Create New Game", use_container_width=True, disabled=create_disabled):
             handle_create_game(player_name)
