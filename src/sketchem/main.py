@@ -1,7 +1,8 @@
 import streamlit as st
 from sketchem.utils.game_state import initialize_game_state
 from sketchem.pages.home_page import render_home_page
-
+from sketchem.pages.multiplayer_setup import render_multiplayer_setup
+from sketchem.pages.waiting_room import render_waiting_room
 
 
 def main():
@@ -18,8 +19,9 @@ def main():
         # Render setup for single here
         pass
     elif st.session_state.game_mode == "multiplayer_setup":
-        # Render setup for multiplayer here
-        pass
+        render_multiplayer_setup()
+    elif st.session_state.game_mode in ["created_multi", "join_multi"]:
+        render_waiting_room()
     elif st.session_state.game_mode == "single":
         # Render single player game here
         pass
