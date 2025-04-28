@@ -77,8 +77,9 @@ def render_multiplayer_setup():
     createGame = False
 
     with col1:
-        if st.button("New Game", use_container_width=True):
-            createGame = True
+        if not createGame:
+            if st.button("New Game", use_container_width=True):
+                createGame = True
         if createGame:
             # Select game duration
             st.markdown("### Game Settings")
