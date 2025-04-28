@@ -1,6 +1,7 @@
 import streamlit as st
 import time
 from sketchem.db.mock_db import get_game, start_game
+from sketchem.data.molecules import MOLECULE_CATEGORIES
 
 def render_waiting_room():
     """Renders the waiting room for both host and joining players"""
@@ -13,7 +14,7 @@ def render_waiting_room():
     if st.session_state.game_mode == "created_multi":
         st.markdown(f"Selected Category: **{st.session_state.selected_molecule_category}**")
         st.markdown("### Molecules:")
-        for molecule in st.session_state.game_molecules.keys():
+        for molecule in MOLECULE_CATEGORIES[st.session_state.selected_molecule_category].keys():
             st.markdown(f"- {molecule}")
 
     # Get and display current players
