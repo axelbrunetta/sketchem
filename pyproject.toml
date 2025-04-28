@@ -14,7 +14,7 @@ license = "LICENSE"
 python = ">=3.10,<3.13"  # Allow Python 3.12
 rdkit = "*"
 decimer = "*"
-numpy = "*"
+numpy = ">=1.26.0,<1.27.0" 
 dash = "*"
 pillow = "*"
 streamlit = "*"
