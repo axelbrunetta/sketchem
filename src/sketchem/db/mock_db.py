@@ -78,3 +78,5 @@ def start_game(code: str) -> Dict: #Self-explanatory
     return {"success": True}
 
 #Will need end game function here?
+
+#Will need something that deletes games and players after x amount of time
