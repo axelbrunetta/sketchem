@@ -1,4 +1,4 @@
-# This file contains the main function that compares a drawn molecule against a target SMILES string using various comparison methods (the only usefuls one are morgan and mcs, the rest are POCs)
+# This file contains the main function that compares a drawn molecule against a target SMILES string using various comparison methods (the only usefuls one are mcs and using gemini, the rest are POCs)
 
 import DECIMER
 from rdkit import Chem, DataStructs
@@ -32,7 +32,8 @@ def validate_drawing(image_path: str, target_smiles: str, method: str = 'mcs', t
         print(f"Predicted SMILES: {predicted_smiles}") 
 
 
-        # Method 1: Morgan Fingerprint Similarity -> broken
+        # Method 1: Morgan Fingerprint Similarity -> broken since decimer returns things like CCO.[I-] for ethanol -> go with method 4 or gemini method
+        """
         if method == 'morgan':
             # Generate molecules
             mol1 = Chem.MolFromSmiles(predicted_smiles)
@@ -51,13 +52,15 @@ def validate_drawing(image_path: str, target_smiles: str, method: str = 'mcs', t
             # Threshold inputted only works here
             similarity = DataStructs.TanimotoSimilarity(fp1, fp2)
             return similarity >= threshold 
-            
+         """   
         
-        # Method 2: Exact SMILES match (not exactly recommended)
+        # Method 2: Exact SMILES match (not exactly recommended) -> Proof of concept, not useful
+        """  
         elif method == 'exact':
             return predicted_smiles == target_smiles
-        
-        # Method 3: Canonical SMILES comparison
+        """  
+        # Method 3: Canonical SMILES comparison -> Proof of concept, not useful
+        """  
         elif method == 'canonical':
             # Convert both to molecules 
             mol1 = Chem.MolFromSmiles(predicted_smiles)
@@ -71,9 +74,9 @@ def validate_drawing(image_path: str, target_smiles: str, method: str = 'mcs', t
             canon2 = Chem.MolToSmiles(mol2, canonical=True)
             
             return canon1 == canon2
-            
-        # Method 4: Maximum Common Substructure comparison
-        elif method == 'mcs':
+        """   
+        # Method 4: Maximum Common Substructure comparison -> works even when decimer makes errors of interpretation such as CCO.[I-] for ethanol
+        if method == 'mcs':
             mol1 = Chem.MolFromSmiles(predicted_smiles)
             mol2 = Chem.MolFromSmiles(target_smiles)
             
@@ -104,20 +107,19 @@ def validate_drawing(image_path: str, target_smiles: str, method: str = 'mcs', t
 
 
 def validate_drawing_with_ai(api_key, image_path: str, target_smiles: str, method: str = 'mcs', threshold: float = 0.85) -> bool:
-    
-    
-    # Convert numpy RGBA image to RGB and then to PNG bytes
-
-    img = Image.fromarray((image_path[..., :3]).astype("uint8"), "RGB")
-    buf = io.BytesIO()
-    img.save(buf, format="PNG")
-    image_bytes = buf.getvalue()
-
-    # Call the Gemini API to get the smiles 
+    # Check for empty API key first
     if not api_key:
         return "❗ Gemini API key not set."
     
     try:
+        # Load the image properly
+        img = Image.open(image_path)
+        img = img.convert('RGB')
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
+        image_bytes = buf.getvalue()
+
+        # Call the Gemini API to get the smiles 
         client = genai.Client(api_key=api_key)
         prompt = """
 
