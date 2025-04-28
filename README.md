@@ -29,7 +29,7 @@ conda activate sketchem
 ## Requirements
 
 ### DECIMER
-The DECIMER Canonical model for molecule recognitio will be automatically downloaded during installation. If you need to manually trigger the model download, you can run:
+The DECIMER Canonical model for molecule recognition will be automatically downloaded during installation. If you need to manually trigger the model download, you can run:
 
 ```bash
 sketchem-setup

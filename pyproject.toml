@@ -20,7 +20,7 @@ pillow = "*"
 streamlit = "*"
 streamlit-drawable-canvas = "*"
 python-dotenv = "*"
-google-generativeai = "*"
+google-genai = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
