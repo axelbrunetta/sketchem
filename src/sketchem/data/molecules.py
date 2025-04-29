@@ -1,11 +1,57 @@
 MOLECULE_CATEGORIES = {
-    "Basic Organic Compounds (1)": {
+    "Alkanes (8)": {
+        "Methane": "C",
+        "Ethane": "CC",
+        "Propane": "CCC",
+        "Butane": "CCCC",
+        "Isobutane": "CC(C)C",
+        "Pentane": "CCCCC",
+        "Isopentane": "CCC(C)C",
+        "Neopentane": "CC(C)(C)C",
+    },
+    "Alkenes (7)": {
+        "Ethene": "C=C",
+        "Propene": "CC=C",
+        "1-Butene": "CCC=C",
+        "2-Butene (cis)": "C/C=C/C",
+        "2-Butene (trans)": "C/C=C\\C",
+        "Isobutene": "CC(=C)C",
+        "1,3-Butadiene": "C=CC=C",
+    },
+    "Alkynes (6)": {
+        "Ethyne (Acetylene)": "C#C",
+        "Propyne": "CC#C",
+        "1-Butyne": "CCC#C",
+        "2-Butyne": "CC#CC",
+        "1-Pentyne": "CCCC#C",
+        "3-Methyl-1-butyne": "CC(C)C#C",
+    },
+    "Common Solvents (15)": {
+        "Water": "O",
         "Ethanol": "CCO",
+        "Methanol": "CO",
+        "Isopropanol": "CC(O)C",
+        "Acetone": "CC(=O)C",
+        "Ethyl acetate": "CC(=O)OCC",
+        "Diethyl ether": "CCOCC",
+        "Tetrahydrofuran (THF)": "C1CCOC1",
+        "Dichloromethane (DCM)": "ClCCl",
+        "Chloroform": "ClC(Cl)Cl",
+        "Hexane": "CCCCCC",
+        "Heptane": "CCCCCCC",
+        "Toluene": "Cc1ccccc1",
+        "Dimethylformamide (DMF)": "CN(C)C=O",
+        "Dimethyl sulfoxide (DMSO)": "CS(=O)C",
     },
-    "Biochemistry (1)": {
-        "Glucose": "C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O",
+    "Carboxylic Acids (8)": {
+        "Formic acid": "C(=O)O",
+        "Acetic acid": "CC(=O)O",
+        "Propanoic acid": "CCC(=O)O",
+        "Butanoic acid": "CCCC(=O)O",
+        "Benzoic acid": "C(=O)(O)c1ccccc1",
+        "Oxalic acid": "C(=O)(C(=O)O)O",
+        "Malonic acid": "C(C(=O)O)C(=O)O",
+        "Succinic acid": "C(CC(=O)O)C(=O)O",
     },
-    "Pharmaceuticals (1)": {
-        "Aspirin": "CC(=O)Oc1ccccc1C(=O)O",
-    }
 }
+

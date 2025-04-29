@@ -88,9 +88,24 @@ def render_multiplayer_setup():
 
             # Molecule category selection
             st.markdown("### Select Molecule Category")
-            selected_category = st.selectbox(
+
+            #Generate a custom category using gemini
+            @st.dialog("Generate a molecule category from a text prompt")
+            def openModal():
+                st.write(f"What kind of molecule category are you looking for?")
+                reason = st.text_input("Molecule category")
+                if st.button("Submit"):
+                    #Ask AI to generate the molecule category
+                    st.rerun() #Closes the modal view
+
+            
+            if st.button("Create a molecule category"):
+                openModal()
+
+            #Select a category
+            selected_category = st.selectbox( 
                 "Choose a category:",
-                options=list(MOLECULE_CATEGORIES.keys()),
+                options=list(MOLECULE_CATEGORIES.keys()), #Will have to add the Ai-gen categories here
                 key="molecule_category"
             )
 
