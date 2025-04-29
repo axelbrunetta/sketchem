@@ -140,6 +140,8 @@ def render_multiplayer_setup():
     
     col1, col2 = st.columns(2)
    
+    if 'category_update_counter' not in st.session_state:
+        st.session_state.category_update_counter = 0
 
     with col1:
         # Initialize state 
@@ -166,6 +168,9 @@ def render_multiplayer_setup():
             # Molecule category selection
             st.markdown("### Select Molecule Category")
 
+            # Function to increment the counter when a new category is added
+            def increment_category_counter():
+                st.session_state.category_update_counter += 1
 
             #Generate a custom category using gemini
             @st.dialog("Generate a molecule category")
@@ -174,6 +179,7 @@ def render_multiplayer_setup():
                 user_input = st.text_input("")
                 if st.button("Submit"):
                     returned_var = generate_new_category(api_key = st.secrets.get("GEMINI_API_KEY", ""), user_prompt = user_input)
+                    st.session_state.category_update_counter += 1
                     logger.info(f"Generate category message: {returned_var}")
 
                     st.rerun() #Closes the modal view
@@ -182,11 +188,22 @@ def render_multiplayer_setup():
             if st.button("Create a molecule category"):
                 openModal()
 
+            
+
+            # Create a new list with all categories
+            all_categories = list(MOLECULE_CATEGORIES.keys())
+            if hasattr(st.session_state, 'additionalCategories'):
+                _ = st.session_state.get("category_update_counter", 0) #forces regeneration of all categories when counter changes
+                all_categories.extend(st.session_state.additionalCategories.keys())
+
+
             #Select a category
+            
+            # Use the combined list for the selectbox
             selected_category = st.selectbox( 
                 "Choose a category:",
-                options=list(MOLECULE_CATEGORIES.keys()).extend(st.session_state.additionalCategories.keys()), 
-                key="molecule_category"
+                options=all_categories,
+                key=f"molecule_category_{st.session_state.get('category_update_counter', 0)}"
             )
 
             if selected_category:
