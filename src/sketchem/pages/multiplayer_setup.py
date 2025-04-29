@@ -3,8 +3,13 @@ from sketchem.db.mock_db import create_game, join_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from google import genai
 from google.genai import types
-import sys
+from streamlit.logger import get_logger
 
+logger = get_logger(__name__)
+logger.setLevel(logging.DEBUG)
+
+logger.debug("This is a debug message that should now appear.")
+logger.info("This is an info message that will also appear.")
 
 
 
