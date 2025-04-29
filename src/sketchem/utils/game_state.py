@@ -22,6 +22,12 @@ def initialize_game_state():
         
     if "selected_molecule_category" not in st.session_state:
         st.session_state.selected_molecule_category = ""
+        
+    if "categoryIsDefault" not in st.session_state:
+        st.session_state.categoryIsDefault = True
+
+    if "additionalCategories" not in st.session_state:
+        st.session_state.additionalCategories = {}
 
 def reset_game_state():
     """Reset game state"""

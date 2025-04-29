@@ -28,6 +28,8 @@ def create_game(player_name: str) -> Dict:
         "status": "waiting",
         "created_at": int(time.time()),
         "category": st.session_state.selected_molecule_category,
+        "categoryIsDefault": st.session_state.categoryIsDefault,
+        "additionalCategories": st.session_state.additionalCategories, #Adds additional categories to database when creating the game
         "game_duration": st.session_state.game_duration,
         "players": {
             player_id: {
