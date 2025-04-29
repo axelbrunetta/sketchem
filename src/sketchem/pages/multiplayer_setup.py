@@ -58,7 +58,7 @@ def generate_new_category(api_key, user_prompt):
         # Call the Gemini API to get the category
         client = genai.Client(api_key=api_key)
         prompt = f"""
-Generate a list of molecules that fit most accurately a category described by : "{user_prompt}"
+Generate a list of molecules that fit most accurately a category described by : "{user_prompt}". 
 
 Please provide 5-10 molecules (except if a number was provided in the "" text from before, in which case use that one) in the following format:
 Category Name (number of molecules)
@@ -71,6 +71,13 @@ Common molecules (3)
 Ethanol: CCO
 Methane: C
 Benzene: C1=CC=CC=C1
+
+⸻
+
+IMPORTANT: Before and fter providing this formatting of the name of the category, name of the molecules and their smiles, do not include ANY other explanations or commentary. Simply output what is asked above.
+
+Be lenient on the category descriptions. If the description if vague try to find molecules related to that description, even if distantly related.
+
 """
         
         response = client.models.generate_content(
