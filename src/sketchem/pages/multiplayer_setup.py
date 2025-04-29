@@ -33,6 +33,9 @@ def process_gemini_category_response(response_text):
         molecules_dict = {}
         lines = response_text.strip().split('\n')
         
+        if ":" not in response_text: #Check that gemini's answer is the right formatting; also checks that gemini didn't say it couldn't generate a category as that would likely not contain :
+            raise ValueError("Invalid response format: No molecule definitions found (missing ':' separator)")
+        
         for line in lines:
             if ':' not in line:
                 category_name = line.strip()
@@ -60,7 +63,7 @@ def generate_new_category(api_key, user_prompt):
         prompt = f"""
 Generate a list of molecules that fit most accurately a category described by : "{user_prompt}". 
 
-Please provide 5-10 molecules (except if a number was provided in the "" text from before, in which case use that one) in the following format:
+Please provide 5-10 molecules (except if a number was provided in the "text" from before, in which case use that one for the number of molecules) in the following format:
 Category Name (number of molecules)
 Molecule 1 Name: SMILES notation
 Molecule 2 Name: SMILES notation
