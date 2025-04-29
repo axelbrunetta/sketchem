@@ -2,10 +2,13 @@ import streamlit as st
 import time
 from sketchem.db.mock_db import get_game, start_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
-
-
+from streamlit.logger import get_logger
 import logging
-logger = logging.getLogger("sketchem_app")
+
+logger = get_logger(__name__)
+logger.setLevel(logging.DEBUG)
+
+
 
 def render_waiting_room():
     """Renders the waiting room for both host and joining players"""

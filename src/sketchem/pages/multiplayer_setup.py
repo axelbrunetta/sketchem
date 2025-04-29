@@ -9,8 +9,7 @@ import logging
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
-logger.debug("This is a debug message that should now appear.")
-logger.info("This is an info message that will also appear.")
+
 
 
 
@@ -98,7 +97,7 @@ def handle_join_game(player_name: str, game_code: str):
     else:
         with st.spinner("Joining game..."):
             try:
-                st.logger.info(f"Player {player_name} joining game: {game_code}")
+                logger.info(f"Player {player_name} joining game: {game_code}")
                 response = join_game(game_code, player_name)
                 if response.get("success", False): #Check that joining game worked, defaults to false
                     st.session_state.game_code = game_code
@@ -109,7 +108,7 @@ def handle_join_game(player_name: str, game_code: str):
                     error_msg = response.get("error", "Failed to join game")
                     st.error(error_msg)
             except Exception as e:
-                st.logger.error(f"Error joining game: {e}")
+                logger.error(f"Error joining game: {e}")
                 st.error("Failed to join game")
 
 def handle_create_game(player_name: str):
@@ -117,7 +116,7 @@ def handle_create_game(player_name: str):
 
     with st.spinner("Creating game..."):
         try:
-            st.logger.info(f"Creating new game for player: {player_name}")
+            logger.info(f"Creating new game for player: {player_name}")
 
             response = create_game(player_name) # This adds the game to the database and returns a dictionary with the game code and the UUID of the player that created it
             #Here we're checking that a game code and player id were actually returned, but also that the whole response returned is =/= to None -> unlikely but could happen if there's a memory issue with the streamlit database 
@@ -129,7 +128,7 @@ def handle_create_game(player_name: str):
             else:
                 st.error("Failed to create game")
         except Exception as e:
-            st.logger.error(f"Error creating game: {e}")
+            logger.error(f"Error creating game: {e}")
             st.error("Failed to create game")
 
 
@@ -190,7 +189,7 @@ def render_multiplayer_setup():
                 if st.button("Submit"):
                     returned_var = generate_new_category(api_key = st.secrets.get("GEMINI_API_KEY", ""), user_prompt = user_input)
                     st.session_state.category_update_counter += 1
-                    st.logger.info(f"Generate category message: {returned_var}")
+                    logger.info(f"Generate category message: {returned_var}")
 
                     st.rerun() #Closes the modal view
 
