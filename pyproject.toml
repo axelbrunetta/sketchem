@@ -11,10 +11,10 @@ readme = "README.md"
 license = "LICENSE"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.12"  
+python = "*"  
 rdkit = "*"
 decimer = "*"
-numpy = ">=1.26.0,<1.27.0" 
+numpy = "*" 
 dash = "*"
 pillow = "*"
 streamlit = "*"

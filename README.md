@@ -57,10 +57,11 @@ If you need jupyter lab, install it
 1. Fork or push this repository to your GitHub account
 2. Connect your repository to Streamlit Cloud
 3. Add the following secret in the Streamlit Cloud dashboard:
-4. In you app's settings, change the python version to <3.12 as 3.12+ leads to issues with numpy
 ```
 GEMINI_API_KEY = "your-gemini-api-key"
 ```
+4. In you app's settings, change the python version to <3.12 as 3.12+ leads to issues with numpy
+
 
 ## Local Development
 
