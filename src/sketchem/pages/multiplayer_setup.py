@@ -10,10 +10,11 @@ logger = logging.getLogger("sketchem_app")
 logger.setLevel(logging.DEBUG)
 
 def check_category_is_default(selected_category):
-    if selected_category in MOLECULE_CATEGORIES[selected_category].keys():
+    if selected_category in MOLECULE_CATEGORIES.keys():
         st.session_state.categoryIsDefault = True
     else:
         st.session_state.categoryIsDefault = False
+
 
 def process_gemini_category_response(response_text):
     """Process Gemini API response and add it to additionalCategories"""
@@ -46,7 +47,7 @@ def generate_new_category(api_key, user_prompt):
     """Generate a new molecule category using Gemini AI"""
     # Check for empty API key first
     if not api_key:
-        return "❗ Gemini API key not set."
+        return "Gemini API key not set."
     
     try:
         # Call the Gemini API to get the category
@@ -141,6 +142,7 @@ def render_multiplayer_setup():
     
     
     col1, col2 = st.columns(2)
+   
    
     if 'category_update_counter' not in st.session_state:
         st.session_state.category_update_counter = 0
