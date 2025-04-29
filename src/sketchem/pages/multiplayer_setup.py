@@ -1,5 +1,4 @@
 import streamlit as st
-import logging
 from sketchem.db.mock_db import create_game, join_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from google import genai
@@ -7,8 +6,7 @@ from google.genai import types
 import sys
 
 
-logger = logging.getLogger("sketchem_app")
-logger.setLevel(logging.INFO)
+
 
 def check_category_is_default(selected_category):
     if selected_category in MOLECULE_CATEGORIES.keys():
@@ -93,7 +91,7 @@ def handle_join_game(player_name: str, game_code: str):
     else:
         with st.spinner("Joining game..."):
             try:
-                logger.info(f"Player {player_name} joining game: {game_code}")
+                st.logger.info(f"Player {player_name} joining game: {game_code}")
                 response = join_game(game_code, player_name)
                 if response.get("success", False): #Check that joining game worked, defaults to false
                     st.session_state.game_code = game_code
@@ -104,7 +102,7 @@ def handle_join_game(player_name: str, game_code: str):
                     error_msg = response.get("error", "Failed to join game")
                     st.error(error_msg)
             except Exception as e:
-                logger.error(f"Error joining game: {e}")
+                st.logger.error(f"Error joining game: {e}")
                 st.error("Failed to join game")
 
 def handle_create_game(player_name: str):
@@ -112,7 +110,7 @@ def handle_create_game(player_name: str):
 
     with st.spinner("Creating game..."):
         try:
-            logger.info(f"Creating new game for player: {player_name}")
+            st.logger.info(f"Creating new game for player: {player_name}")
 
             response = create_game(player_name) # This adds the game to the database and returns a dictionary with the game code and the UUID of the player that created it
             #Here we're checking that a game code and player id were actually returned, but also that the whole response returned is =/= to None -> unlikely but could happen if there's a memory issue with the streamlit database 
@@ -124,7 +122,7 @@ def handle_create_game(player_name: str):
             else:
                 st.error("Failed to create game")
         except Exception as e:
-            logger.error(f"Error creating game: {e}")
+            st.logger.error(f"Error creating game: {e}")
             st.error("Failed to create game")
 
 
@@ -185,7 +183,7 @@ def render_multiplayer_setup():
                 if st.button("Submit"):
                     returned_var = generate_new_category(api_key = st.secrets.get("GEMINI_API_KEY", ""), user_prompt = user_input)
                     st.session_state.category_update_counter += 1
-                    logger.info(f"Generate category message: {returned_var}")
+                    st.logger.info(f"Generate category message: {returned_var}")
 
                     st.rerun() #Closes the modal view
 
