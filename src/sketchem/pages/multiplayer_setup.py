@@ -5,10 +5,12 @@ from sketchem.data.molecules import MOLECULE_CATEGORIES
 from google import genai
 from google.genai import types
 
+
 logger = logging.getLogger("sketchem_app")
+logger.setLevel(logging.DEBUG)
 
 def check_category_is_default(selected_category):
-    if selected_category in MOLECULE_CATEGORIES.keys():
+    if selected_category in MOLECULE_CATEGORIES[selected_category].keys():
         st.session_state.categoryIsDefault = True
     else:
         st.session_state.categoryIsDefault = False
@@ -74,12 +76,12 @@ Benzene: C1=CC=CC=C1
         
         # Process the response and add to additionalCategories
         if process_gemini_category_response(response_text):
-            return "✅ Successfully created category"
+            return "Successfully created category"
         else:
-            return "❌ Failed to process category"
+            return "Failed to process category"
     
     except Exception as e:
-        return f"❗ Gemini API error: {e}"
+        return f"Gemini API error: {e}"
 
 
 def handle_join_game(player_name: str, game_code: str):
