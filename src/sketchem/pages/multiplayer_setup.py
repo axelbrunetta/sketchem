@@ -8,7 +8,7 @@ from google.genai import types
 logger = logging.getLogger("sketchem_app")
 
 def check_category_is_default(selected_category):
-    if selected_category in MOLECULE_CATEGORIES[selected_category].keys():
+    if selected_category in MOLECULE_CATEGORIES.keys():
         st.session_state.categoryIsDefault = True
     else:
         st.session_state.categoryIsDefault = False
