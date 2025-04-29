@@ -8,6 +8,7 @@ import sys
 
 
 logger = logging.getLogger("sketchem_app")
+logger.setLevel(logging.INFO)
 
 def check_category_is_default(selected_category):
     if selected_category in MOLECULE_CATEGORIES.keys():
