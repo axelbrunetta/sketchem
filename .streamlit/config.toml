@@ -1,0 +1,6 @@
+[logger]
+
+
+level = "debug"
+
+messageFormat = "%(asctime)s %(message)s"

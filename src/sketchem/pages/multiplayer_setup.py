@@ -4,10 +4,10 @@ from sketchem.db.mock_db import create_game, join_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from google import genai
 from google.genai import types
+import sys
 
 
 logger = logging.getLogger("sketchem_app")
-logger.setLevel(logging.DEBUG)
 
 def check_category_is_default(selected_category):
     if selected_category in MOLECULE_CATEGORIES.keys():
