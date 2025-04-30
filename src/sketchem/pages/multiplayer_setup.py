@@ -102,24 +102,21 @@ Be lenient on the category descriptions. If the description if vague try to find
 
 def handle_join_game(player_name: str, game_code: str):
     """Handles join game button click"""
-    if not player_name:
-        st.error("Please enter your name first.")
-    else:
-        with st.spinner("Joining game..."):
-            try:
-                logger.info(f"Player {player_name} joining game: {game_code}")
-                response = join_game(game_code, player_name)
-                if response.get("success", False): #Check that joining game worked, defaults to false
-                    st.session_state.game_code = game_code
-                    st.session_state.player_id = response["player_id"]
-                    st.session_state.game_mode = "joined_multi"  #set game mode to join waiting room 
-                    st.rerun()
-                else:
-                    error_msg = response.get("error", "Failed to join game")
-                    st.error(error_msg)
-            except Exception as e:
-                logger.error(f"Error joining game: {e}")
-                st.error("Failed to join game")
+    with st.spinner("Joining game..."):
+        try:
+            logger.info(f"Player {player_name} joining game: {game_code}")
+            response = join_game(game_code, player_name)
+            if response.get("success", False): #Check that joining game worked, defaults to false
+                st.session_state.game_code = game_code
+                st.session_state.player_id = response["player_id"]
+                st.session_state.game_mode = "joined_multi"  #set game mode to join waiting room 
+                st.rerun()
+            else:
+                error_msg = response.get("error", "Failed to join game")
+                st.error(error_msg)
+        except Exception as e:
+            logger.error(f"Error joining game: {e}")
+            st.error("Failed to join game")
 
 def handle_create_game(player_name: str):
     """Handles create game button click"""
@@ -149,6 +146,7 @@ def render_multiplayer_setup():
     
     # Player name input
     player_name = st.text_input("Enter your name:", key="player_name_input")
+    st.session_state.player_name = player_name 
     
     if not player_name:
         st.warning("Please enter your name to continue")
