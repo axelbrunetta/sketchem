@@ -4,6 +4,7 @@ from sketchem.db.mock_db import get_game, start_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
+from contextlib import contextmanager
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -37,7 +38,7 @@ HORIZONTAL_STYLE = """
     */
 </style>
 """
-
+@contextmanager
 def st_horizontal(): #Function to create an "inline" block for streamlit elements -> credit: https://gist.github.com/ddorn/decf8f21421728b02b447589e7ec7235
     st.markdown(HORIZONTAL_STYLE, unsafe_allow_html=True)
     with st.container():
