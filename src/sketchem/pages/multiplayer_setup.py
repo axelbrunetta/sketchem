@@ -147,7 +147,7 @@ def render_multiplayer_setup():
     # Player name input
     player_name = st.text_input("Enter your name:", key="player_name_input")
     st.session_state.player_name = player_name 
-    
+
     if not player_name:
         st.warning("Please enter your name to continue")
         return
@@ -198,7 +198,10 @@ def render_multiplayer_setup():
                     returned_var = generate_new_category(api_key = st.secrets.get("GEMINI_API_KEY", ""), user_prompt = user_input)
                     st.session_state.category_update_counter += 1
                     logger.info(f"Generate category message: {returned_var}")
-
+                    if returned_var == "Successfully created category":
+                        st.success("Successfully created category")
+                    else:
+                        st.error("Failed to create category, try to formulate your query differently")
                     st.rerun() #Closes the modal view
 
             
