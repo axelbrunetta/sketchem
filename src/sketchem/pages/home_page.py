@@ -1,0 +1,20 @@
+import streamlit as st
+from sketchem.utils.environment import is_running_locally
+
+def render_home_page():
+    st.markdown("## Choose Game Mode")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("Single Player", use_container_width=True):
+            st.session_state.game_mode = "single"
+            st.rerun()
+
+    with col2:
+        if not is_running_locally():
+            if st.button("Multiplayer", use_container_width=True):
+                st.session_state.game_mode = "multiplayer_setup"
+                st.rerun()
+        else:
+            st.info("Multiplayer is only available in the deployed version (Using Streamlit Cloud)")
