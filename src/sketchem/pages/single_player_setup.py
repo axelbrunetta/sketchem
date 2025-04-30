@@ -17,7 +17,7 @@ def render_singleplayer_setup(): #displays setup page for single player mode
         logger.warning("Gemini API key not found in secrets")
     
     # centers the header
-    st.markdown("<h2 style='text-align: center; margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; margin-bottom: 20px;'>Single Player Mode</h2>", unsafe_allow_html=True)
     
     # creates a centered column for the content
     _, center_col, _ = st.columns([1, 2, 1])
@@ -52,7 +52,7 @@ def render_singleplayer_setup(): #displays setup page for single player mode
                 st.rerun() #Closes the modal view
 
         
-        if st.button("Create a molecule category"):
+        if st.button("Create your own molecule category"):
             openModal()
 
         # creates a new list with all categories
