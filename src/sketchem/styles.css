@@ -3,7 +3,7 @@
 /* Page title styling */
 .page-title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   color: #4CAF50;
 }
 
@@ -16,6 +16,10 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
+  min-height: 400px; /* Match the controls height */
+  height: 100%; /* Fill available space */
+  border-left: 1px solid #ddd;
+  padding: 10px 0; /* Add some vertical padding */
 }
 
 /* Target all canvas elements and force center them */
@@ -65,4 +69,39 @@ canvas,
 
 .drawing-mode {
   color: #4CAF50;
+}
+
+/* Controls column styling */
+.controls-column {
+  padding: 10px;
+  border-right: 1px solid #ddd;
+  min-height: 400px; /* Match canvas height */
+  height: 100%; /* Fill available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto; /* Add scrolling if needed */
+}
+
+/* Styling for control elements */
+.control-item {
+  padding: 5px 0;
+  width: 100%;
+}
+
+/* Styling for control headers */
+.control-header {
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+/* Controls container to ensure proper spacing */
+.controls-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
 }
