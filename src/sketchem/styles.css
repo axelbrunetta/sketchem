@@ -13,19 +13,38 @@
   border-radius: 5px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
 }
 
-/* Center the canvas element itself */
-canvas {
-  margin: 0 auto !important;
+/* Target all canvas elements and force center them */
+canvas,
+.canvas-container canvas,
+.stDrawingCanvas canvas,
+.stDrawingCanvas > div,
+.stDrawingCanvas > div > canvas {
+  margin-left: auto !important;
+  margin-right: auto !important;
   display: block !important;
+  position: relative !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
 }
 
-/* Center the streamlit drawable canvas */
-.stDrawingCanvas {
-  margin: 0 auto !important;
+/* Force center the streamlit drawable canvas container */
+.stDrawingCanvas,
+.stDrawingCanvas > div {
   display: flex !important;
   justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* Target the fabric.js canvas specifically */
+.upper-canvas, .lower-canvas {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
 }
 
 /* Button styling */
