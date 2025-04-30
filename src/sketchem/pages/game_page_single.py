@@ -104,39 +104,52 @@ def render_game_page():
             current_stroke_width = st.session_state.pen_size
 
         # Then use that color in the canvas
-        # Create a centered container for the canvas
-        st.markdown('<div class="canvas-container">', unsafe_allow_html=True)
-        canvas_result = st_canvas(
-            stroke_color=current_stroke_color,
-            fill_color="rgba(255, 255, 255, 0)",  # Transparent fill
-            stroke_width=current_stroke_width,
-            background_color="#000000",  # Black background
-            height=400,
-            width=600,
-            drawing_mode="freedraw",  # Always use freedraw mode, but change the color for erasing
-            key=f"canvas_{st.session_state.canvas_key}",
-            display_toolbar=True,
-        )
-        st.markdown('</div>', unsafe_allow_html=True)
+        # Create a more structured layout for better centering
+        _, center_col, _ = st.columns([1, 3, 1])  # Use columns to center the canvas
 
-        # Create a row for buttons
-        col1, col2 = st.columns(2)
+        with center_col:
+            # Add a container with custom CSS class
+            st.markdown('<div class="canvas-container">', unsafe_allow_html=True)
+            canvas_result = st_canvas(
+                stroke_color=current_stroke_color,
+                fill_color="rgba(255, 255, 255, 0)",  # Transparent fill
+                stroke_width=current_stroke_width,
+                background_color="#000000",  # Black background
+                height=400,
+                width=600,
+                drawing_mode="freedraw",  # Always use freedraw mode, but change the color for erasing
+                key=f"canvas_{st.session_state.canvas_key}",
+                display_toolbar=True,
+            )
+            st.markdown('</div>', unsafe_allow_html=True)
 
-        # Submit button
-        with col1:
-            if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True):
-                if canvas_result.image_data is not None:
-                    img_bytes = save_canvas_as_image(canvas_result.image_data)
-                    if img_bytes:
-                        st.success("Drawing submitted successfully!")
-                else:
-                    st.warning("Please draw something before submitting!")
+        # Create a row for the submit button within the same centered column
+        _, button_col, _ = st.columns([1, 3, 1])
 
-        # Clear button
-        with col2:
-            if st.button("Clear Canvas", key="clear_btn", use_container_width=True):
-                st.session_state.canvas_key += 1
-                st.rerun()
+        with button_col:
+            # Create a centered column for the submit button
+            _, submit_col, _ = st.columns([1, 2, 1])
+
+            # Submit button - larger and centered
+            with submit_col:
+                # Add custom styling for a bigger button
+                st.markdown("""
+                <style>
+                div[data-testid="stButton"] > button {
+                    font-size: 1.2rem;
+                    padding: 0.8rem 1.5rem;
+                    font-weight: bold;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+
+                if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True):
+                    if canvas_result.image_data is not None:
+                        img_bytes = save_canvas_as_image(canvas_result.image_data)
+                        if img_bytes:
+                            st.success("Drawing submitted successfully!")
+                    else:
+                        st.warning("Please draw something before submitting!")
 
 if __name__ == "__main__":
     st.set_page_config(
