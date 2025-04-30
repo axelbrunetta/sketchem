@@ -29,6 +29,9 @@ def initialize_game_state():
     if "additionalCategories" not in st.session_state:
         st.session_state.additionalCategories = {}
 
+    if "returnedCategoryError" not in st.session_state:
+        st.session_state.returnedCategoryError = False
+
 def reset_game_state():
     """Reset game state"""
     pass

@@ -189,6 +189,7 @@ def render_multiplayer_setup():
             def increment_category_counter():
                 st.session_state.category_update_counter += 1
 
+            
             #Generate a custom category using gemini
             @st.dialog("Generate a molecule category")
             def openModal():
@@ -199,11 +200,13 @@ def render_multiplayer_setup():
                     st.session_state.category_update_counter += 1
                     logger.info(f"Generate category message: {returned_var}")
                     if returned_var == "Successfully created category":
-                        st.success("Successfully created category")
+                        pass
                     else:
-                        st.error("Failed to create category, try to formulate your query differently")
+                        st.session_state.returnedCategoryError = True
                     st.rerun() #Closes the modal view
 
+            if st.session_state.returnedCategoryError:
+                st.error("Failed to create category, try to formulate your query differently")
             
             if st.button("Create a molecule category"):
                 openModal()
