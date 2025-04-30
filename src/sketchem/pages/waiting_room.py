@@ -12,12 +12,13 @@ logger.setLevel(logging.DEBUG)
 
 def render_waiting_room():
     """Renders the waiting room for both host and joining players"""
-
+    st.empty()
+    
     st.markdown("## Game Lobby")
     st.markdown(f"Your player name: **{st.session_state.player_name}**")
 
     # Display game code with an option to copy it
-    col1, col2 = st.columns([0.8, 0.2])
+    col1, col2 = st.columns([0.2, 0.8])
     with col1:
         st.markdown(f"Game Code:") 
     with col2:
