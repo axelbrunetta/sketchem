@@ -22,10 +22,13 @@ def render_waiting_room():
         st.markdown(f"Selected Category: **{st.session_state.selected_molecule_category}**")
         st.markdown("### Molecules:")
         category = st.session_state.selected_molecule_category
-        logger.info(f"Category: {category}")
 
-        for molecule in MOLECULE_CATEGORIES[category].keys():
-            st.markdown(f"- {molecule}")
+        if st.session_state.categoryIsDefault:
+            for molecule in MOLECULE_CATEGORIES[category].keys():
+                st.markdown(f"- {molecule}")
+        else:
+            for molecule in st.session_state.additionalCategories[category].keys():
+                st.markdown(f"- {molecule}")
 
     # Get and display current players
     game = get_game(st.session_state.game_code)
