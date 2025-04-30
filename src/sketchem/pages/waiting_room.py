@@ -19,16 +19,9 @@ def render_waiting_room():
     # Display game code with an option to copy it
     col1, col2 = st.columns([0.8, 0.2])
     with col1:
-        st.markdown(f"Game Code: **{st.session_state.game_code}**")
+        st.markdown(f"Game Code:") 
     with col2:
-        if st.button("📋 Copy", key="copy_game_code"):
-            # Use JavaScript to copy to clipboard -> not the most native but was the easiest way to implement this
-            st.write(f"""
-            <script>
-                navigator.clipboard.writeText("{st.session_state.game_code}");
-            </script>
-            """, unsafe_allow_html=True)
-            st.success("Game code copied to clipboard!")
+        st.code(st.session_state.game_code, language=None)
 
     st.markdown(f"Game Duration: **{st.session_state.game_duration}**")
 
