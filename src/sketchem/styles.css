@@ -11,6 +11,21 @@
 .canvas-container {
   margin: 0 auto;
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Center the canvas element itself */
+canvas {
+  margin: 0 auto !important;
+  display: block !important;
+}
+
+/* Center the streamlit drawable canvas */
+.stDrawingCanvas {
+  margin: 0 auto !important;
+  display: flex !important;
+  justify-content: center !important;
 }
 
 /* Button styling */
