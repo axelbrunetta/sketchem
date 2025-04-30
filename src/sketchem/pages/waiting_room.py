@@ -8,20 +8,52 @@ import logging
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
+HORIZONTAL_STYLE = """
+<style class="hide-element">
+    /* Hides the style container and removes the extra spacing */
+    .element-container:has(.hide-element) {
+        display: none;
+    }
+    /*
+        The selector for >.element-container is necessary to avoid selecting the whole
+        body of the streamlit app, which is also a stVerticalBlock.
+    */
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) {
+        display: flex;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: baseline;
+    }
+    /* Buttons and their parent container all have a width of 704px, which we need to override */
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) div {
+        width: max-content !important;
+    }
+    /* Just an example of how you would style buttons, if desired */
+    /*
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) button {
+        border-color: red;
+    }
+    */
+</style>
+"""
 
+def st_horizontal(): #Function to create an "inline" block for streamlit elements -> credit: https://gist.github.com/ddorn/decf8f21421728b02b447589e7ec7235
+    st.markdown(HORIZONTAL_STYLE, unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<span class="hide-element horizontal-marker"></span>', unsafe_allow_html=True)
+        yield
 
 def render_waiting_room():
     """Renders the waiting room for both host and joining players"""
-    st.empty()
-    
+    st.empty() #Clears the page -> fix for elements of the multiplayer setup page staying on screen
+
     st.markdown("## Game Lobby")
     st.markdown(f"Your player name: **{st.session_state.player_name}**")
 
     # Display game code with an option to copy it
-    col1, col2 = st.columns([0.2, 0.8])
-    with col1:
+    with st_horizontal():
         st.markdown(f"Game Code:") 
-    with col2:
         st.code(st.session_state.game_code, language=None)
 
     st.markdown(f"Game Duration: **{st.session_state.game_duration}**")
