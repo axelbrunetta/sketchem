@@ -14,8 +14,23 @@ def render_waiting_room():
     """Renders the waiting room for both host and joining players"""
 
     st.markdown("## Game Lobby")
-    st.markdown(f"Player: **{st.session_state.player_name}**")
-    st.markdown(f"Game Code: **{st.session_state.game_code}**")
+    st.markdown(f"Your player name: **{st.session_state.player_name}**")
+
+    # Display game code with an option to copy it
+    col1, col2 = st.columns([0.8, 0.2])
+    with col1:
+        st.markdown(f"Game Code: **{st.session_state.game_code}**")
+    with col2:
+        if st.button("📋 Copy", key="copy_game_code"):
+            # Use JavaScript to copy to clipboard -> not the most native but was the easiest way to implement this
+            st.write(f"""
+            <script>
+                navigator.clipboard.writeText("{st.session_state.game_code}");
+            </script>
+            """, unsafe_allow_html=True)
+            st.success("Game code copied to clipboard!")
+
+    st.markdown(f"Game Duration: **{st.session_state.game_duration}**")
 
     # Display selected category and molecules if game is created 
     if st.session_state.game_mode == "created_multi":
