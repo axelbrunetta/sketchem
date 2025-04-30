@@ -20,7 +20,7 @@ def main():
         pass
     elif st.session_state.game_mode == "multiplayer_setup":
         render_multiplayer_setup()
-    elif st.session_state.game_mode in ["created_multi", "join_multi"]:
+    elif st.session_state.game_mode in ["created_multi", "joined_multi"]:
         render_waiting_room()
     elif st.session_state.game_mode == "single":
         # Render single player game here

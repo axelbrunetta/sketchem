@@ -4,6 +4,11 @@ import streamlit as st
 from typing import Dict, List, Optional
 import random
 import string
+from streamlit.logger import get_logger
+import logging
+
+logger = get_logger(__name__)
+logger.setLevel(logging.DEBUG)
 
 # In-memory storage / Mock database -> Could replace this with an actual database like Firestore but not needed here since Streamlit cloud only runs one instance of the code hence everyone can use the "same storage"
 
@@ -49,10 +54,12 @@ def create_game(player_name: str) -> Dict:
 def join_game(code: str, player_name: str) -> Dict: #Processes code entered by player and allowsthem to join a hosted game 
     """Join an existing game"""
     if code not in _games:
+        logger.info("Game not found")
         return {"success": False, "error": "Game not found"}
         
     game = _games[code]
-    
+    logger.info(f"Game: {game}")
+
     player_id = str(uuid.uuid4()) #No need to check that player name alr exists as we're using unique identifiers
     game["players"][player_id] = { 
         "name": player_name,
@@ -60,7 +67,7 @@ def join_game(code: str, player_name: str) -> Dict: #Processes code entered by p
         "score": 0,
         "last_active": int(time.time())
     }
-    
+    logger.info("Successfully joined game")
     return {"success": True, "player_id": player_id}
 
 def get_game(code: str) -> Optional[Dict]: #Returns game for given code -> used in waiting room to display game info
