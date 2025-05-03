@@ -45,7 +45,7 @@ def create_game(player_name: str) -> Dict:
             }
         },
     }
-    
+    logger.info(f"selected molecule category {st.session_state.selected_molecule_category}categoryIsDefault  {st.session_state.categoryIsDefault} additionalCategories {st.session_state.additionalCategories}")
     _games[code] = game_data # Add game element to the fake database using the code as the key and the game data as the attached value 
     return {"game_code": code, "player_id": player_id}
 
