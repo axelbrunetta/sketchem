@@ -49,6 +49,19 @@ def render_singleplayer_setup():
             padding: 0.8rem 1.5rem;
             font-weight: bold;
         }
+
+        /* Back button styling */
+        button[kind="secondary"] {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        button[kind="secondary"]:hover {
+            background-color: #e0e0e0;
+            border-color: #ccc;
+        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -84,7 +97,7 @@ def render_singleplayer_setup():
                 st.rerun()
 
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("Create your own molecule category", use_container_width=True):
+        if st.button("Create a molecule category", use_container_width=True):
             openModal()
 
     with col2:
@@ -123,10 +136,19 @@ def render_singleplayer_setup():
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    #row with start and back button
+    start_col, back_col = st.columns([1, 1])
+
     #start button
-    _, button_col, _ = st.columns([1, 2, 1])
-    with button_col:
+    with start_col:
         start_disabled = selected_category is None
-        if st.button("Start Game", type="primary", use_container_width=True, disabled=start_disabled):
+        if st.button("Start Game", type="primary", use_container_width=True, disabled=start_disabled, key="start_button"):
             st.session_state.game_mode = "single"
+            st.rerun()
+
+    #back button
+    with back_col:
+        if st.button("Back", key="back_button", use_container_width=True):
+            # Reset game mode to return to main menu
+            st.session_state.game_mode = None
             st.rerun()
