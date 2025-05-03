@@ -51,6 +51,12 @@ def process_gemini_category_response(response_text):
         # Store the newly created category name temporarily to select it later
         st.session_state.last_created_category = category_name
         
+        # Immediately update the selected category and set categoryIsDefault to False
+        st.session_state.selected_molecule_category = category_name
+        st.session_state.categoryIsDefault = False
+        
+        logger.info(f"Updated category: {st.session_state.selected_molecule_category}, isDefault: {st.session_state.categoryIsDefault}")
+        
         return True
     except Exception as e:
         st.error(f"Error processing category: {e}")
@@ -238,10 +244,7 @@ def render_multiplayer_setup():
             
             # Clear the last_created_category after using it and update the selected category
             if hasattr(st.session_state, 'last_created_category'):
-                # Update the selected category in session state
-                st.session_state.selected_molecule_category = st.session_state.last_created_category
-                # Check if it's a default category
-                check_category_is_default(st.session_state.last_created_category)
+                
                 # Clean up
                 del st.session_state.last_created_category
                 
