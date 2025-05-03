@@ -8,6 +8,13 @@ logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
 def render_singleplayer_setup():
+    #check if we need to show a toast message from the game page
+    if st.session_state.get("show_back_toast", False):
+        # Show toast message
+        st.toast("You quit the game. Click 'Start Game' to start a new one.", icon="🎮")
+        # Reset the flag
+        st.session_state.show_back_toast = False
+
     #get the API key from secrets (if available)
     try:
         api_key = st.secrets["GEMINI_API_KEY"]
@@ -69,19 +76,40 @@ def render_singleplayer_setup():
     col1, col2 = st.columns([1, 1])
 
     with col1:
-        st.markdown("### Select Molecule Category")
+        st.markdown("### Molecule Category")
 
+        #prepare categories list but don't display it yet, only when category selected
         all_categories = list(MOLECULE_CATEGORIES.keys())
         update_counter = st.session_state.get("category_update_counter", 0)
 
         if hasattr(st.session_state, "additionalCategories"):
             all_categories.extend(st.session_state.additionalCategories.keys())
 
+        #add a placeholder for the selected category
+        if "selected_molecule_category" not in st.session_state:
+            st.session_state.selected_molecule_category = None
+
+        #create a selectbox that looks like a dropdown button
+        #determine the initial index based on the current selection
+        initial_index = 0  #default to "Choose Category"
+        if st.session_state.selected_molecule_category in all_categories:
+            initial_index = all_categories.index(st.session_state.selected_molecule_category) + 1
+
         selected_category = st.selectbox(
-            "Choose a category:",
-            options=all_categories,
-            key=f"molecule_category_{update_counter}"
+            "Select a category",  # Add a label for accessibility
+            options=["Choose Category"] + all_categories,
+            index=initial_index,
+            key=f"molecule_category_{update_counter}",
+            label_visibility="collapsed"  # Hide the label but keep it for accessibility
         )
+
+        #update the selected category in session state
+        if selected_category != "Choose Category":
+            st.session_state.selected_molecule_category = selected_category
+        else:
+            #if "Choose Category" is selected, set to None
+            selected_category = None
+            st.session_state.selected_molecule_category = None
 
         @st.dialog("Generate a molecule category")
         def openModal():
@@ -96,20 +124,23 @@ def render_singleplayer_setup():
                 st.session_state.category_update_counter += 1
                 st.rerun()
 
-        st.markdown("<br>", unsafe_allow_html=True)
+        #"or" between dropdown and button
+        st.markdown("<div style='text-align: center; margin: 10px 0;'><strong> or </strong></div>", unsafe_allow_html=True)
+
         if st.button("Create a molecule category", use_container_width=True):
             openModal()
 
     with col2:
-        st.markdown("### Game Duration")
+        st.markdown("### Game Duration (seconds)")
 
         game_duration = st.slider(
-            "Time per molecule (seconds):",
+            label="Time per molecule",  #required parameter but will be hidden
             min_value=30,
             max_value=180,
             value=st.session_state.get("game_duration", 60),
             step=10,
-            key="single_game_duration"
+            key="single_game_duration",
+            label_visibility="collapsed"  #hide label
         )
 
     #store selections
@@ -119,8 +150,8 @@ def render_singleplayer_setup():
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    #show molecule list
-    if selected_category:
+    #only show molecule list if a valid category is selected (not "Choose Category")
+    if selected_category and selected_category != "Choose Category":
         st.markdown("<div class='molecule-container'>", unsafe_allow_html=True)
         st.markdown(f"<h3 style='text-align: center; margin-top: 0;'>Molecules in {selected_category}:</h3>", unsafe_allow_html=True)
         st.markdown("<div style='text-align: center; columns: 2; column-gap: 40px;'>", unsafe_allow_html=True)
