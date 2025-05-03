@@ -62,27 +62,26 @@ def render_waiting_room():
 
     st.markdown(f"Game Duration: **{st.session_state.game_duration}**")
 
-    # Display selected category and molecules if game is created 
-    if st.session_state.game_mode == "created_multi":
-        st.markdown(f"Selected Category: **{st.session_state.selected_molecule_category}**")
-        st.markdown("### Molecules:")
-        category = st.session_state.selected_molecule_category
-
-        if st.session_state.category_is_default:
-            for molecule in MOLECULE_CATEGORIES[category].keys():
-                st.markdown(f"- {molecule}")
-        else:
-            for molecule in st.session_state.additional_categories[category].keys():
-                st.markdown(f"- {molecule}")
-
     # Get and display current players
     game = get_game(st.session_state.game_code)
     if game:
+        # Display selected category and molecules for both host and joining players
+        category = game["category"]
+        st.markdown(f"Selected Category: **{category}**")
+        st.markdown("### Molecules:")
+        
+        if game["categoryIsDefault"]:
+            for molecule in MOLECULE_CATEGORIES[category].keys():
+                st.markdown(f"- {molecule}")
+        else:
+            for molecule in game["additionalCategories"][category].keys():
+                st.markdown(f"- {molecule}")
+        
         st.markdown("### Players:")
         for player_id, player_data in game["players"].items():
             st.markdown(f"- {player_data['name']}")
 
-        
+
 
         if st.session_state.game_mode == "created_multi": #Only game creator can start the game
             if len(game["players"]) > 1:  
