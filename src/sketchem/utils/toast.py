@@ -3,6 +3,8 @@
 import streamlit as st
 import time
 import threading
+from streamlit.runtime.scriptrunner import add_script_run_ctx, get_script_run_ctx
+import time
 
 def create_toast(message, type="info", duration=5):
     """
@@ -20,15 +22,22 @@ def create_toast(message, type="info", duration=5):
         "type": type,
     }
     
-    time.sleep(duration)
-    if "toast" in st.session_state:
-        del st.session_state.toast
-        try:
-            st.rerun()
-        except:
-            pass
+    # Create a thread to handle the delayed toast removal
     
-
+    
+    def remove_toast_after_delay():
+        time.sleep(duration)
+        if "toast" in st.session_state:
+            del st.session_state.toast
+            st.rerun()
+    
+    # Get current context and create thread with context
+    ctx = get_script_run_ctx()
+    if ctx is not None:
+        thread = threading.Thread(target=remove_toast_after_delay)
+        add_script_run_ctx(thread, ctx)
+        thread.start()
+    
 def show_toast():
     """
     Display any active toast notifications and remove expired ones
