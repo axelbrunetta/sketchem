@@ -54,7 +54,7 @@ def show_toast():
     Should be called at the beginning of each page for the toast to display above everything else
     """
     # Check if toast exists in session state
-    if "toast" in st.session_state:
+    if "toast" in st.session_state and st.session_state.toast is not None:
         toast = st.session_state.toast
 
         # Display the toast based on its type
