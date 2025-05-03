@@ -236,9 +236,13 @@ def render_multiplayer_setup():
                 key=f"molecule_category_{st.session_state.get('category_update_counter', 0)}"
             ) #Now automatically selects the last created category (when created using AI)
             
-            # Clear the last_created_category after using it
+            # Clear the last_created_category after using it and update the selected category
             if hasattr(st.session_state, 'last_created_category'):
-                check_category_is_default(selected_category) #added this here to activate the categoryIsDefault state var because the game-attributed category was not the proper one if the game was Ai generated
+                # Update the selected category in session state
+                st.session_state.selected_molecule_category = st.session_state.last_created_category
+                # Check if it's a default category
+                check_category_is_default(st.session_state.last_created_category)
+                # Clean up
                 del st.session_state.last_created_category
                 
 
