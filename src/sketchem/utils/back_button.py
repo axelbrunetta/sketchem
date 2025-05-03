@@ -2,7 +2,7 @@ import streamlit as st
 from sketchem.utils.game_state import reset_game_state
 from streamlit_extras.stylable_container import stylable_container
 from sketchem.db.mock_db import remove_player_from_game
-from sketchem.utils.toast import create_toast
+
 
 def back_button(destination=None, label="Back", use_container_width=True, key=None):
     """

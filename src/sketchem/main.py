@@ -3,7 +3,6 @@ from sketchem.utils.game_state import initialize_game_state
 from sketchem.pages.home_page import render_home_page
 from sketchem.pages.multiplayer_setup import render_multiplayer_setup
 from sketchem.pages.waiting_room import render_waiting_room
-from sketchem.utils.toast import show_toast
 from sketchem.utils.toast import display_queued_toast
 
 def main():
