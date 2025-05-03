@@ -37,6 +37,7 @@ def process_gemini_category_response(response_text):
         if ":" not in response_text: #Check that gemini's answer is the right formatting; also checks that gemini didn't say it couldn't generate a category as that would likely not contain :
             raise ValueError("Invalid response format: No molecule definitions found (missing ':' separator)")
         
+        category_name = "" # Initialize category name so that it doesn't throw an error a few lines down
         for line in lines:
             if ':' not in line:
                 category_name = line.strip()
@@ -46,6 +47,9 @@ def process_gemini_category_response(response_text):
         
         # Add the new category to the additionalCategories state var
         st.session_state.additionalCategories[category_name] = molecules_dict
+        
+        # Store the newly created category name temporarily to select it later
+        st.session_state.last_created_category = category_name
         
         return True
     except Exception as e:
@@ -205,11 +209,10 @@ def render_multiplayer_setup():
                     if returned_var == "Successfully created category":
                         st.session_state.toast_queue = {"message": "Successfully created category.", "icon": "✅"}
                     else:
-                        st.session_state.returnedCategoryError = True
+                        st.session_state.toast_queue = {"message": "Failed to create category, try to formulate your query differently.", "icon": "☹️"}
                     st.rerun() #Closes the modal view
 
-            if st.session_state.returnedCategoryError:
-                st.session_state.toast_queue = {"message": "Failed to create category, try to formulate your query differently.", "icon": "☹️"}
+            
             
             if st.button("Create a molecule category"):
                 openModal()
@@ -229,8 +232,13 @@ def render_multiplayer_setup():
             selected_category = st.selectbox( 
                 "Choose a category:",
                 options=all_categories,
+                index=all_categories.index(st.session_state.last_created_category) if hasattr(st.session_state, 'last_created_category') and st.session_state.last_created_category in all_categories else 0,
                 key=f"molecule_category_{st.session_state.get('category_update_counter', 0)}"
-            )
+            ) #Now automatically selects the last created category (when created using AI)
+            
+            # Clear the last_created_category after using it
+            if hasattr(st.session_state, 'last_created_category'):
+                del st.session_state.last_created_category
 
             if selected_category:
                
