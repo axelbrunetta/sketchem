@@ -19,16 +19,15 @@ def create_toast(message, type="info", duration=5):
         "message": message,
         "type": type,
     }
-    def remove_toast():
-        time.sleep(duration)
-        if "toast" in st.session_state:
-            del st.session_state.toast
-            try:
-                st.rerun()
-            except:
-                pass
     
-    threading.Thread(target=remove_toast, daemon=True).start()
+    time.sleep(duration)
+    if "toast" in st.session_state:
+        del st.session_state.toast
+        try:
+            st.rerun()
+        except:
+            pass
+    
 
 def show_toast():
     """
