@@ -4,12 +4,12 @@ from sketchem.pages.home_page import render_home_page
 from sketchem.pages.multiplayer_setup import render_multiplayer_setup
 from sketchem.pages.waiting_room import render_waiting_room
 from sketchem.utils.toast import show_toast
-
+from sketchem.utils.toast import display_queued_toast
 
 def main():
     st.set_page_config(page_title="Sketchem", layout="centered")
     
-    show_toast() #Show any active toast notifications
+    display_queued_toast() #Show any active toast notifications
 
     st.title("🧪 Sketchem")
 
