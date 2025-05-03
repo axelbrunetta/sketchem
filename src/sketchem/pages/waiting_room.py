@@ -68,11 +68,11 @@ def render_waiting_room():
         st.markdown("### Molecules:")
         category = st.session_state.selected_molecule_category
 
-        if st.session_state.categoryIsDefault:
+        if st.session_state.category_is_default:
             for molecule in MOLECULE_CATEGORIES[category].keys():
                 st.markdown(f"- {molecule}")
         else:
-            for molecule in st.session_state.additionalCategories[category].keys():
+            for molecule in st.session_state.additional_categories[category].keys():
                 st.markdown(f"- {molecule}")
 
     # Get and display current players

@@ -125,9 +125,9 @@ def render_multiplayer_setup():
 
             # Create a new list with all categories
             all_categories = list(MOLECULE_CATEGORIES.keys())
-            if hasattr(st.session_state, 'additionalCategories'):
+            if hasattr(st.session_state, 'additional_categories'):
                 _ = st.session_state.get("category_update_counter", 0) #forces regeneration of all categories when counter changes
-                all_categories.extend(st.session_state.additionalCategories.keys())
+                all_categories.extend(st.session_state.additional_categories.keys())
 
 
             #Select a category
@@ -136,7 +136,7 @@ def render_multiplayer_setup():
             selected_category = st.selectbox( 
                 "Choose a category:",
                 options=all_categories,
-                index=all_categories.index(st.session_state.selected_molecule_category) if  not st.session_state.categoryIsDefault else 0,
+                index=all_categories.index(st.session_state.selected_molecule_category) if  not st.session_state.category_is_default else 0,
                 key=f"molecule_category_{st.session_state.get('category_update_counter', 0)}"
             ) #Now automatically selects the last created category (when created using AI)
             
@@ -153,11 +153,11 @@ def render_multiplayer_setup():
                 st.session_state.selected_molecule_category = selected_category
                 st.markdown(f"**Molecules in {selected_category}:**")
                 check_category_is_default(selected_category)
-                if st.session_state.categoryIsDefault:
+                if st.session_state.category_is_default:
                     for molecule in MOLECULE_CATEGORIES[selected_category].keys(): #display category if default
                         st.markdown(f"- {molecule}")
                 else:
-                    for molecule in st.session_state.additionalCategories[selected_category].keys(): #display category if ai generated
+                    for molecule in st.session_state.additional_categories[selected_category].keys(): #display category if ai generated
                         st.markdown(f"- {molecule}")
                 
 

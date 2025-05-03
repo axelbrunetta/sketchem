@@ -9,12 +9,12 @@ logger.setLevel(logging.DEBUG)
 
 def check_category_is_default(selected_category):
     if selected_category in MOLECULE_CATEGORIES.keys():
-        st.session_state.categoryIsDefault = True
+        st.session_state.category_is_default = True
     else:
-        st.session_state.categoryIsDefault = False
+        st.session_state.category_is_default = False
 
 def process_gemini_category_response(response_text):
-    """Process Gemini API response and add it to additionalCategories"""
+    """Process Gemini API response and add it to additional_categories"""
     try:
         # Parse the response text into a dictionary
         # Assuming the response is in the format:
@@ -36,17 +36,17 @@ def process_gemini_category_response(response_text):
                 molecule, smiles = line.split(':', 1)
                 molecules_dict[molecule.strip()] = smiles.strip()
         
-        # Add the new category to the additionalCategories state var
-        st.session_state.additionalCategories[category_name] = molecules_dict
+        # Add the new category to the additional_categories state var
+        st.session_state.additional_categories[category_name] = molecules_dict
         
         # Store the newly created category name temporarily to select it later
         st.session_state.last_created_category = category_name
         
-        # Immediately update the selected category and set categoryIsDefault to False
+        # Immediately update the selected category and set category_is_default to False
         st.session_state.selected_molecule_category = category_name
-        st.session_state.categoryIsDefault = False
+        st.session_state.category_is_default = False
         
-        logger.info(f"Updated category: {st.session_state.selected_molecule_category}, isDefault: {st.session_state.categoryIsDefault}")
+        logger.info(f"Updated category: {st.session_state.selected_molecule_category}, isDefault: {st.session_state.category_is_default}")
         
         return True
     except Exception as e:
@@ -94,7 +94,7 @@ However, DO NOT create molecules that do not exist in real life. Also make sure 
         
         response_text = response.text.strip()
         
-        # Process the response and add to additionalCategories
+        # Process the response and add to additional_categories
         if process_gemini_category_response(response_text):
             return "Successfully created category"
         else:

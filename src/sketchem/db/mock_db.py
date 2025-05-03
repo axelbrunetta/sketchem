@@ -33,8 +33,8 @@ def create_game(player_name: str) -> Dict:
         "status": "waiting",
         "created_at": int(time.time()),
         "category": st.session_state.selected_molecule_category,
-        "categoryIsDefault": st.session_state.categoryIsDefault,
-        "additionalCategories": st.session_state.additionalCategories, #Adds additional categories to database when creating the game
+        "category_is_default": st.session_state.category_is_default,
+        "additional_categories": st.session_state.additional_categories, #Adds additional categories to database when creating the game
         "game_duration": st.session_state.game_duration,
         "players": {
             player_id: {
@@ -45,7 +45,7 @@ def create_game(player_name: str) -> Dict:
             }
         },
     }
-    logger.info(f"selected molecule category {st.session_state.selected_molecule_category}categoryIsDefault  {st.session_state.categoryIsDefault} additionalCategories {st.session_state.additionalCategories}")
+    logger.info(f"selected molecule category {st.session_state.selected_molecule_category}category_is_default  {st.session_state.category_is_default} additional_categories {st.session_state.additional_categories}")
     _games[code] = game_data # Add game element to the fake database using the code as the key and the game data as the attached value 
     return {"game_code": code, "player_id": player_id}
 
