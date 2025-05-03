@@ -1,4 +1,4 @@
-#This is an implementation of toast notifications for streamlit, similar to how they work in something like Next js
+#This is an implementation of toast notifications for streamlit, similar to how they work in something like Next js / React
 
 import streamlit as st
 import time
@@ -14,7 +14,7 @@ def create_toast(message, type="info", duration=5):
         duration: How long the toast should remain visible in seconds
     """
     # Store the toast in session state with expiration time
-    current_time = time.time()
+    
     st.session_state.toast = {
         "message": message,
         "type": type,
@@ -36,18 +36,19 @@ def show_toast():
 
     Should be called at the beginning of each page for the toast to display above everything else
     """
-    
-    toast = st.session_state.toast
+    # Check if toast exists in session state
+    if "toast" in st.session_state:
+        toast = st.session_state.toast
 
-    # Display the toast based on its type
-    if toast["type"] == "info":
-        st.info(toast["message"])
-    elif toast["type"] == "success":
-        st.success(toast["message"])
-    elif toast["type"] == "error":
-        st.error(toast["message"])
-    elif toast["type"] == "warning":
-        st.warning(toast["message"])
+        # Display the toast based on its type
+        if toast["type"] == "info":
+            st.info(toast["message"])
+        elif toast["type"] == "success":
+            st.success(toast["message"])
+        elif toast["type"] == "error":
+            st.error(toast["message"])
+        elif toast["type"] == "warning":
+            st.warning(toast["message"])
                 
             
         
