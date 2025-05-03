@@ -1,5 +1,6 @@
 import streamlit as st
 from sketchem.utils.game_state import reset_game_state
+from streamlit_extras import stylable_container
 
 def back_button(destination=None, label="Back", use_container_width=True, key=None):
     """
@@ -17,10 +18,16 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
     button_key = key or f"back_button_{destination}" # buttons and elements in streamlit need unique identifier -> prevents errors if multiple back buttons because of a problem with the refresh
     
     # Create columns with 0.1 and 0.9 width ratio
-    left_col, right_col = st.columns([0.1, 0.9])
     
-    # Place the button in the left column
-    with left_col:
+    
+    
+    with stylable_container(
+    key="Upload_Data",
+    css_styles="""
+    button{
+        float: right;
+    }
+    """ ):
         if st.button(label, use_container_width=use_container_width, key=button_key):
             if destination is not None:
                 # Navigate to specific destination
