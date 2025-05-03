@@ -2,6 +2,7 @@
 
 import streamlit as st
 import time
+import threading
 
 def create_toast(message, type="info", duration=5):
     """
@@ -17,8 +18,17 @@ def create_toast(message, type="info", duration=5):
     st.session_state.toast = {
         "message": message,
         "type": type,
-        "expires_at": current_time + duration
     }
+    def remove_toast():
+        time.sleep(duration)
+        if "toast" in st.session_state:
+            del st.session_state.toast
+            try:
+                st.rerun()
+            except:
+                pass
+    
+    threading.Thread(target=remove_toast, daemon=True).start()
 
 def show_toast():
     """
@@ -26,44 +36,18 @@ def show_toast():
 
     Should be called at the beginning of each page for the toast to display above everything else
     """
-    if "toast" in st.session_state:
-        toast = st.session_state.toast
-        st.session_state.current_time = time.time()
-        
-        # Check if toast is still valid
-        if st.session_state.current_time < toast["expires_at"]:
-            # Display the toast based on its type
-            if toast["type"] == "info":
-                st.info(toast["message"])
-            elif toast["type"] == "success":
-                st.success(toast["message"])
-            elif toast["type"] == "error":
-                st.error(toast["message"])
-            elif toast["type"] == "warning":
-                st.warning(toast["message"])
+    
+    toast = st.session_state.toast
+
+    # Display the toast based on its type
+    if toast["type"] == "info":
+        st.info(toast["message"])
+    elif toast["type"] == "success":
+        st.success(toast["message"])
+    elif toast["type"] == "error":
+        st.error(toast["message"])
+    elif toast["type"] == "warning":
+        st.warning(toast["message"])
                 
-            # Add custom styling to make it look more like a toast
-            st.markdown("""
-            <style>
-            div[data-testid="stInfoMessage"],
-            div[data-testid="stSuccessMessage"],
-            div[data-testid="stWarningMessage"],
-            div[data-testid="stErrorMessage"] {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                z-index: 9999;
-                min-width: 300px;
-                max-width: 400px;
-                animation: fadeIn 0.5s;
-            }
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-            </style>
-            """, unsafe_allow_html=True)
-        else:
-            # Toast has expired, remove it
-            del st.session_state.toast
-            st.rerun() #Rerun the page to remove the toast??
+            
+        
