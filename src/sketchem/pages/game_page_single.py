@@ -2,7 +2,6 @@ import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 from PIL import Image
 import io
-import os
 
 
 def save_canvas_as_image(canvas_data): #convert canvas data to png image
@@ -15,7 +14,7 @@ def save_canvas_as_image(canvas_data): #convert canvas data to png image
     return None
 
 
-#switch between pen and eraser 
+#switch between pen and eraser
 def toggle_drawing_mode():
     if st.session_state.drawing_mode == "freedraw":
         st.session_state.drawing_mode = "erase"
@@ -33,9 +32,9 @@ def render_game_page():
     if "canvas_key" not in st.session_state:
         st.session_state.canvas_key = 0
     if "drawing_mode" not in st.session_state:
-        st.session_state.drawing_mode = "freedraw"  # Default to pen mode
+        st.session_state.drawing_mode = "freedraw"  #default to pen mode
     if "last_pen_color" not in st.session_state:
-        st.session_state.last_pen_color = "#ffffff"  # default
+        st.session_state.last_pen_color = "#ffffff"  #default
 
 
     #color options
@@ -47,7 +46,7 @@ def render_game_page():
         "Yellow": "#ffff00",
     }
 
-    # Configure canvas based on mode
+    #configure canvas based on mode
     if st.session_state.drawing_mode == "erase":
         current_stroke_color = "#000000"
         current_stroke_width = st.session_state.pen_size + 5
@@ -137,10 +136,24 @@ def render_game_page():
             display_toolbar=True,
         )
 
-    #submit button
+    #buttons row
     st.markdown("<br>", unsafe_allow_html=True)
 
-    _, submit_col, _ = st.columns([1, 2, 1])
+    #add custom styling for buttons
+    st.markdown("""
+    <style>
+    /* Make buttons more prominent */
+    div[data-testid="stButton"] > button {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    #2 equal columns for buttons
+    submit_col, back_col = st.columns([1, 1])
+
+    #submit button (left)
     with submit_col:
         if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True):
             if canvas_result.image_data is not None:
@@ -149,6 +162,16 @@ def render_game_page():
                     st.success("Drawing submitted successfully!")
             else:
                 st.warning("Please draw something before submitting!")
+
+    #back button (right)
+    with back_col:
+        if st.button("Back", key="back_btn", use_container_width=True):
+            #store a flag in session state to show the toast on the next page
+            st.session_state.show_back_toast = True
+            #set game mode to 'single_setup' to return to single player setup page
+            st.session_state.game_mode = "single_setup"
+            #force a rerun to apply the change immediately
+            st.rerun()
 
 
 if __name__ == "__main__":
