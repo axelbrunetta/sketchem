@@ -209,7 +209,7 @@ def render_multiplayer_setup():
                     st.rerun() #Closes the modal view
 
             if st.session_state.returnedCategoryError:
-                st.error("Failed to create category, try to formulate your query differently")
+                st.session_state.toast_queue = {"message": "Failed to create category, try to formulate your query differently.", "icon": "☹️"}
             
             if st.button("Create a molecule category"):
                 openModal()
