@@ -66,3 +66,4 @@ def show_toast():
         else:
             # Toast has expired, remove it
             del st.session_state.toast
+            st.rerun() #Rerun the page to remove the toast??
