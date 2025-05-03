@@ -86,6 +86,38 @@ def start_game(code: str) -> Dict: #Self-explanatory
     _games[code]["status"] = "active"
     return {"success": True}
 
+def remove_player_from_game(code: str, player_id: str) -> Dict:
+    """Remove a player from a game
+    
+    Args:
+        code: The game code
+        player_id: The ID of the player to remove
+        
+    Returns:
+        Dict with success status and error message if applicable
+    """
+    if code not in _games:
+        logger.info(f"Game with code {code} not found")
+        return {"success": False, "error": "Game not found"}
+        
+    game = _games[code]
+    
+    if player_id not in game["players"]:
+        logger.info(f"Player {player_id} not found in game {code}")
+        return {"success": False, "error": "Player not found in game"}
+    
+    # Remove the player
+    del game["players"][player_id]
+    logger.info(f"Player {player_id} removed from game {code}")
+    
+    # If no players left, delete the game
+    if not game["players"]:
+        logger.info(f"No players left in game {code}, deleting game")
+        del _games[code]
+        return {"success": True, "game_deleted": True}
+    
+    return {"success": True}
+
 #Will need end game function here?
 
 #Will need something that deletes games and players after x amount of time

@@ -1,6 +1,7 @@
 import streamlit as st
 from sketchem.utils.game_state import reset_game_state
 from streamlit_extras.stylable_container import stylable_container
+from sketchem.db.mock_db import remove_player_from_game
 
 def back_button(destination=None, label="Back", use_container_width=True, key=None):
     """
@@ -33,12 +34,30 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
     }
     """):
         if st.button(label, use_container_width=use_container_width, key=button_key):
+            # If in a multiplayer game, remove the player from the game
+            current_mode = st.session_state.game_mode
+            if current_mode in ["created_multi", "joined_multi", "multiplayer"] :
+                
+                # Remove player from the game
+                result = remove_player_from_game(
+                    st.session_state.game_code, 
+                    st.session_state.player_id
+                )
+                
+                if result.get("success", False):
+                    if result.get("game_deleted", False):
+                        st.info("You were the last player. Game has been deleted.")
+                    else:
+                        st.info("Successfully left the game.")
+                else:
+                    error_msg = result.get("error", "Unknown error")
+                    st.error(f"Error leaving game: {error_msg}")
+            
             if destination is not None:
                 # Navigate to specific destination
                 st.session_state.game_mode = destination
             else:
                 # Determine previous page based on current game_mode
-                current_mode = st.session_state.game_mode
                 
                 # Define reroutes
                 navigation_map = { #for now all back buttons go to home page for simplicity
