@@ -13,11 +13,11 @@ def create_toast(message, type="info", duration=5):
         duration: How long the toast should remain visible in seconds
     """
     # Store the toast in session state with expiration time
-    current_time = time.time()
+    st.session_state.current_time = time.time()
     st.session_state.toast = {
         "message": message,
         "type": type,
-        "expires_at": current_time + duration
+        "expires_at": st.session_state.current_time + duration
     }
 
 def show_toast():
@@ -28,10 +28,10 @@ def show_toast():
     """
     if "toast" in st.session_state:
         toast = st.session_state.toast
-        current_time = time.time()
+        st.session_state.current_time = time.time()
         
         # Check if toast is still valid
-        if current_time < toast["expires_at"]:
+        if st.session_state.current_time < toast["expires_at"]:
             # Display the toast based on its type
             if toast["type"] == "info":
                 st.info(toast["message"])
