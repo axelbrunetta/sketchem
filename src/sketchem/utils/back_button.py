@@ -1,6 +1,6 @@
 import streamlit as st
 from sketchem.utils.game_state import reset_game_state
-from streamlit_extras import stylable_container
+from streamlit_extras.stylable_container import stylable_container
 
 def back_button(destination=None, label="Back", use_container_width=True, key=None):
     """
