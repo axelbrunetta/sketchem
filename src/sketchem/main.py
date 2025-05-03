@@ -7,9 +7,10 @@ from sketchem.utils.toast import show_toast
 
 
 def main():
+    st.set_page_config(page_title="Sketchem", layout="centered")
+    
     show_toast() #Show any active toast notifications
 
-    st.set_page_config(page_title="Sketchem", layout="centered")
     st.title("🧪 Sketchem")
 
     # Initialize the game state parameters
