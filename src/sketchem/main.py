@@ -18,9 +18,9 @@ def main():
     elif st.session_state.game_mode == "singleplayer_setup":
         # Render setup for single here
         pass
-    elif st.session_state.game_mode == "multiplayer_setup":
+    elif st.session_state.game_mode == "multiplayer_setup": # reroute to multiplayer setup page
         render_multiplayer_setup()
-    elif st.session_state.game_mode in ["created_multi", "joined_multi"]:
+    elif st.session_state.game_mode in ["created_multi", "joined_multi"]: # reroute to waiting room for both host and joining players
         render_waiting_room()
     elif st.session_state.game_mode == "single":
         # Render single player game here

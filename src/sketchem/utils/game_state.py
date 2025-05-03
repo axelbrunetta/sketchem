@@ -34,7 +34,17 @@ def initialize_game_state():
 
 def reset_game_state():
     """Reset game state"""
-    pass
-    # Will be needed for resetting the various parameters
+    # Reset game mode and player information
+    st.session_state.game_mode = None
+    st.session_state.player_name = ""
+    st.session_state.player_id = None
+    st.session_state.game_code = None
+    
+    # Reset game settings
+    st.session_state.game_duration = 60
+    st.session_state.selected_molecule_category = ""
+    st.session_state.categoryIsDefault = True
+    #Keep previously created categories but deselect the current one
+    
 
 

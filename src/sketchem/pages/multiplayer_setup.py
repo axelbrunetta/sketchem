@@ -5,6 +5,7 @@ from google import genai
 from google.genai import types
 from streamlit.logger import get_logger
 import logging
+from sketchem.utils.back_button import back_button
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -141,6 +142,8 @@ def handle_create_game(player_name: str):
 
 def render_multiplayer_setup():
     """Renders the multiplayer setup page"""
+
+    back_button(destination=None, label="Back to Home") #Display back button at the top left
 
     st.markdown("## Multiplayer Setup")
     

@@ -5,6 +5,7 @@ from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
 from contextlib import contextmanager
+from sketchem.utils.back_button import back_button
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -48,6 +49,8 @@ def st_horizontal(): #Function to create an "inline" block for streamlit element
 def render_waiting_room():
     """Renders the waiting room for both host and joining players"""
     st.empty() #Clears the page -> fix for elements of the multiplayer setup page staying on screen
+    
+    back_button(destination=None, label="Back to Home") #Display back button at the top left
 
     st.markdown("## Game Lobby")
     st.markdown(f"Your player name: **{st.session_state.player_name}**")
