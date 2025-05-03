@@ -70,11 +70,11 @@ def render_waiting_room():
         st.markdown(f"Selected Category: **{category}**")
         st.markdown("### Molecules:")
         
-        if game["categoryIsDefault"]:
+        if game["category_is_default"]:
             for molecule in MOLECULE_CATEGORIES[category].keys():
                 st.markdown(f"- {molecule}")
         else:
-            for molecule in game["additionalCategories"][category].keys():
+            for molecule in game["additional_categories"][category].keys():
                 st.markdown(f"- {molecule}")
         
         st.markdown("### Players:")
