@@ -1,6 +1,7 @@
 import streamlit as st
 from sketchem.utils.environment import is_running_locally
 from streamlit_extras.bottom_container import bottom
+from streamlit_extras.stoggle import stoggle
 
 def render_home_page():
     st.markdown("## Choose Game Mode")
@@ -21,5 +22,7 @@ def render_home_page():
             st.info("Multiplayer is only available in the deployed version (Using Streamlit Cloud)")
 
     with bottom():
-        if st.button("Credits", use_container_width=True):
-            st.markdown("Created by Axel Brunetta, Ivana Josipovic and Ariadna Davila")
+        stoggle(
+        "Credits",
+        """Created by Axel Brunetta, Ivana Josipovic and Ariadna Davila""",
+        )
