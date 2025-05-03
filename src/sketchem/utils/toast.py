@@ -23,18 +23,21 @@ def create_toast(message, type="info", duration=5):
     }
     
     # Create a thread to handle the delayed toast removal
-    
-    
-    def remove_toast_after_delay():
-        time.sleep(duration)
-        if "toast" in st.session_state:
-            del st.session_state.toast
-            st.rerun()
+    class ToastRemovalThread(threading.Thread):
+        def __init__(self, delay):
+            super().__init__()
+            self.delay = delay
+            
+        def run(self):
+            time.sleep(self.delay)
+            if "toast" in st.session_state:
+                del st.session_state.toast
+                st.rerun()
     
     # Get current context and create thread with context
     ctx = get_script_run_ctx()
     if ctx is not None:
-        thread = threading.Thread(target=remove_toast_after_delay)
+        thread = ToastRemovalThread(duration)
         add_script_run_ctx(thread, ctx)
         thread.start()
     
