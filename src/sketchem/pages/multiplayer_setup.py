@@ -238,7 +238,9 @@ def render_multiplayer_setup():
             
             # Clear the last_created_category after using it
             if hasattr(st.session_state, 'last_created_category'):
+                
                 del st.session_state.last_created_category
+                check_category_is_default(selected_category) #added this here to activate the categoryIsDefault state var because the game-attributed category was not the proper one if the game was Ai generated
 
             if selected_category:
                
