@@ -61,7 +61,9 @@ def render_waiting_room():
     game = get_game(st.session_state.game_code)
     if game:
         st.markdown(f"Game Duration: **{game['game_duration']}**")
-    
+        
+    st.divider()
+
     col3, col4 = st.columns(2)
     with col3:
         st.markdown(f"Your player name: **{st.session_state.player_name}**")
