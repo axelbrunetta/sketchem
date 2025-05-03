@@ -203,7 +203,7 @@ def render_multiplayer_setup():
                     st.session_state.category_update_counter += 1
                     logger.info(f"Generate category message: {returned_var}")
                     if returned_var == "Successfully created category":
-                        pass
+                        st.session_state.toast_queue = {"message": "Successfully created category.", "icon": "✅"}
                     else:
                         st.session_state.returnedCategoryError = True
                     st.rerun() #Closes the modal view
