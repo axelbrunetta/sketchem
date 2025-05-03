@@ -8,12 +8,12 @@ from sketchem.pages.game_page_single import render_game_page as render_single_ga
 
 
 def main():
-    st.set_page_config(page_title="Sketchem", layout="centered")
-
-    # Center the title with custom HTML/CSS
-    st.markdown("""
-    <h1 style='text-align: center; margin-bottom: 30px;'>🧪 Sketchem</h1>
-    """, unsafe_allow_html=True)
+    st.set_page_config(
+        page_title="Sketchem",
+        layout="centered",
+        menu_items={},
+        initial_sidebar_state="collapsed"
+    )
 
     # Initialize the game state parameters
     initialize_game_state()
