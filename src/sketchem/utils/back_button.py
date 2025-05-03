@@ -22,12 +22,16 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
     
     
     with stylable_container(
-    key="Upload_Data",
+    key="back_button_container",
     css_styles="""
-    button{
-        float: right;
+    div[data-testid="stButton"] {
+        width: auto !important;
+        display: inline-block !important;
     }
-    """ ):
+    button {
+        width: auto !important;
+    }
+    """):
         if st.button(label, use_container_width=use_container_width, key=button_key):
             if destination is not None:
                 # Navigate to specific destination
