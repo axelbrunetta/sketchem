@@ -53,6 +53,7 @@ def render_waiting_room():
     back_button(destination=None, label="Leave game") #Display back button at the top left
 
     st.markdown("## Game Lobby")
+
     col3, col4 = st.columns(2)
     with col3:
         st.markdown(f"Your player name: **{st.session_state.player_name}**")
@@ -66,9 +67,9 @@ def render_waiting_room():
         if game:
             st.markdown(f"Game Duration: **{game['game_duration']}**")
 
-        st.markdown("### Players:")
-        for player_id, player_data in game["players"].items():
-            st.markdown(f"- {player_data['name']}")
+            st.markdown("### Players:")
+            for player_id, player_data in game["players"].items():
+                st.markdown(f"- {player_data['name']}")
         
         
 
