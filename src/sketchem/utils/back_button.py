@@ -47,12 +47,11 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
                 
                 if result.get("success", False):
                     if result.get("game_deleted", False):
-                        st.session_state.toast_queue = {"message": "Successfully navigated to Settings!", "icon": "✅"}
+                        st.session_state.toast_queue = {"message": "You were the last player. Game was deleted.", "icon": "🗑️"}
                     else:
-                        create_toast("Successfully left the game.", "info")
+                        st.session_state.toast_queue = {"message": "Successfully left the game.", "icon": "🏃💨"}
                 else:
-                    error_msg = result.get("error", "Unknown error")
-                    create_toast(f"Error leaving game: {error_msg}", "error")
+                    st.session_state.toast_queue = {"message": "Error leaving the game.", "icon": "❌"}
             
             if destination is not None:
                 # Navigate to specific destination
