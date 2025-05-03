@@ -81,9 +81,9 @@ Benzene: C1=CC=CC=C1
 
 IMPORTANT: Before and fter providing this formatting of the name of the category, name of the molecules and their smiles, do not include ANY other explanations or commentary. Simply output what is asked above.
 
-Be lenient on the category descriptions. If the description if vague try to find molecules related to that description, even if distantly related.
+DO NOT invent or use molecules that do not exist in real life (e.g. do NOT use ones that exist in movies or stories and are fictional). Also make sure the smiles you find are valid. If you are not sure, try to find another molecule that fits the category.
 
-However, DO NOT create molecules that do not exist in real life. Also make sure the smiles you find are valid. If you are not sure, try to find another molecule that fits the category.
+Nevertheless, be lenient on the category descriptions. If the description if vague try to find molecules related to that description, even if distantly related.
 
 """
         
