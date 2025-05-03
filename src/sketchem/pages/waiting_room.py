@@ -71,9 +71,8 @@ def render_waiting_room():
             for player_id, player_data in game["players"].items():
                 st.markdown(f"- {player_data['name']}")
         
-        
-
     with col4:
+        game = get_game(st.session_state.game_code)
         if game:
             # Display selected category and molecules for both host and joining players
             category = game["category"]
