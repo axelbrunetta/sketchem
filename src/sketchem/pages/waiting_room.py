@@ -62,7 +62,7 @@ def render_waiting_room():
 
     game = get_game(st.session_state.game_code)
     if game:
-        st.markdown(f"Game Duration: **{game["game_duration"]}**")
+        st.markdown(f"Game Duration: **{game['game_duration']}**")
 
     
     
