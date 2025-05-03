@@ -53,51 +53,55 @@ def render_waiting_room():
     back_button(destination=None, label="Leave game") #Display back button at the top left
 
     st.markdown("## Game Lobby")
-    st.markdown(f"Your player name: **{st.session_state.player_name}**")
+    col3, col4 = st.columns(2)
+    with col3:
+        st.markdown(f"Your player name: **{st.session_state.player_name}**")
 
-    # Display game code with an option to copy it
-    with st_horizontal():
-        st.markdown(f"Game Code:") 
-        st.code(st.session_state.game_code, language=None)
+        # Display game code with an option to copy it
+        with st_horizontal():
+            st.markdown(f"Game Code:") 
+            st.code(st.session_state.game_code, language=None)
 
-    game = get_game(st.session_state.game_code)
-    if game:
-        st.markdown(f"Game Duration: **{game['game_duration']}**")
+        game = get_game(st.session_state.game_code)
+        if game:
+            st.markdown(f"Game Duration: **{game['game_duration']}**")
 
-    
-    
-        # Display selected category and molecules for both host and joining players
-        category = game["category"]
-        st.markdown(f"Selected Category: **{category}**")
-        st.markdown("### Molecules:")
-        
-        if game["category_is_default"]:
-            for molecule in MOLECULE_CATEGORIES[category].keys():
-                st.markdown(f"- {molecule}")
-        else:
-            for molecule in game["additional_categories"][category].keys():
-                st.markdown(f"- {molecule}")
-        
         st.markdown("### Players:")
         for player_id, player_data in game["players"].items():
             st.markdown(f"- {player_data['name']}")
+        
+        
 
-
-
-        if st.session_state.game_mode == "created_multi": #Only game creator can start the game
-            if len(game["players"]) > 1:  
-                if st.button("Start Game", type="primary", use_container_width=True): #Button displays if there's at least 2 players
-                    start_response = start_game(st.session_state.game_code)
-                    if start_response.get("success", False): #Returns the success value for the response, and if there's none defaults to false
-                        st.session_state.game_mode = "multiplayer" #Reroute to multiplayer game page
-                        st.session_state.start_time = time.time()
-                        st.rerun()
-                    else:
-                        st.error("Failed to start the game")
+    with col4:
+        if game:
+            # Display selected category and molecules for both host and joining players
+            category = game["category"]
+            st.markdown(f"Selected Category: **{category}**")
+            st.markdown("### Molecules:")
+            
+            if game["category_is_default"]:
+                for molecule in MOLECULE_CATEGORIES[category].keys():
+                    st.markdown(f"- {molecule}")
             else:
-                st.info("Waiting for more players to join...")
+                for molecule in game["additional_categories"][category].keys():
+                    st.markdown(f"- {molecule}")
+        
+       
+
+    if st.session_state.game_mode == "created_multi": #Only game creator can start the game
+        if len(game["players"]) > 1:  
+            if st.button("Start Game", type="primary", use_container_width=True): #Button displays if there's at least 2 players
+                start_response = start_game(st.session_state.game_code)
+                if start_response.get("success", False): #Returns the success value for the response, and if there's none defaults to false
+                    st.session_state.game_mode = "multiplayer" #Reroute to multiplayer game page
+                    st.session_state.start_time = time.time()
+                    st.rerun()
+                else:
+                    st.error("Failed to start the game")
         else:
-            st.info("Waiting for host to start the game...")
+            st.info("Waiting for more players to join...")
+    else:
+        st.info("Waiting for host to start the game...")
 
     
     time.sleep(2)
