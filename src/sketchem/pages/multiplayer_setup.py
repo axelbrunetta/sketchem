@@ -238,7 +238,7 @@ def render_multiplayer_setup():
             selected_category = st.selectbox( 
                 "Choose a category:",
                 options=all_categories,
-                index=all_categories.index(st.session_state.last_created_category) if hasattr(st.session_state, 'last_created_category') and st.session_state.last_created_category in all_categories else 0,
+                index=all_categories.index(st.session_state.selected_molecule_category) if  not st.session_state.categoryIsDefault else 0,
                 key=f"molecule_category_{st.session_state.get('category_update_counter', 0)}"
             ) #Now automatically selects the last created category (when created using AI)
             
