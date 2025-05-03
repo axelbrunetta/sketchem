@@ -5,6 +5,11 @@ import time
 import threading
 from streamlit.runtime.scriptrunner import add_script_run_ctx, get_script_run_ctx
 import time
+from streamlit.logger import get_logger
+import logging
+
+logger = get_logger(__name__)
+logger.setLevel(logging.DEBUG)
 
 def create_toast(message, type="info", duration=5):
     """
@@ -32,6 +37,7 @@ def create_toast(message, type="info", duration=5):
             time.sleep(self.delay)
             if "toast" in st.session_state:
                 del st.session_state.toast
+                logger.info("Deleted toast")
                 st.rerun()
     
     # Get current context and create thread with context
