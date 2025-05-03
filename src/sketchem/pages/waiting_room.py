@@ -53,26 +53,27 @@ def render_waiting_room():
     back_button(destination=None, label="Leave game") #Display back button at the top left
 
     st.markdown("## Game Lobby")
+    # Display game code with an option to copy it
+    with st_horizontal():
+        st.markdown(f"Game Code:") 
+        st.code(st.session_state.game_code, language=None)
 
+    game = get_game(st.session_state.game_code)
+    if game:
+        st.markdown(f"Game Duration: **{game['game_duration']}**")
+    
     col3, col4 = st.columns(2)
     with col3:
         st.markdown(f"Your player name: **{st.session_state.player_name}**")
 
-        # Display game code with an option to copy it
-        with st_horizontal():
-            st.markdown(f"Game Code:") 
-            st.code(st.session_state.game_code, language=None)
-
-        game = get_game(st.session_state.game_code)
-        if game:
-            st.markdown(f"Game Duration: **{game['game_duration']}**")
-
-            st.markdown("### Players:")
-            for player_id, player_data in game["players"].items():
+        st.markdown("### Players:")
+        for player_id, player_data in game["players"].items():
+            if player_data["name"] == st.session_state.player_name:
+                st.markdown(f"- {player_data['name']} (You)")
+            else:
                 st.markdown(f"- {player_data['name']}")
         
     with col4:
-        game = get_game(st.session_state.game_code)
         if game:
             # Display selected category and molecules for both host and joining players
             category = game["category"]
