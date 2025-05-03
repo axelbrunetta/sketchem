@@ -50,7 +50,7 @@ def render_waiting_room():
     """Renders the waiting room for both host and joining players"""
     st.empty() #Clears the page -> fix for elements of the multiplayer setup page staying on screen
     
-    back_button(destination=None, label="Back to Home") #Display back button at the top left
+    back_button(destination=None, label="Leave game") #Display back button at the top left
 
     st.markdown("## Game Lobby")
     st.markdown(f"Your player name: **{st.session_state.player_name}**")
