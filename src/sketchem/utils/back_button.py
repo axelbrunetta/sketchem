@@ -2,6 +2,7 @@ import streamlit as st
 from sketchem.utils.game_state import reset_game_state
 from streamlit_extras.stylable_container import stylable_container
 from sketchem.db.mock_db import remove_player_from_game
+from sketchem.utils.toast import create_toast
 
 def back_button(destination=None, label="Back", use_container_width=True, key=None):
     """
@@ -46,12 +47,12 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
                 
                 if result.get("success", False):
                     if result.get("game_deleted", False):
-                        st.info("You were the last player. Game has been deleted.")
+                        create_toast("You were the last player. Game has been deleted.", "info")
                     else:
-                        st.info("Successfully left the game.")
+                        create_toast("Successfully left the game.", "info")
                 else:
                     error_msg = result.get("error", "Unknown error")
-                    st.error(f"Error leaving game: {error_msg}")
+                    create_toast(f"Error leaving game: {error_msg}", "error")
             
             if destination is not None:
                 # Navigate to specific destination
