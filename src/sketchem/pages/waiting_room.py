@@ -60,11 +60,12 @@ def render_waiting_room():
         st.markdown(f"Game Code:") 
         st.code(st.session_state.game_code, language=None)
 
-    st.markdown(f"Game Duration: **{st.session_state.game_duration}**")
-
-    # Get and display current players
     game = get_game(st.session_state.game_code)
     if game:
+        st.markdown(f"Game Duration: **{game["game_duration"]}**")
+
+    
+    
         # Display selected category and molecules for both host and joining players
         category = game["category"]
         st.markdown(f"Selected Category: **{category}**")
