@@ -184,7 +184,6 @@ def render_multiplayer_setup():
                 stoggle(
                 f"Molecules in {selected_category}:",
                 f"{molecule_list}",
-                unsafe_allow_html=True
                 )
 
             st.divider()

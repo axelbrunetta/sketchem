@@ -26,7 +26,7 @@ GRADIENT_BUTTON_CSS = """
                     
                     transform: scale(1.05) !important; 
                     
-                    box-shadow: 0 0 20px 5px rgba(77, 166, 255, 0.6) !important;
+                    box-shadow: 0 0 20px 5px #4f5b66 !important;
                 
 
                 }
