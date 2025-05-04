@@ -116,7 +116,7 @@ def render_multiplayer_setup():
 
             
             #Generate a custom category using gemini
-            @st.dialog("Generate a molecule category", key="generate_category_dialog")
+            @st.dialog("Generate a molecule category")
             def openModal():
                 st.write(f"What kind of molecule category are you looking for?")
                 user_input = st.text_input("")
