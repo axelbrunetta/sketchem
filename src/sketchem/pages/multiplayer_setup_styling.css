@@ -178,8 +178,9 @@ div.st-emotion-cache-16txtl3 {
         color: var(--accent-blue) !important;
     }
 
-/* Target button with multiple classes -> test */
-.stButton.st-emotion-cache-8atqhb.e1mlolmg0 {
+/* Target button with multiple classes */
+
+.stButton.st-emotion-cache-8atqhb.e1mlolmg0 button {
     background-color: #4CAF50 !important;
     color: white !important;
     padding: 15px 32px !important;
@@ -191,4 +192,3 @@ div.st-emotion-cache-16txtl3 {
     cursor: pointer !important;
     border-radius: 12px !important;
 }
-
