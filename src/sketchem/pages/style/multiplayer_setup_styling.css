@@ -185,25 +185,34 @@ div.stElementContainer.element-container.st-key-game_code_input.st-emotion-cache
     color: #333 !important;
 }
 
-/* Slider styling */
+/* Knob-less slider styling */
 div[data-testid="stSlider"] [data-baseweb="slider"] {
     margin-top: 10px !important;
     margin-bottom: 20px !important;
 }
 
-/* Slider track styling */
+/* Hide the default slider thumb/knob */
 div[data-testid="stSlider"] [data-baseweb="slider"] div[role="slider"] {
-    background-color: var(--accent-blue) !important;
-    border-color: var(--accent-blue) !important;
-    height: 20px !important;
-    width: 20px !important;
-    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    opacity: 0 !important; /* Hide the knob */
+    height: 0 !important;
+    width: 0 !important;
 }
 
-/* Slider thumb hover effect */
-div[data-testid="stSlider"] [data-baseweb="slider"] div[role="slider"]:hover {
-    transform: scale(1.2) !important;
-    box-shadow: 0 0 10px rgba(0, 102, 204, 0.5) !important;
+/* Style the track container */
+div[data-testid="stSlider"] [data-baseweb="slider"] div[data-testid="stSliderBase"] {
+    height: 12px !important;
+    background-color: #e0e0e0 !important; /* Light gray background */
+    border-radius: 6px !important;
+    border: none !important;
+}
+
+/* Style the filled portion of the track */
+div[data-testid="stSlider"] [data-baseweb="slider"] div[data-testid="stSliderTrack"] {
+    height: 12px !important;
+    background: linear-gradient(90deg, var(--accent-blue), #4da6ff) !important;
+    border-radius: 6px !important;
+    border: none !important;
+    transition: width 0.2s ease !important;
 }
 
 /* Slider thumb value display */
@@ -213,6 +222,7 @@ div[data-testid="stSlider"] [data-testid="stSliderThumbValue"] {
     font-weight: bold !important;
     padding: 2px 8px !important;
     border-radius: 4px !important;
+    margin-top: -25px !important; /* Position above the slider */
 }
 
 /* Slider tick bar styling */
