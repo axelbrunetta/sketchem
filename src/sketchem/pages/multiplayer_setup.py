@@ -5,8 +5,8 @@ from streamlit.logger import get_logger
 import logging
 from sketchem.utils.back_button import back_button
 from sketchem.utils.create_category import check_category_is_default, generate_new_category
-import os
 from streamlit_extras.stylable_container import stylable_container
+from sketchem.pages.style.gradient_button_css import GRADIENT_BUTTON_CSS
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -127,46 +127,7 @@ def render_multiplayer_setup():
             
             with stylable_container(
             key="join_game_container",
-            css_styles="""
-                
-                button:not([disabled]) {
-    
-                    background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
-                    background-size: 200% 100% !important;
-                    color: white !important;
-                    padding: 15px 32px !important;
-                    font-size: 16px !important;
-                    font-weight: bold !important;
-                    border-radius: 12px !important;
-                    border: none !important;
-
-                    
-                    transition: background-position 0.5s ease,
-                                transform 0.3s ease, 
-                                box-shadow 0.3s ease !important;
-                }
-
-
-                button:is(:hover, :focus-visible):not([disabled]) {
-                    
-                    background-position: 100% 0 !important;
-
-                    
-                    
-                    transform: scale(1.05) !important; 
-                    
-                    box-shadow: 0 0 20px 5px rgba(77, 166, 255, 0.6) !important;
-                
-
-                }
-
-                button[disabled] {
-                
-                    background-color: #cccccc !important;
-                    color: #666666 !important;
-                    cursor: not-allowed !important;
-                }
-            """
+            css_styles=GRADIENT_BUTTON_CSS
             ):
                 if st.button("Create a molecule category using AI"):
                     openModal()
