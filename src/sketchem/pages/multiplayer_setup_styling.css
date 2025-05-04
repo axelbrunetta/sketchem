@@ -28,5 +28,6 @@
 }
 
 .stButton.st-emotion-cache-8atqhb.e1mlolmg0 button:hover {
-    border-color: var(--accent-grey) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
