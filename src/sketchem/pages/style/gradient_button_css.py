@@ -18,7 +18,7 @@ GRADIENT_BUTTON_CSS = """
                 }
 
 
-                button:is(:hover, :focus-visible):not([disabled]) {
+                div[st-key-create_category_button]> button:is(:hover, :focus-visible):not([disabled]) {
                     
                     background-position: 100% 0 !important;
 
@@ -26,7 +26,7 @@ GRADIENT_BUTTON_CSS = """
                     
                     transform: scale(1.05) !important; 
                     
-                    box-shadow: 0 0 20px 5px #4f5b66 !important;
+                    box-shadow: 0 0 20px 5px rgba(77, 166, 255, 0.6) !important;
                 
 
                 }
