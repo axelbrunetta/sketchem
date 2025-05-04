@@ -217,24 +217,6 @@ svg {
 	overflow: visible !important; /* Important for bounce effect */
 }
 
-.sparkle {
-    inline-size: 1.25em;
-	translate: -25% -5%; /* Position icon */
-}
-
-.sparkle path {
-    /* Color changes based on button's --active state */
-	color: hsl(0 0% calc((var(--active, 0) * 70%) + var(--base, 40%))); /* Default --base added */
-	transform-box: fill-box;
-	transform-origin: center;
-	fill: currentColor;
-	stroke: currentColor;
-	animation-delay: calc((var(--transition) * 1.5) + (var(--delay) * 1s));
-	animation-duration: 0.6s;
-    /* Add animation fill mode to keep final state if needed, though bounce loops back */
-    animation-fill-mode: both;
-	transition: color var(--transition);
-}
 
 /* Trigger bounce only when button is hovered/focused */
 button:is(:hover, :focus-visible) .sparkle path {
@@ -246,104 +228,8 @@ button:is(:hover, :focus-visible) .sparkle path {
 		scale: var(--scale);
 	}
 }
-.sparkle path:nth-of-type(1) {
-	--scale: 0.5;
-	--delay: 0.1;
-	--base: 40%;
-}
-
-.sparkle path:nth-of-type(2) {
-	--scale: 1.5;
-	--delay: 0.2;
-	--base: 20%;
-}
-
-.sparkle path:nth-of-type(3) {
-	--scale: 2.5;
-	--delay: 0.35;
-	--base: 30%;
-}
-
-/* --- Rotating Border Effect --- */
-
-.spark {
-	position: absolute;
-	inset: 0;
-	border-radius: 100px;
-	rotate: 0deg;
-	overflow: hidden;
-	mask: linear-gradient(white, transparent 50%);
-    /* Only run animation when button is active */
-	animation: flip calc(var(--spark) * 2) infinite steps(2, end);
-    animation-play-state: paused; /* Pause by default */
-}
-
-button:is(:hover, :focus-visible) .spark {
-    animation-play-state: running; /* Play on hover/focus */
-}
 
 
-@keyframes flip {
-	to {
-		rotate: 360deg;
-	}
-}
-
-.spark:before {
-	content: "";
-	position: absolute;
-	width: 200%;
-	aspect-ratio: 1;
-	top: 0%;
-	left: 50%;
-	z-index: -1;
-	translate: -50% -15%;
-	rotate: 0;
-	transform: rotate(-90deg);
-    /* Opacity based on button active state */
-	opacity: calc((var(--active)) + 0.4); /* Use button's --active */
-	background: conic-gradient(
-		from 0deg,
-		transparent 0 340deg,
-		white 360deg /* Sparkle color */
-	);
-	transition: opacity var(--transition);
-    /* Only run animation when button is active */
-	animation: rotate var(--spark) linear infinite both;
-    animation-play-state: paused; /* Pause by default */
-}
-
-button:is(:hover, :focus-visible) .spark:before {
-    animation-play-state: running; /* Play on hover/focus */
-}
-
-
-.spark:after {
-	content: "";
-	position: absolute;
-	inset: var(--cut); /* Use the button's cut variable */
-	border-radius: 100px;
-    /* Add background to clip the conic gradient */
-    background: hsl(260 0% 12%); /* Match initial button bg color */
-     /* Change background with button state */
-    background: hsl(260 calc(var(--active) * 97%) calc((var(--active) * 44%) + 12%));
-    transition: background var(--transition);
-}
-
-.backdrop {
-	position: absolute;
-	inset: var(--cut); /* Use the button's cut variable */
-	background: var(--bg); /* Use the same complex background as the button */
-	border-radius: 100px;
-	transition: background var(--transition);
-    z-index: 1; /* Ensure backdrop is above the spark:before */
-}
-
-@keyframes rotate {
-	to {
-		transform: rotate(90deg);
-	}
-}
 
 /* --- Text Styling --- */
 .text {
