@@ -32,7 +32,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 } */
 
-.st-key-back_home_button .stButton button {
+div.stElementContainer.element-container.st-key-create_category_button.st-emotion-cache-17lr0tt.e1lln2w81 button {
     background-color: --accent-blue !important; /* Example: Bootstrap secondary grey */
     color: white !important;
     padding: 10px 20px !important; /* Different padding */
@@ -47,7 +47,7 @@
     transition: background-color 0.3s ease, transform 0.2s ease !important;
 }
 
-.st-key-back_home_button .stButton button:hover {
+div.stElementContainer.element-container.st-key-create_category_button.st-emotion-cache-17lr0tt.e1lln2w81 button:hover {
     background-color: #5a6268 !important; /* Darker grey on hover */
     transform: translateY(-1px);
     box-shadow: none; /* No extra shadow */
