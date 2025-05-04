@@ -185,13 +185,13 @@ def render_multiplayer_setup():
             st.divider()
 
             create_disabled = selected_category is None #Disable button below if no category selected
-            if st.button("Create New Game", use_container_width=True, disabled=create_disabled):
+            if st.button("Create New Game", key="create_new_game_button", use_container_width=True, disabled=create_disabled):
                 handle_create_game(player_name)
 
     with col2:
         st.markdown("### Join Existing Game")
         game_code = st.text_input("Enter Game Code:", key="game_code_input").upper()
         
-        if st.button("Join Game", use_container_width=True, disabled=not game_code):
+        if st.button("Join Game", key="join_game_button", use_container_width=True, disabled=not game_code):
             handle_join_game(player_name, game_code)
 
