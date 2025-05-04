@@ -7,6 +7,7 @@ from sketchem.utils.back_button import back_button
 from sketchem.utils.create_category import check_category_is_default, generate_new_category
 from streamlit_extras.stylable_container import stylable_container
 from sketchem.pages.style.gradient_button_css import GRADIENT_BUTTON_CSS
+from streamlit_extras.stoggle import stoggle
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -142,9 +143,8 @@ def render_multiplayer_setup():
             #Select a category
             
             # Use the combined list for the selectbox
-            st.markdown("Select a molecule category:")
             selected_category = st.selectbox( 
-                "",
+                "Select a molecule category:",
                 options=all_categories,
                 index=all_categories.index(st.session_state.selected_molecule_category) if  not st.session_state.category_is_default else 0,
                 key=f"molecule_category_{st.session_state.get('category_update_counter', 0)}"
@@ -160,26 +160,33 @@ def render_multiplayer_setup():
                 if st.button("Create a molecule category using AI"):
                     openModal()
 
+            st.divider()
+
+            
             # Clear the last_created_category after using it and update the selected category
             if hasattr(st.session_state, 'last_created_category'):
                 
                 # Clean up
                 del st.session_state.last_created_category
-                
+
+            
 
             if selected_category:
-               
                 # Display molecules in selected category
                 st.session_state.selected_molecule_category = selected_category
-                st.markdown(f"**Molecules in {selected_category}:**")
                 check_category_is_default(selected_category)
+                molecule_list = ""
                 if st.session_state.category_is_default:
                     for molecule in MOLECULE_CATEGORIES[selected_category].keys(): #display category if default
-                        st.markdown(f"- {molecule}")
+                        molecule_list += f"- {molecule}\n"
                 else:
                     for molecule in st.session_state.additional_categories[selected_category].keys(): #display category if ai generated
-                        st.markdown(f"- {molecule}")
+                        molecule_list += f"- {molecule}\n"
                 
+                stoggle(
+                f"**Molecules in {selected_category}:**",
+                f"""{molecule_list}""",
+                ) 
 
             create_disabled = selected_category is None #Disable button below if no category selected
             if st.button("Create New Game", use_container_width=True, disabled=create_disabled):
