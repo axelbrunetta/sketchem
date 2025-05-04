@@ -1,6 +1,6 @@
 GRADIENT_BUTTON_CSS = """
     
-                button:not([disabled]) {
+                div[st-key-create_category_button] > button:not([disabled]) {
     
                     background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
                     background-size: 200% 100% !important;
@@ -18,7 +18,7 @@ GRADIENT_BUTTON_CSS = """
                 }
 
 
-                div[st-key-create_category_button]> button:is(:hover, :focus-visible):not([disabled]) {
+                div[st-key-create_category_button] > button:is(:hover, :focus-visible):not([disabled]) {
                     
                     background-position: 100% 0 !important;
 
