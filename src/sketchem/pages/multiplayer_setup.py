@@ -94,9 +94,8 @@ def render_multiplayer_setup():
                 value=60,
                 step=10
             )
-            with st_horizontal():
-                st.markdown("# Enable hints")
-                st.session_state.enable_hints = st.toggle("")
+            
+            st.session_state.enable_hints = st.toggle("Enable hints")
 
             # Molecule category selection
             st.markdown("### Select Molecule Category")
