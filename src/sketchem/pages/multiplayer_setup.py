@@ -5,6 +5,7 @@ from streamlit.logger import get_logger
 import logging
 from sketchem.utils.back_button import back_button
 from sketchem.utils.create_category import check_category_is_default, generate_new_category
+from sketchem.pages.waiting_room import st_horizontal
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -64,7 +65,8 @@ def render_multiplayer_setup():
         return
 
     
-    
+    st.divider()
+
     col1, col2 = st.columns(2)
    
    
@@ -92,6 +94,9 @@ def render_multiplayer_setup():
                 value=60,
                 step=10
             )
+            with st_horizontal():
+                st.markdown("# Enable hints")
+                st.session_state.enable_hints = st.toggle("")
 
             # Molecule category selection
             st.markdown("### Select Molecule Category")
