@@ -122,13 +122,8 @@ def render_multiplayer_setup():
                     st.rerun() #Closes the modal view
 
             
-            if fancy_gradient_button(
-                label="Create a molecule category using AI",     
-                key="fancy_create_mol_cat",       # Unique key
-                color1="#00c6ff",         
-                color2="#0072ff",         
-                text_color="white"        
-            ):
+            
+            if st.button("Create a molecule category"):
                 openModal()
 
             
