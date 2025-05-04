@@ -1,5 +1,3 @@
-#config needs to be in the same folder as main.py for theme to take effect
-
 [theme]
 base="light"
 primaryColor="#4f5b66"
