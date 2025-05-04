@@ -87,7 +87,7 @@ def render_multiplayer_setup():
             
         # Show button or game options based on state 
         if st.session_state.show_new_game_button:
-            st.button("New Game", on_click=hide_new_game_button, use_container_width=True)
+            st.button("New Game", on_click=hide_new_game_button, key="show_new_game_button", use_container_width=True)
         else:
             # Game settings 
             st.markdown("### Game Settings")

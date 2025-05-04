@@ -75,3 +75,52 @@ div.stElementContainer.element-container.st-key-back_button_None.st-emotion-cach
 div.stElementContainer.element-container.st-key-back_button_None.st-emotion-cache-83erdr.e1lln2w81 button:hover {
     background-color: #3a444d !important; /* Slightly darker grey on hover */
 }
+
+/* Create game button styling */
+
+div.stElementContainer.element-container.st-key-create_new_game_button.st-emotion-cache-83erdr.e1lln2w81 button {
+    background-color: var(--accent-grey) !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 8px !important;
+    border: none !important;
+    transition: background-color 0.3s ease !important;
+}
+
+div.stElementContainer.element-container.st-key-create_new_game_button.st-emotion-cache-83erdr.e1lln2w81 button:hover {
+    background-color: #3a444d !important; /* Slightly darker grey on hover */
+}
+
+/* Join game button styling */
+
+div.stElementContainer.element-container.st-key-join_game_button.st-emotion-cache-83erdr.e1lln2w81 button {
+    background-color: var(--accent-grey) !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 8px !important;
+    border: none !important;
+    transition: background-color 0.3s ease !important;
+}
+
+div.stElementContainer.element-container.st-key-join_game_button.st-emotion-cache-83erdr.e1lln2w81 button:hover {
+    background-color: #3a444d !important; /* Slightly darker grey on hover */
+}
+
+/* Join game button styling - disabled state */
+div.stElementContainer.element-container.st-key-join_game_button.st-emotion-cache-83erdr.e1lln2w81 button:disabled {
+    background-color: white !important;
+    color: #c0c0c0 !important; /* Light grey text */
+    border: 1px solid #c0c0c0 !important; /* Light grey border */
+    cursor: not-allowed !important;
+    opacity: 0.7 !important;
+}
+
+div.stElementContainer.element-container.st-key-join_game_button.st-emotion-cache-83erdr.e1lln2w81 button:disabled:hover {
+    background-color: white !important; /* No hover effect when disabled */
+    transform: none !important;
+    box-shadow: none !important;
+}
