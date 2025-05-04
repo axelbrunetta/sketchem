@@ -5,6 +5,7 @@ from streamlit.logger import get_logger
 import logging
 from sketchem.utils.back_button import back_button
 from sketchem.utils.create_category import check_category_is_default, generate_new_category
+import os
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -51,6 +52,11 @@ def handle_create_game(player_name: str):
 def render_multiplayer_setup():
     """Renders the multiplayer setup page"""
 
+    current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Need to go up one level to reach the css file
+    css_path = os.path.join(current_dir, "styles.css")
+    with open(css_path) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+        
     back_button(destination=None, label="Back to Home") #Display back button at the top left
 
     st.markdown("## Multiplayer Setup")
