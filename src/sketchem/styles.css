@@ -51,8 +51,8 @@
 
 /* Primary button */
 .stButton > button[data-baseweb="button"] {
-    background-color: var(--accent-blue);
-    color: white;
+    background-color: var(--accent-blue) !important;
+    color: white !important;
 }
 
 /* Success message styling */
