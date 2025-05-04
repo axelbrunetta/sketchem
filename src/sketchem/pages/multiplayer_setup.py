@@ -5,8 +5,6 @@ from streamlit.logger import get_logger
 import logging
 from sketchem.utils.back_button import back_button
 from sketchem.utils.create_category import check_category_is_default, generate_new_category
-from sketchem.pages.waiting_room import st_horizontal
-from sketchem.utils.fancy_gradient_button import fancy_gradient_button
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
