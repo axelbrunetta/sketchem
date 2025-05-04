@@ -10,7 +10,7 @@
     }
 
 
-/* Target button with multiple classes */
+/* Target button with multiple classes 
 
 .stButton.st-emotion-cache-8atqhb.e1mlolmg0 button {
     background-color: var(--accent-grey) !important;
@@ -30,4 +30,25 @@
 .stButton.st-emotion-cache-8atqhb.e1mlolmg0 button:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+} */
+
+.st-key-back_home_button .stButton button {
+    background-color: --accent-blue !important; /* Example: Bootstrap secondary grey */
+    color: white !important;
+    padding: 10px 20px !important; /* Different padding */
+    text-align: center !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    font-size: 14px !important; /* Different font size */
+    margin: 4px 2px !important;
+    cursor: pointer !important;
+    border-radius: 8px !important; /* Different radius */
+    border: 1px solid #6c757d !important; /* Subtle border */
+    transition: background-color 0.3s ease, transform 0.2s ease !important;
+}
+
+.st-key-back_home_button .stButton button:hover {
+    background-color: #5a6268 !important; /* Darker grey on hover */
+    transform: translateY(-1px);
+    box-shadow: none; /* No extra shadow */
 }
