@@ -10,10 +10,10 @@
     }
 
 
-/* Target button with multiple classes */
+/* Target button with multiple classes
 
 .stButton.st-emotion-cache-8atqhb.e1mlolmg0 button {
-    background-color: var(--accent-blue) !important;
+    background-color: var(--accent-grey) !important;
     color: white !important;
     padding: 15px 32px !important;
     text-align: center !important;
@@ -31,3 +31,4 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+ */

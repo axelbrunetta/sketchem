@@ -6,6 +6,7 @@ import logging
 from sketchem.utils.back_button import back_button
 from sketchem.utils.create_category import check_category_is_default, generate_new_category
 import os
+from streamlit_extras.stylable_container import stylable_container
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -53,7 +54,7 @@ def render_multiplayer_setup():
     """Renders the multiplayer setup page"""
 
     
-    with open('/mount/src/sketchem/src/sketchem/pages/multiplayer_setup_styling.css') as f:
+    with open('/mount/src/sketchem/src/sketchem/pages/style/multiplayer_setup_styling.css') as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
         
     back_button(destination=None, label="Back to Home") #Display back button at the top left
@@ -125,9 +126,34 @@ def render_multiplayer_setup():
                     st.rerun() #Closes the modal view
 
             
-            
-            if st.button("Create a molecule category"):
-                openModal()
+            with stylable_container(
+            key="join_game_container",
+            css_styles="""
+                button:not([disabled]) {
+                    background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
+                    background-size: 200% 100% !important;
+                    color: white !important;
+                    padding: 15px 32px !important;
+                    font-size: 16px !important;
+                    font-weight: bold !important;
+                    border-radius: 12px !important;
+                    transition: all 0.5s ease !important;
+                    border: none !important;
+                }
+                button:hover:not([disabled]) {
+                    background-position: 100% 0 !important;
+                    transform: translateY(-2px) !important;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+                }
+                button[disabled] {
+                    background-color: #cccccc !important;
+                    color: #666666 !important;
+                    cursor: not-allowed !important;
+                }
+            """
+            ):
+                if st.button("Create a molecule category"):
+                    openModal()
 
             
 
