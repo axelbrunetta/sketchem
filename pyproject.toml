@@ -22,7 +22,6 @@ streamlit-drawable-canvas = "*"
 python-dotenv = "*"
 google-genai = "*"
 streamlit-extras = "*"
-streamlit-elements = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
