@@ -152,12 +152,12 @@ def render_multiplayer_setup():
             
 
 
-            with stylable_container(
-            key="join_game_container",
-            css_styles=GRADIENT_BUTTON_CSS
-            ):
-                if st.button("Create a molecule category using AI", key="create_category_button"):
-                    openModal()
+            #with stylable_container(
+            #key="join_game_container",
+            #css_styles=GRADIENT_BUTTON_CSS
+            #):
+            if st.button("Create a molecule category using AI", key="create_category_button"):
+                openModal()
 
             st.divider()
 

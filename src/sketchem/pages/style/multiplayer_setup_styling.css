@@ -33,22 +33,27 @@
 } */
 
 div.stElementContainer.element-container.st-key-create_category_button.st-emotion-cache-17lr0tt.e1lln2w81 button {
-    background-color: --accent-blue !important; /* Example: Bootstrap secondary grey */
+    background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
+    background-size: 200% 100% !important;
     color: white !important;
-    padding: 10px 20px !important; /* Different padding */
-    text-align: center !important;
-    text-decoration: none !important;
-    display: inline-block !important;
-    font-size: 14px !important; /* Different font size */
-    margin: 4px 2px !important;
-    cursor: pointer !important;
-    border-radius: 8px !important; /* Different radius */
-    border: 1px solid #6c757d !important; /* Subtle border */
-    transition: background-color 0.3s ease, transform 0.2s ease !important;
+    padding: 15px 32px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 12px !important;
+    border: none !important;
+
+    
+    transition: background-position 0.5s ease,
+                transform 0.3s ease, 
+                box-shadow 0.3s ease !important;
 }
 
 div.stElementContainer.element-container.st-key-create_category_button.st-emotion-cache-17lr0tt.e1lln2w81 button:hover {
-    background-color: #5a6268 !important; /* Darker grey on hover */
-    transform: translateY(-1px);
-    box-shadow: none; /* No extra shadow */
+    background-position: 100% 0 !important;
+
+                    
+                    
+    transform: scale(1.05) !important; 
+    
+    box-shadow: 0 0 20px 5px rgba(77, 166, 255, 0.6) !important;
 }
