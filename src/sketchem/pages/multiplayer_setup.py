@@ -104,6 +104,10 @@ def render_multiplayer_setup():
 
             st.divider()
 
+            # Molecule category selection
+            st.markdown("### Molecule Category")
+
+
             # Function to increment the counter when a new category is added
             def increment_category_counter():
                 st.session_state.category_update_counter += 1
@@ -125,15 +129,8 @@ def render_multiplayer_setup():
                     st.rerun() #Closes the modal view
 
             
-            with stylable_container(
-            key="join_game_container",
-            css_styles=GRADIENT_BUTTON_CSS
-            ):
-                if st.button("Create a molecule category using AI"):
-                    openModal()
 
-            # Molecule category selection
-            st.markdown("### Select Molecule Category")
+            
 
             # Create a new list with all categories
             all_categories = list(MOLECULE_CATEGORIES.keys())
@@ -145,13 +142,24 @@ def render_multiplayer_setup():
             #Select a category
             
             # Use the combined list for the selectbox
+            st.markdown("Select a molecule category:")
             selected_category = st.selectbox( 
-                "Choose a category:",
+                "",
                 options=all_categories,
                 index=all_categories.index(st.session_state.selected_molecule_category) if  not st.session_state.category_is_default else 0,
                 key=f"molecule_category_{st.session_state.get('category_update_counter', 0)}"
             ) #Now automatically selects the last created category (when created using AI)
             
+
+            st.markdown("or")
+
+            with stylable_container(
+            key="join_game_container",
+            css_styles=GRADIENT_BUTTON_CSS
+            ):
+                if st.button("Create a molecule category using AI"):
+                    openModal()
+
             # Clear the last_created_category after using it and update the selected category
             if hasattr(st.session_state, 'last_created_category'):
                 
