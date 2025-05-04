@@ -5,8 +5,6 @@ from streamlit.logger import get_logger
 import logging
 from sketchem.utils.back_button import back_button
 from sketchem.utils.create_category import check_category_is_default, generate_new_category
-from streamlit_extras.stylable_container import stylable_container
-from sketchem.pages.style.gradient_button_css import GRADIENT_BUTTON_CSS
 from streamlit_extras.stoggle import stoggle
 
 logger = get_logger(__name__)
@@ -152,10 +150,7 @@ def render_multiplayer_setup():
             
 
 
-            #with stylable_container(
-            #key="join_game_container",
-            #css_styles=GRADIENT_BUTTON_CSS
-            #):
+            
             if st.button("Create a molecule category using AI", key="create_category_button"):
                 openModal()
 
