@@ -27,44 +27,44 @@ def fancy_gradient_button(label, key=None, color1="#FF4B4B", color2="#FFB47B", t
     <style>
     .fancy-gradient-button-container.{button_id} div[data-testid="stButton"] > button {{
         /* Gradient Background */
-        background-image: linear-gradient(to right, {color1} 0%, {color2} 51%, {color1} 100%);
-
+        background-image: linear-gradient(to right, {color1} 0%, {color2} 51%, {color1} 100%) !important;
+        
         /* Text Styling */
-        color: {text_color};
-        font-size: 16px;        /* Adjust font size */
-        font-weight: bold;      /* Make text bold */
-        text-align: center;     /* Center text */
-        text-decoration: none;  /* Remove underline */
+        color: {text_color} !important;
+        font-size: 16px !important;        /* Adjust font size */
+        font-weight: bold !important;      /* Make text bold */
+        text-align: center !important;     /* Center text */
+        text-decoration: none !important;  /* Remove underline */
 
         /* Button Shape and Size */
-        padding: 12px 25px;     /* Top/bottom and left/right padding */
-        border-radius: 10px;    /* Rounded corners */
-        border: none;           /* Remove default border */
-        display: inline-block;  /* Allow padding and width */
+        padding: 12px 25px !important;     /* Top/bottom and left/right padding */
+        border-radius: 10px !important;    /* Rounded corners */
+        border: none !important;           /* Remove default border */
+        display: inline-block !important;  /* Allow padding and width */
 
         /* Interaction */
-        cursor: pointer;        /* Hand cursor on hover */
-        transition: 0.5s;       /* Smooth transition for hover effects */
-        background-size: 200% auto; /* Crucial for the gradient shift hover effect */
+        cursor: pointer !important;        /* Hand cursor on hover */
+        transition: 0.5s !important;       /* Smooth transition for hover effects */
+        background-size: 200% auto !important; /* Crucial for the gradient shift hover effect */
 
         /* Optional: Add a shadow for depth */
-        box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75); /* Adjust color and spread as needed */
+        box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75) !important; /* Adjust color and spread as needed */
     }}
 
     /* Hover Effect: Shift the background gradient */
     .fancy-gradient-button-container.{button_id} div[data-testid="stButton"] > button:hover {{
-        background-position: right center; /* Move gradient position */
-        color: {text_color};             /* Ensure text color stays */
-        text-decoration: none;         /* Ensure no underline on hover */
+        background-position: right center !important; /* Move gradient position */
+        color: {text_color} !important;             /* Ensure text color stays */
+        text-decoration: none !important;         /* Ensure no underline on hover */
         /* Optional: Enhance shadow on hover */
-        box-shadow: 0 6px 20px 0 rgba(116, 79, 168, 0.85);
+        box-shadow: 0 6px 20px 0 rgba(116, 79, 168, 0.85) !important;
     }}
 
     /* Active/Click Effect: Slight press down */
     .fancy-gradient-button-container.{button_id} div[data-testid="stButton"] > button:active {{
-        transform: translateY(1px); /* Move button down slightly */
+        transform: translateY(1px) !important; /* Move button down slightly */
         /* Optional: Reduce shadow on press */
-        box-shadow: 0 2px 10px 0 rgba(116, 79, 168, 0.65);
+        box-shadow: 0 2px 10px 0 rgba(116, 79, 168, 0.65) !important;
     }}
     </style>
     """
