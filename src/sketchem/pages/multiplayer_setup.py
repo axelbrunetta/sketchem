@@ -6,6 +6,7 @@ import logging
 from sketchem.utils.back_button import back_button
 from sketchem.utils.create_category import check_category_is_default, generate_new_category
 from sketchem.pages.waiting_room import st_horizontal
+from sketchem.utils.fancy_gradient_button import fancy_gradient_button
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -121,8 +122,13 @@ def render_multiplayer_setup():
                     st.rerun() #Closes the modal view
 
             
-            
-            if st.button("Create a molecule category"):
+            if fancy_gradient_button(
+                label="Create a molecule category using AI",     
+                key="fancy_create_mol_cat",       # Unique key
+                color1="#00c6ff",         
+                color2="#0072ff",         
+                text_color="white"        
+            ):
                 openModal()
 
             
