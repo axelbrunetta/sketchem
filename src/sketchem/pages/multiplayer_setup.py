@@ -102,8 +102,7 @@ def render_multiplayer_setup():
             
             st.session_state.enable_hints = st.toggle("Enable hints")
 
-            # Molecule category selection
-            st.markdown("### Select Molecule Category")
+            st.divider()
 
             # Function to increment the counter when a new category is added
             def increment_category_counter():
@@ -132,47 +131,48 @@ def render_multiplayer_setup():
                 
                 button:not([disabled]) {
     
-    background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
-    background-size: 200% 100% !important;
-    color: white !important;
-    padding: 15px 32px !important;
-    font-size: 16px !important;
-    font-weight: bold !important;
-    border-radius: 12px !important;
-    border: none !important;
+                    background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
+                    background-size: 200% 100% !important;
+                    color: white !important;
+                    padding: 15px 32px !important;
+                    font-size: 16px !important;
+                    font-weight: bold !important;
+                    border-radius: 12px !important;
+                    border: none !important;
 
-    
-    transition: background-position 0.5s ease,
-                transform 0.3s ease, 
-                box-shadow 0.3s ease !important;
-}
+                    
+                    transition: background-position 0.5s ease,
+                                transform 0.3s ease, 
+                                box-shadow 0.3s ease !important;
+                }
 
 
-button:is(:hover, :focus-visible):not([disabled]) {
-    
-    background-position: 100% 0 !important;
+                button:is(:hover, :focus-visible):not([disabled]) {
+                    
+                    background-position: 100% 0 !important;
 
-    
-    
-    transform: scale(1.05) !important; 
-    
-    box-shadow: 0 0 20px 5px rgba(77, 166, 255, 0.6) !important;
-  
+                    
+                    
+                    transform: scale(1.05) !important; 
+                    
+                    box-shadow: 0 0 20px 5px rgba(77, 166, 255, 0.6) !important;
+                
 
-}
+                }
 
-button[disabled] {
-   
-    background-color: #cccccc !important;
-    color: #666666 !important;
-    cursor: not-allowed !important;
-}
+                button[disabled] {
+                
+                    background-color: #cccccc !important;
+                    color: #666666 !important;
+                    cursor: not-allowed !important;
+                }
             """
             ):
                 if st.button("Create a molecule category using AI"):
                     openModal()
 
-            
+            # Molecule category selection
+            st.markdown("### Select Molecule Category")
 
             # Create a new list with all categories
             all_categories = list(MOLECULE_CATEGORIES.keys())
