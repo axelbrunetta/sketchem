@@ -9,179 +9,11 @@
         --highlight: #e6f3ff;
     }
 
-/* Main container styling */
-div.st-emotion-cache-16txtl3 {
-        margin-bottom: 1.5rem;
-    }
-    
-    /* Page title styling */
-    div.st-emotion-cache-q8sbsg p {
-        color: var(--accent-blue);
-        margin-bottom: 2rem;
-        text-align: center;
-        font-size: 2.2rem;
-        font-weight: 600;
-    }
-    
-    /* Back button styling */
-    div.st-emotion-cache-1r6slb0 {
-        width: auto !important;
-        display: inline-block !important;
-        margin-bottom: 1.5rem;
-        color: var(--accent-blue);
-    }
-    
-    div.st-emotion-cache-1r6slb0 button {
-        background-color: var(--accent-grey) !important;
-        color: white !important;
-        padding: 0.4rem 1rem !important;
-        border-radius: 8px !important;
-        font-size: 0.9rem !important;
-        transition: all 0.3s ease !important;
-    }
-    
-    div.st-emotion-cache-1r6slb0 button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
-        background-color: #3d4852 !important;
-    }
-    
-    /* Player name input styling */
-    div.st-emotion-cache-1kyxreq input {
-        border-radius: 8px !important;
-        border: 2px solid var(--accent-blue) !important;
-        padding: 0.8rem !important;
-        transition: all 0.3s ease !important;
-    }
-    
-    div.st-emotion-cache-1kyxreq input:focus {
-        border-color: var(--accent-blue) !important;
-        box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2) !important;
-    }
-    
-    /* Section headers styling */
-    div.st-emotion-cache-10trblm {
-        color: var(--accent-blue);
-        margin: 1.5rem 0 1rem 0;
-        font-size: 1.5rem;
-        border-bottom: 2px solid var(--highlight);
-        padding-bottom: 0.5rem;
-    }
-    
-    /* Slider styling */
-    div.st-emotion-cache-1qg05tj [role="slider"] {
-        background-color: var(--accent-blue) !important;
-        border: 2px solid white !important;
-    }
-    
-    div.st-emotion-cache-1qg05tj [data-testid="stSliderThumbValue"] {
-        background-color: var(--accent-blue) !important;
-        color: white !important;
-        font-weight: bold !important;
-    }
-    
-    /* Checkbox styling */
-    div.st-emotion-cache-1inwz65 label {
-        cursor: pointer !important;
-    }
-    
-    div.st-emotion-cache-1inwz65 label div.st-emotion-cache-1bkkxhp {
-        border-color: var(--accent-blue) !important;
-    }
-    
-    /* Selectbox styling */
-    div.st-emotion-cache-13lcgu3 [data-baseweb="select"] {
-        border-radius: 8px !important;
-    }
-    
-    div.st-emotion-cache-13lcgu3 [data-baseweb="select"] > div {
-        border: 2px solid var(--accent-blue) !important;
-        border-radius: 8px !important;
-    }
-    
-    /* Molecule list styling */
-    div.st-emotion-cache-q8sbsg ul {
-        margin-top: 0.5rem !important;
-        margin-bottom: 0.5rem !important;
-    }
-    
-    div.st-emotion-cache-q8sbsg ul li {
-        margin-bottom: 0.3rem !important;
-        color: var(--accent-grey) !important;
-    }
-    
-    /* Create/Join Game buttons styling */
-    div.st-emotion-cache-1eacrzsi2 button {
-        background-color: var(--accent-blue) !important;
-        color: white !important;
-        border-radius: 8px !important;
-        padding: 0.8rem 1.5rem !important;
-        font-weight: 600 !important;
-        transition: all 0.3s ease !important;
-        margin-top: 1.5rem !important;
-        width: 100% !important;
-    }
-    
-    div.st-emotion-cache-1eacrzsi2 button:hover:not([disabled]) {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
-        background-color: #0055b3 !important;
-    }
-    
-    div.st-emotion-cache-1eacrzsi2 button[disabled] {
-        background-color: #cccccc !important;
-        cursor: not-allowed !important;
-    }
-    
-    /* Divider styling */
-    div.st-emotion-cache-q8sbsg hr {
-        border-color: var(--highlight) !important;
-        margin: 2rem 0 !important;
-    }
-    
-    /* Column layout improvements */
-    div.st-emotion-cache-7ym5gk > div.st-emotion-cache-16idsys {
-        border-right: 1px solid var(--highlight);
-        padding-right: 2rem;
-    }
-    
-    div.st-emotion-cache-7ym5gk > div.st-emotion-cache-16idsys:last-child {
-        padding-left: 2rem;
-        border-right: none;
-    }
-    
-    /* Error message styling */
-    div.st-emotion-cache-16idsys .stAlert {
-        border-radius: 8px !important;
-        margin-top: 1rem !important;
-    }
-    
-    /* Game code input styling */
-    div.st-emotion-cache-1wmy9hl input {
-        font-family: monospace !important;
-        letter-spacing: 0.2em !important;
-        text-align: center !important;
-        font-size: 1.2rem !important;
-        border: 2px solid var(--accent-blue) !important;
-        border-radius: 8px !important;
-    }
-    
-    /* Expander styling */
-    div.st-emotion-cache-1r6slb0 details {
-        border-radius: 8px !important;
-        border: 1px solid var(--highlight) !important;
-        padding: 0.5rem !important;
-    }
-    
-    div.st-emotion-cache-1r6slb0 summary {
-        font-weight: 600 !important;
-        color: var(--accent-blue) !important;
-    }
 
 /* Target button with multiple classes */
 
 .stButton.st-emotion-cache-8atqhb.e1mlolmg0 button {
-    background-color: #4CAF50 !important;
+    background-color: var(--accent-blue) !important;
     color: white !important;
     padding: 15px 32px !important;
     text-align: center !important;
@@ -191,4 +23,10 @@ div.st-emotion-cache-16txtl3 {
     margin: 4px 2px !important;
     cursor: pointer !important;
     border-radius: 12px !important;
+    border: 2px solid transparent !important;
+    transition: border-color 0.3s ease !important;
+}
+
+.stButton.st-emotion-cache-8atqhb.e1mlolmg0 button:hover {
+    border-color: var(--accent-grey) !important;
 }
