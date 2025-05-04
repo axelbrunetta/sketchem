@@ -124,3 +124,62 @@ div.stElementContainer.element-container.st-key-join_game_button.st-emotion-cach
     transform: none !important;
     box-shadow: none !important;
 }
+
+
+/* New game button styling */
+
+div.stElementContainer.element-container.st-key-new_game_buttonst-emotion-cache-83erdr.e1lln2w81 button {
+    background-color: var(--accent-grey) !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 8px !important;
+    border: none !important;
+    transition: background-color 0.3s ease !important;
+}
+
+div.stElementContainer.element-container.st-key-new_game_buttonst-emotion-cache-83erdr.e1lln2w81 button:hover {
+    background-color: #3a444d !important; /* Slightly darker grey on hover */
+}
+
+/* Text input styling */
+div.stElementContainer.element-container.st-key-player_name_input.st-emotion-cache-17lr0tt.e1lln2w81 [data-testid="stTextInputRootElement"] {
+    background-color: var(--secondary-bg) !important;
+    border: 2px solid var(--accent-grey) !important;
+    border-radius: 8px !important;
+    padding: 2px !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+div.stElementContainer.element-container.st-key-player_name_input.st-emotion-cache-17lr0tt.e1lln2w81 [data-testid="stTextInputRootElement"]:focus-within {
+    border-color: var(--accent-blue) !important;
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.4) !important;
+}
+
+div.stElementContainer.element-container.st-key-player_name_input.st-emotion-cache-17lr0tt.e1lln2w81 input {
+    font-size: 16px !important;
+    color: #333 !important;
+}
+
+/* Game code input styling */
+div.stElementContainer.element-container.st-key-game_code_input.st-emotion-cache-17lr0tt.e1lln2w81 [data-testid="stTextInputRootElement"] {
+    background-color: var(--secondary-bg) !important;
+    border: 2px solid var(--accent-grey) !important;
+    border-radius: 8px !important;
+    padding: 2px !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+div.stElementContainer.element-container.st-key-game_code_input.st-emotion-cache-17lr0tt.e1lln2w81 [data-testid="stTextInputRootElement"]:focus-within {
+    border-color: var(--accent-blue) !important;
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.4) !important;
+}
+
+div.stElementContainer.element-container.st-key-game_code_input.st-emotion-cache-17lr0tt.e1lln2w81 input {
+    font-size: 16px !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    color: #333 !important;
+}
