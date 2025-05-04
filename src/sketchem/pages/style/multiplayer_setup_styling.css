@@ -197,37 +197,3 @@ div[data-testid="stSlider"] [data-baseweb="slider"] div[role="slider"] {
     height: 0 !important;
     width: 0 !important;
 }
-
-/* Style the track container */
-div[data-testid="stSlider"] [data-baseweb="slider"] div[data-testid="stSliderBase"] {
-    height: 12px !important;
-    background-color: #e0e0e0 !important; /* Light gray background */
-    border-radius: 6px !important;
-    border: none !important;
-}
-
-/* Style the filled portion of the track */
-div[data-testid="stSlider"] [data-baseweb="slider"] div[data-testid="stSliderTrack"] {
-    height: 12px !important;
-    background: linear-gradient(90deg, var(--accent-blue), #4da6ff) !important;
-    border-radius: 6px !important;
-    border: none !important;
-    transition: width 0.2s ease !important;
-}
-
-/* Slider thumb value display */
-div[data-testid="stSlider"] [data-testid="stSliderThumbValue"] {
-    background-color: var(--accent-blue) !important;
-    color: white !important;
-    font-weight: bold !important;
-    padding: 2px 8px !important;
-    border-radius: 4px !important;
-    margin-top: -25px !important; /* Position above the slider */
-}
-
-/* Slider tick bar styling */
-div[data-testid="stSlider"] [data-testid="stSliderTickBar"] {
-    color: var(--accent-grey) !important;
-    font-weight: bold !important;
-    margin-top: 5px !important;
-}
