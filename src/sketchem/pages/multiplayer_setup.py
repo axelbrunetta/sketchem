@@ -53,9 +53,62 @@ def handle_create_game(player_name: str):
 
 def render_multiplayer_setup():
     """Renders the multiplayer setup page"""
-
-    with open('/mount/src/sketchem/src/sketchem/pages/style/multiplayer_setup_styling.css') as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    
+    # Custom CSS for different button styles
+    custom_button_css = """
+    <style>
+        /* New Game Button */
+        [data-testid="stButton"] button:nth-of-type(1) {
+            background-color: #4CAF50 !important;
+            color: white !important;
+            transition: transform 0.3s, box-shadow 0.3s !important;
+        }
+        [data-testid="stButton"] button:nth-of-type(1):hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4) !important;
+        }
+        
+        /* Create Category Button */
+        div[data-testid="stButton"]:has(button:contains("Create a molecule category using AI")) button {
+            background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
+            background-size: 200% 100% !important;
+            transition: background-position 0.5s, transform 0.3s, box-shadow 0.3s !important;
+        }
+        div[data-testid="stButton"]:has(button:contains("Create a molecule category using AI")) button:hover {
+            background-position: 100% 0 !important;
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 20px 5px rgba(77, 166, 255, 0.6) !important;
+        }
+        
+        /* Create New Game Button */
+        div[data-testid="stButton"]:has(button:contains("Create New Game")) button {
+            background-color: #9C27B0 !important;
+            color: white !important;
+            transition: all 0.3s ease !important;
+        }
+        div[data-testid="stButton"]:has(button:contains("Create New Game")) button:hover {
+            background-color: #7B1FA2 !important;
+            letter-spacing: 1px !important;
+            box-shadow: 0 8px 15px rgba(156, 39, 176, 0.3) !important;
+        }
+        
+        /* Join Game Button */
+        div[data-testid="stButton"]:has(button:contains("Join Game")) button {
+            background-color: #FF9800 !important;
+            color: white !important;
+            transition: all 0.3s ease !important;
+        }
+        div[data-testid="stButton"]:has(button:contains("Join Game")) button:hover {
+            background-color: #F57C00 !important;
+            border-radius: 25px !important;
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4) !important;
+        }
+    </style>
+    """
+    st.markdown(custom_button_css, unsafe_allow_html=True)
+    
+    #with open('/mount/src/sketchem/src/sketchem/pages/style/multiplayer_setup_styling.css') as f:
+       # st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     
     back_button(destination=None, label="Back to Home") #Display back button at the top left
 
