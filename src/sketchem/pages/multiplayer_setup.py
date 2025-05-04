@@ -129,30 +129,247 @@ def render_multiplayer_setup():
             with stylable_container(
             key="join_game_container",
             css_styles="""
-                button:not([disabled]) {
-                    background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
-                    background-size: 200% 100% !important;
-                    color: white !important;
-                    padding: 15px 32px !important;
-                    font-size: 16px !important;
-                    font-weight: bold !important;
-                    border-radius: 12px !important;
-                    transition: all 0.5s ease !important;
-                    border: none !important;
-                }
-                button:hover:not([disabled]) {
-                    background-position: 100% 0 !important;
-                    transform: translateY(-2px) !important;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
-                }
-                button[disabled] {
-                    background-color: #cccccc !important;
-                    color: #666666 !important;
-                    cursor: not-allowed !important;
-                }
+                *,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--transition: 0.25s;
+	--spark: 1.8s;
+	/* --active is now controlled purely by :has() or button state */
+}
+
+body {
+	--active: 0; /* Default state */
+	background: hsl(
+		260
+		calc(var(--active) * 97%) /* Only becomes purple when --active is 1 */
+		6%
+	);
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: system-ui, sans-serif;
+	transition: background var(--transition);
+	overflow: hidden; /* Keep to prevent scrollbars if button scales near edge */
+}
+
+/* --- Use :has() to activate body background --- */
+/* Supported in modern browsers */
+@supports(selector(:has(:is(+ *)))) {
+	body:has(.sparkle-button button:is(:hover, :focus-visible)) {
+		--active: 1; /* Activate background change */
+	}
+}
+/* Fallback for browsers without :has() - body won't change color */
+
+
+button {
+	--cut: 0.1em;
+	/* --active will be 1 on hover/focus */
+	--active: 0;
+	--bg:
+		radial-gradient(
+			40% 50% at center 100%,
+			hsl(270 calc(var(--active) * 97%) 72% / var(--active)), /* Only visible when --active is 1 */
+			transparent
+		),
+		radial-gradient(
+			80% 100% at center 120%,
+			hsl(260 calc(var(--active) * 97%) 70% / var(--active)), /* Only visible when --active is 1 */
+			transparent
+		),
+		hsl(260 calc(var(--active) * 97%) calc((var(--active) * 44%) + 12%)); /* Base color changes */
+	background: var(--bg);
+	font-size: 2rem;
+	font-weight: 500;
+	color: hsl(0 0% 95%); /* Set a base text color */
+	border: 0;
+	cursor: pointer;
+	padding: 0.9em 1.3em;
+	display: flex;
+	align-items: center;
+	gap: 0.25em;
+	white-space: nowrap;
+	border-radius: 100px;
+	position: relative;
+	box-shadow:
+		0 0 calc(var(--active) * 6em) calc(var(--active) * 3em) hsl(260 97% 61% / 0.75), /* Glow on active */
+		0 0.05em 0 0 hsl(260 calc(var(--active) * 97%) calc((var(--active) * 50%) + 30%)) inset, /* Inner highlight */
+		0 -0.05em 0 0 hsl(260 calc(var(--active) * 97%) calc(var(--active) * 60%)) inset; /* Inner shadow */
+	transition: box-shadow var(--transition), scale var(--transition), background var(--transition);
+	scale: calc(1 + (var(--active) * 0.1)); /* Scale up on active */
+}
+
+/* Set --active directly on the button for its internal styles */
+button:is(:hover, :focus-visible) {
+	--active: 1;
+}
+
+button:active {
+  /* Slightly reduce scale on click for feedback */
+  scale: calc(1 + (var(--active) * 0.08));
+}
+
+svg {
+	overflow: visible !important; /* Important for bounce effect */
+}
+
+.sparkle {
+    inline-size: 1.25em;
+	translate: -25% -5%; /* Position icon */
+}
+
+.sparkle path {
+    /* Color changes based on button's --active state */
+	color: hsl(0 0% calc((var(--active, 0) * 70%) + var(--base, 40%))); /* Default --base added */
+	transform-box: fill-box;
+	transform-origin: center;
+	fill: currentColor;
+	stroke: currentColor;
+	animation-delay: calc((var(--transition) * 1.5) + (var(--delay) * 1s));
+	animation-duration: 0.6s;
+    /* Add animation fill mode to keep final state if needed, though bounce loops back */
+    animation-fill-mode: both;
+	transition: color var(--transition);
+}
+
+/* Trigger bounce only when button is hovered/focused */
+button:is(:hover, :focus-visible) .sparkle path {
+	animation-name: bounce;
+}
+
+@keyframes bounce {
+	35%, 65% {
+		scale: var(--scale);
+	}
+}
+.sparkle path:nth-of-type(1) {
+	--scale: 0.5;
+	--delay: 0.1;
+	--base: 40%;
+}
+
+.sparkle path:nth-of-type(2) {
+	--scale: 1.5;
+	--delay: 0.2;
+	--base: 20%;
+}
+
+.sparkle path:nth-of-type(3) {
+	--scale: 2.5;
+	--delay: 0.35;
+	--base: 30%;
+}
+
+/* --- Rotating Border Effect --- */
+
+.spark {
+	position: absolute;
+	inset: 0;
+	border-radius: 100px;
+	rotate: 0deg;
+	overflow: hidden;
+	mask: linear-gradient(white, transparent 50%);
+    /* Only run animation when button is active */
+	animation: flip calc(var(--spark) * 2) infinite steps(2, end);
+    animation-play-state: paused; /* Pause by default */
+}
+
+button:is(:hover, :focus-visible) .spark {
+    animation-play-state: running; /* Play on hover/focus */
+}
+
+
+@keyframes flip {
+	to {
+		rotate: 360deg;
+	}
+}
+
+.spark:before {
+	content: "";
+	position: absolute;
+	width: 200%;
+	aspect-ratio: 1;
+	top: 0%;
+	left: 50%;
+	z-index: -1;
+	translate: -50% -15%;
+	rotate: 0;
+	transform: rotate(-90deg);
+    /* Opacity based on button active state */
+	opacity: calc((var(--active)) + 0.4); /* Use button's --active */
+	background: conic-gradient(
+		from 0deg,
+		transparent 0 340deg,
+		white 360deg /* Sparkle color */
+	);
+	transition: opacity var(--transition);
+    /* Only run animation when button is active */
+	animation: rotate var(--spark) linear infinite both;
+    animation-play-state: paused; /* Pause by default */
+}
+
+button:is(:hover, :focus-visible) .spark:before {
+    animation-play-state: running; /* Play on hover/focus */
+}
+
+
+.spark:after {
+	content: "";
+	position: absolute;
+	inset: var(--cut); /* Use the button's cut variable */
+	border-radius: 100px;
+    /* Add background to clip the conic gradient */
+    background: hsl(260 0% 12%); /* Match initial button bg color */
+     /* Change background with button state */
+    background: hsl(260 calc(var(--active) * 97%) calc((var(--active) * 44%) + 12%));
+    transition: background var(--transition);
+}
+
+.backdrop {
+	position: absolute;
+	inset: var(--cut); /* Use the button's cut variable */
+	background: var(--bg); /* Use the same complex background as the button */
+	border-radius: 100px;
+	transition: background var(--transition);
+    z-index: 1; /* Ensure backdrop is above the spark:before */
+}
+
+@keyframes rotate {
+	to {
+		transform: rotate(90deg);
+	}
+}
+
+/* --- Text Styling --- */
+.text {
+	translate: 2% -6%; /* Slight adjustment */
+	letter-spacing: 0.01ch;
+    /* Gradient changes based on button's --active state */
+	background: linear-gradient(90deg,
+        hsl(0 0% calc((var(--active) * 100%) + 65%)), /* Brightens on active */
+        hsl(0 0% calc((var(--active) * 100%) + 26%))  /* Brightens on active */
+    );
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	transition: background var(--transition);
+    z-index: 2; /* Ensure text is above backdrop */
+    position: relative; /* Needed for z-index */
+}
+
+
+/* --- Main Container (Optional but good practice) --- */
+.sparkle-button {
+	position: relative; /* Establishes stacking context */
+}
             """
             ):
-                if st.button("Create a molecule category"):
+                if st.button("Create a molecule category using AI"):
                     openModal()
 
             
