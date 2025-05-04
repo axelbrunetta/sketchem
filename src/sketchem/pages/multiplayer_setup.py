@@ -181,8 +181,8 @@ def render_multiplayer_setup():
                         molecule_list += f"- {molecule}\n"
                 
                 stoggle(
-                f"**Molecules in {selected_category}:**",
-                f"""{molecule_list}""",
+                f"Molecules in {selected_category}:",
+                f"{molecule_list}",
                 ) 
 
             create_disabled = selected_category is None #Disable button below if no category selected
