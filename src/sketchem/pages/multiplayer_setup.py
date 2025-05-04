@@ -58,12 +58,12 @@ def render_multiplayer_setup():
     custom_button_css = """
     <style>
         /* New Game Button */
-        [data-testid="stButton"] button:nth-of-type(1) {
+        div[data-testid="stButton"]:has(button:contains("New Game")) button{
             background-color: #4CAF50 !important;
             color: white !important;
             transition: transform 0.3s, box-shadow 0.3s !important;
         }
-        [data-testid="stButton"] button:nth-of-type(1):hover {
+        div[data-testid="stButton"]:has(button:contains("New Game")) button:hover {
             transform: translateY(-3px) !important;
             box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4) !important;
         }
