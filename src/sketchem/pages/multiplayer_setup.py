@@ -54,6 +54,8 @@ def handle_create_game(player_name: str):
 def render_multiplayer_setup():
     """Renders the multiplayer setup page"""
 
+    with open('/mount/src/sketchem/src/sketchem/pages/style/multiplayer_setup_styling.css') as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     
     back_button(destination=None, label="Back to Home") #Display back button at the top left
 
@@ -148,7 +150,6 @@ def render_multiplayer_setup():
             ) #Now automatically selects the last created category (when created using AI)
             
 
-            st.markdown("or")
 
             with stylable_container(
             key="join_game_container",
@@ -175,15 +176,18 @@ def render_multiplayer_setup():
                 molecule_list = ""
                 if st.session_state.category_is_default:
                     for molecule in MOLECULE_CATEGORIES[selected_category].keys(): #display category if default
-                        molecule_list += f"- {molecule}\n"
+                        molecule_list += f"- {molecule}<br>"
                 else:
                     for molecule in st.session_state.additional_categories[selected_category].keys(): #display category if ai generated
-                        molecule_list += f"- {molecule}\n"
+                        molecule_list += f"- {molecule}<br>"
                 
                 stoggle(
                 f"Molecules in {selected_category}:",
                 f"{molecule_list}",
-                ) 
+                unsafe_allow_html=True
+                )
+
+            st.divider()
 
             create_disabled = selected_category is None #Disable button below if no category selected
             if st.button("Create New Game", use_container_width=True, disabled=create_disabled):
