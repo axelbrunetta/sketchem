@@ -6,6 +6,7 @@ import logging
 from sketchem.utils.back_button import back_button
 from sketchem.utils.create_category import check_category_is_default, generate_new_category
 from streamlit_extras.stoggle import stoggle
+from streamlit_elements import elements, mui, html
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -91,13 +92,37 @@ def render_multiplayer_setup():
         else:
             # Game settings 
             st.markdown("### Game Settings")
-            st.session_state.game_duration = st.slider(
-                "Game Duration (seconds)",
-                min_value=30,
-                max_value=180,
-                value=60,
-                step=10
-            )
+
+            
+            #New slider element
+            with elements("new_element"):
+
+                
+                if "game_duration" not in st.session_state:
+                    st.session_state.game_duration = 60
+                    
+               
+                def handle_slider_change(event, value):
+                    st.session_state.game_duration = value
+                mui.Typography("Game Duration (seconds)")
+                mui.Slider(
+                    min=30,
+                    max=180,
+                    step=10,
+                    defaultValue=st.session_state.game_duration,
+                    valueLabelDisplay="auto",
+                    marks=[
+                        {"value": 30, "label": "30s"},
+                        {"value": 60, "label": "1m"},
+                        {"value": 120, "label": "2m"},
+                        {"value": 180, "label": "3m"}
+                    ],
+                    onChange=handle_slider_change
+                )
+                
+                mui.Typography(f"Current duration: {st.session_state.game_duration} seconds")
+
+            
             
             st.session_state.enable_hints = st.toggle("Enable hints")
 
