@@ -53,7 +53,7 @@ def render_multiplayer_setup():
     """Renders the multiplayer setup page"""
 
     
-    with open('sketchem/src/sketchem/pages/multiplayer_setup_styling.css') as f:
+    with open('/mount/src/sketchem/src/sketchem/pages/multiplayer_setup_styling.css') as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
         
     back_button(destination=None, label="Back to Home") #Display back button at the top left
