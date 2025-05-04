@@ -52,9 +52,8 @@ def handle_create_game(player_name: str):
 def render_multiplayer_setup():
     """Renders the multiplayer setup page"""
 
-    current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Need to go up one level to reach the css file
-    css_path = os.path.join(current_dir, "styles.css")
-    with open(css_path) as f:
+    
+    with open('multiplayer_setup_styling.css') as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
         
     back_button(destination=None, label="Back to Home") #Display back button at the top left
