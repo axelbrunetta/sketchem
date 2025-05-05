@@ -11,7 +11,7 @@ def render_home_page():
     # Get the path to the banner image
     current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
     banner_path = os.path.join(current_dir, "banner2.PNG")
-    
+
     # Convert image to base64 for embedding in CSS
     def get_base64_of_bin_file(bin_file):
         """Convert binary file to base64 string for embedding in CSS"""
@@ -24,7 +24,7 @@ def render_home_page():
     <style>
     /* Remove default Streamlit padding */
     #root > div:first-child {{ padding-top: 0 !important; }}
-    
+
     /* Background image styling */
     .stApp {{
         background-image: url("data:image/png;base64,{get_base64_of_bin_file(banner_path)}");
@@ -36,7 +36,7 @@ def render_home_page():
         background-color: #f0f2f6;
         opacity: 0.85;
     }}
-    
+
     /* White container styling */
     .main .block-container {{
         background-color: rgba(255, 255, 255, 0.85);
@@ -48,7 +48,7 @@ def render_home_page():
         position: relative;
         top: 40vh;
     }}
-    
+
     /* Button styling */
     div[data-testid="stButton"] > button {{
         font-size: 1.1rem;
@@ -59,7 +59,7 @@ def render_home_page():
         padding: 1rem;
         transition: all 0.3s ease;
     }}
-    
+
     div[data-testid="stButton"] > button:hover {{
         background-color: #FF8C00;
         color: white;
@@ -70,7 +70,7 @@ def render_home_page():
     """, unsafe_allow_html=True)
 
     # Page content
-    st.markdown("<h2 style='text-align: center; margin-bottom: 20px; color: #333;'>Choose Game Mode</h2>", 
+    st.markdown("<h2 style='text-align: center; margin-bottom: 20px; color: #333;'>Choose Game Mode</h2>",
                 unsafe_allow_html=True)
 
     # Game mode selection buttons
@@ -80,10 +80,9 @@ def render_home_page():
             st.session_state.game_mode = "single_setup"
             st.rerun()
     with col2:
-        if st.button("Multiplayer", use_container_width=True):
-            st.session_state.game_mode = "multiplayer_setup"
-            st.rerun()
-
-    # Local development notice
-    if is_running_locally():
-        st.info("Note: Multiplayer functionality is limited in local development mode.")
+        if not is_running_locally():
+            if st.button("Multiplayer", use_container_width=True):
+                st.session_state.game_mode = "multiplayer_setup"
+                st.rerun()
+        else:
+            st.info("Multiplayer is only available in the deployed version (Using Streamlit Cloud)")

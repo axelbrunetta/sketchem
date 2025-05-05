@@ -11,31 +11,37 @@ sketchem
 
 A molecular pictionary
 
-## 🔥 Usage
 
-```python
-from mypackage import main_func
 
-# One line to rule them all
-result = main_func(data)
-```
+## Environment 
 
-This usage example shows how to quickly leverage the package's main functionality with just one line of code (or a few lines of code). 
-After importing the `main_func` (to be renamed by you), you simply pass in your `data` and get the `result` (this is just an example, your package might have other inputs and outputs). 
-Short and sweet, but the real power lies in the detailed documentation.
-
-## 👩‍💻 Installation
-
-Create a new environment, you may also give the environment a different name. 
+Create a new environment, you may also give the environment a different name.
 
 ```
-conda create -n sketchem python=3.10 
+conda create -n sketchem python=3.10
 ```
 
 ```
 conda activate sketchem
 (conda_env) $ pip install .
 ```
+
+## Requirements
+
+### DECIMER
+The DECIMER Canonical model for molecule recognition will be automatically downloaded during installation. If you need to manually trigger the model download, you can run:
+
+```bash
+sketchem-setup
+
+```
+### Gemini AI
+
+To use the Gemini AI for molecule recognition, you need to set up your Google Generative AI API key. Go to [Google Generative AI](https://aistudio.google.com/app/apikey) and create an API key. 
+
+
+
+### JUPYTER
 
 If you need jupyter lab, install it 
 
@@ -44,31 +50,35 @@ If you need jupyter lab, install it
 ```
 
 
-## 🛠️ Development installation
 
-Initialize Git (only for the first time). 
+## How to deploy on Streamlit Cloud
 
-Note: You should have create an empty repository on `https://github.com:axelbrunetta/sketchem`.
 
+1. Fork or push this repository to your GitHub account
+2. Connect your repository to Streamlit Cloud
+3. Add the following secret in the Streamlit Cloud dashboard:
 ```
-git init
-git add * 
-git add .*
-git commit -m "Initial commit" 
-git branch -M main
-git remote add origin git@github.com:axelbrunetta/sketchem.git 
-git push -u origin main
+GEMINI_API_KEY = "your-gemini-api-key"
+```
+4. In you app's settings, change the python version to <3.12 as 3.12+ leads to issues with numpy
+
+
+## Local Development
+
+Keep in mind that mulptiplayer game mode is not available when running the app locally, it only works on the deployed version
+
+
+1. Create a `.env` file in the root of your project with:
+```
+GEMINI_API_KEY=your-gemini-api-key
 ```
 
-Then add and commit changes as usual. 
-
-To install the package, run
-
+2. Run the app:
 ```
-(sketchem) $ pip install -e ".[test,doc]"
+streamlit run src/sketchem/main.py
 ```
 
-### Run tests and coverage
+## Run tests and coverage
 
 ```
 (conda_env) $ pip install tox
