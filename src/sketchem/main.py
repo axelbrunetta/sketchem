@@ -4,6 +4,8 @@ from sketchem.pages.home_page import render_home_page
 from sketchem.pages.multiplayer_setup import render_multiplayer_setup
 from sketchem.pages.waiting_room import render_waiting_room
 from sketchem.utils.toast import display_queued_toast
+from sketchem.pages.game_page_single import render_game_page
+from sketchem.pages.game_page_multi import render_game_page_multi
 
 def main():
     st.set_page_config(page_title="Sketchem", layout="centered")
@@ -26,11 +28,9 @@ def main():
     elif st.session_state.game_mode in ["created_multi", "joined_multi"]: # reroute to waiting room for both host and joining players
         render_waiting_room()
     elif st.session_state.game_mode == "single":
-        # Render single player game here
-        pass
+        render_game_page()
     elif st.session_state.game_mode == "multiplayer":
-        # Render multiplayer game here
-        pass
+        render_game_page_multi()
 
 if __name__ == "__main__":
     main()

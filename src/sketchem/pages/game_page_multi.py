@@ -17,7 +17,7 @@ def save_canvas_as_image(canvas_data):
         return buf.getvalue()
     return None
 
-def render_game_page():
+def render_game_page_multi():
     back_button(destination=None, label="Leave game") #Display back button at the top left
     
     # Load custom CSS for some styling of the page -> gets a little messy with streamlit's light / dark mode stuff

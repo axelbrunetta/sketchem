@@ -1,0 +1,50 @@
+
+/* Eraser button styling */
+div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-1sh4lo6.eu6p4el1 button {
+        vertical-align: middle;
+        font-weight: 900;
+        background-color: #3a444d;
+        color: white ;
+        padding: 10px 20px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+        border: none !important;
+        transition: background-color 0.3s ease !important;
+    }
+
+    /* Eraser icon */
+div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-1sh4lo6.eu6p4el1 button:before {
+        font-family: 'Font Awesome 5 Free';
+        content: '\f12d';
+        display: inline-block;
+        padding-right: 3px;
+        vertical-align: middle;
+        font-weight: 900;
+        color: white ;
+} 
+
+    /* Pen button styling */
+div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-1sh4lo6.eu6p4el1 button {
+        vertical-align: middle;
+        font-weight: 900;
+        background-color: #3a444d;
+        color: white ;
+        padding: 10px 20px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+        border: none !important;
+        transition: background-color 0.3s ease !important;
+    }
+
+    /* Pen icon */
+    div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-1sh4lo6.eu6p4el1 button:before {
+        font-family: 'Font Awesome 5 Free';
+        content: '\f304';
+        display: inline-block;
+        padding-right: 3px;
+        vertical-align: middle;
+        font-weight: 900;
+        color: white ;
+} 
