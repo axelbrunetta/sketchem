@@ -8,7 +8,7 @@ def render_home_page():
 
     with col1:
         if st.button("Single Player", use_container_width=True):
-            st.session_state.game_mode = "single"
+            st.session_state.game_mode = "single_setup"  # Navigate to single player setup
             st.rerun()
 
     with col2:
