@@ -4,10 +4,9 @@ import streamlit as st
 from typing import Dict, List, Optional
 import random
 import string
-from streamlit.logger import get_logger
 import logging
 
-logger = get_logger(__name__)
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 # In-memory storage / Mock database -> Could replace this with an actual database like Firestore but not needed here since Streamlit cloud only runs one instance of the code hence everyone can use the "same storage"
