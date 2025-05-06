@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Pencil body -->
+  <rect x="20" y="20" width="60" height="10" rx="2" ry="2" transform="rotate(45, 50, 50)" fill="#FFC107" stroke="#333" stroke-width="1.5"/>
+  
+  <!-- Pencil tip -->
+  <polygon points="15,85 20,75 25,85" transform="rotate(45, 50, 50)" fill="#333" stroke="#333" stroke-width="1"/>
+  
+  <!-- Eraser -->
+  <rect x="70" y="20" width="15" height="10" rx="2" ry="2" transform="rotate(45, 50, 50)" fill="#FF5252" stroke="#333" stroke-width="1.5"/>
+  
+  <!-- Drawing lines -->
+  <path d="M 30,70 Q 40,60 50,70 T 70,70" stroke="#4CAF50" stroke-width="2.5" fill="none"/>
+  <path d="M 30,80 Q 50,60 70,80" stroke="#2196F3" stroke-width="2.5" fill="none"/>
+</svg>

@@ -1,107 +1,137 @@
-/* Styles for the Sketchem application */
+/* Main theme colors */
+:root {
+    --primary-bg: #ffffff;
+    --secondary-bg: #f0f2f6;
+    --accent-blue: #0066cc;
+    --accent-grey: #4f5b66;
+    --highlight: #e6f3ff;
+}
+
+
 
 /* Page title styling */
 .page-title {
-  text-align: center;
-  margin-bottom: 5px;
-  color: #4CAF50;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
 }
 
 /* Canvas container styling */
-.canvas-container {
-  margin: 0 auto;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  min-height: 400px; /* Match the controls height */
-  height: 100%; /* Fill available space */
-  border-left: 1px solid #ddd;
-  padding: 10px 0; /* Add some vertical padding */
+.stCanvas {
+    background: #000000;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;  /* Center the canvas */
+    display: block;
 }
 
-/* Target all canvas elements and force center them */
-canvas,
-.canvas-container canvas,
-.stDrawingCanvas canvas,
-.stDrawingCanvas > div,
-.stDrawingCanvas > div > canvas {
-  margin-left: auto !important;
-  margin-right: auto !important;
-  display: block !important;
-  position: relative !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-}
 
-/* Force center the streamlit drawable canvas container */
-.stDrawingCanvas,
-.stDrawingCanvas > div {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  width: 100% !important;
-}
 
-/* Target the fabric.js canvas specifically */
-.upper-canvas, .lower-canvas {
-  left: 50% !important;
-  transform: translateX(-50%) !important;
+.stSlider input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
 }
 
 /* Button styling */
-.stButton button {
-  border-radius: 4px;
+.stButton > button {
+    width: 100%;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
 }
 
-/* Mode indicator styling */
-.mode-indicator {
-  text-align: center;
-  font-weight: bold;
-  margin: 5px 0;
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.eraser-mode {
-  color: #ff6b6b;
+/* Primary button */
+.stButton > button[data-baseweb="button"] {
+    background-color: var(--accent-blue);
+    color: white;
 }
 
-.drawing-mode {
-  color: #4CAF50;
+/* Success message styling */
+.stSuccess {
+    background-color: var(--highlight);
+    border: 1px solid var(--accent-blue);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
 }
 
-/* Controls column styling */
-.controls-column {
-  padding: 10px;
-  border-right: 1px solid #ddd;
-  min-height: 400px; /* Match canvas height */
-  height: 100%; /* Fill available space */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow-y: auto; /* Add scrolling if needed */
+/* Warning message styling */
+.stWarning {
+    background-color: #fff3e6;
+    border: 1px solid #ff9933;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
 }
 
-/* Styling for control elements */
-.control-item {
-  padding: 5px 0;
-  width: 100%;
+/* Pen size visualizer */
+.pen-visualizer {
+    position: absolute;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    pointer-events: none;
+    width: var(--pen-size);
+    height: var(--pen-size);
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 1000;
 }
 
-/* Styling for control headers */
-.control-header {
-  text-align: center;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #4CAF50;
+/* Container styling */
+.stContainer {
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 1rem auto;
+    max-width: 800px;
 }
 
-/* Controls container to ensure proper spacing */
-.controls-container {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 0;
+/* Slider label styling */
+.stSlider label {
+    color: #000000 !important; 
+}
+
+
+/* Game page single */
+
+/* Add top margin to push content lower */
+.main > .block-container {
+    padding-top: 80px !important;
+}
+
+h1 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 0 !important;
+}
+
+[data-testid="stVerticalBlock"] {
+    gap: 0 !important;
+}
+
+/* Ensure controls column has proper height and spacing */
+[data-testid="column"] > div:first-child {
+    height: 400px !important;  /* Match canvas height */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+/* Ensure canvas and its toolbar are fully visible */
+[data-testid="stCanvas"] {
+    margin-bottom: 50px !important;
+}
+
+div[data-testid="stButton"] > button {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+    font-weight: bold;
 }

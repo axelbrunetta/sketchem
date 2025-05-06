@@ -54,3 +54,4 @@ MOLECULE_CATEGORIES = {
         "Succinic acid": "C(CC(=O)O)C(=O)O",
     },
 }
+
