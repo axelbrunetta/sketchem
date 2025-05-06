@@ -133,26 +133,6 @@ def render_game_page():
     #buttons row - add more space below the canvas
     st.markdown("<div style='margin-top: 80px;'></div>", unsafe_allow_html=True)
 
-    #add custom styling for buttons
-    st.markdown(
-        """
-    <style>
-    /* Make buttons more prominent and ensure proper spacing */
-    div[data-testid="stButton"] > button {
-        font-size: 1.1rem;
-        font-weight: 500;
-        margin-top: 20px;
-    }
-
-    /* Add space for the button row */
-    .row-widget.stButton {
-        margin-top: 30px;
-    }
-    </style>
-    """,
-        unsafe_allow_html=True,
-    )
-
     # 2 equal columns for buttons
     submit_col, back_col = st.columns([1, 1])
 
@@ -162,15 +142,16 @@ def render_game_page():
             if canvas_result.image_data is not None:
                 img_bytes = save_canvas_as_image(canvas_result.image_data)
                 if img_bytes:
-                    st.success("Drawing submitted successfully!")
+                    st.toast("Drawing submitted successfully!", icon="✅")
             else:
-                st.warning("Please draw something before submitting!")
+                st.toast("Please draw something before submitting!", icon="⚠️")
 
     #back button (right)
     with back_col:
-        if st.button("Back", key="back_btn", use_container_width=True):
+        # Use a simple button instead of the back_button function
+        if st.button("Back", key="simple_back_btn", use_container_width=True):
             st.session_state.show_back_toast = True
-            st.session_state.game_mode = "single_setup"
+            st.session_state.game_mode = "single_setup"  # Go back to single player setup
             st.rerun()
 
 
