@@ -3,14 +3,9 @@ from sketchem.utils.environment import is_running_locally
 import os
 
 def render_home_page():
-    """
-    Renders the home page with a background image and game mode selection buttons.
-    The page has a clean, modern design with a semi-transparent white container
-    positioned over a background image.
-    """
     # Get the path to the banner image
     current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-    banner_path = os.path.join(current_dir, "banner2.PNG")
+    banner_path = os.path.join(current_dir, "assets", "real_banner.PNG")
     
     # Convert image to base64 for embedding in CSS
     def get_base64_of_bin_file(bin_file):
@@ -22,10 +17,10 @@ def render_home_page():
     # Main page styling
     st.markdown(f"""
     <style>
-    /* Remove default Streamlit padding */
+    /* Hide Streamlit header */
     #root > div:first-child {{ padding-top: 0 !important; }}
     
-    /* Background image styling */
+    /* Background image */
     .stApp {{
         background-image: url("data:image/png;base64,{get_base64_of_bin_file(banner_path)}");
         background-size: contain;
@@ -37,7 +32,7 @@ def render_home_page():
         opacity: 0.85;
     }}
     
-    /* White container styling */
+    /* White container for content */
     .main .block-container {{
         background-color: rgba(255, 255, 255, 0.85);
         padding: 2rem;
@@ -49,31 +44,36 @@ def render_home_page():
         top: 40vh;
     }}
     
-    /* Button styling */
+    /* Button styles */
     div[data-testid="stButton"] > button {{
         font-size: 1.1rem;
         font-weight: 500;
-        background-color: rgba(255, 255, 255, 0.9);
-        border: 2px solid #FF8C00;
-        color: #FF8C00;
         padding: 1rem;
         transition: all 0.3s ease;
+        border: none;
+        background-color: white !important;
+        color: #333 !important;
     }}
     
-    div[data-testid="stButton"] > button:hover {{
-        background-color: #FF8C00;
-        color: white;
+    /* Single Player button - Gray on hover */
+    div[data-testid="column"]:first-child div[data-testid="stButton"] > button:hover {{
+        background-color: #808080 !important;
+        color: white !important;
     }}
-
-    /* ends CSS block */
+    
+    /* Multiplayer button - Orange on hover */
+    div[data-testid="column"]:last-child div[data-testid="stButton"] > button:hover {{
+        background-color: #FF8C00 !important;
+        color: white !important;
+    }}
     </style>
     """, unsafe_allow_html=True)
 
-    # Page content
+    # Page title
     st.markdown("<h2 style='text-align: center; margin-bottom: 20px; color: #333;'>Choose Game Mode</h2>", 
                 unsafe_allow_html=True)
 
-    # Game mode selection buttons
+    # Game mode buttons
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Single Player", use_container_width=True):
@@ -84,6 +84,6 @@ def render_home_page():
             st.session_state.game_mode = "multiplayer_setup"
             st.rerun()
 
-    # Local development notice
+    # Show notice if running locally
     if is_running_locally():
         st.info("Note: Multiplayer functionality is limited in local development mode.")
