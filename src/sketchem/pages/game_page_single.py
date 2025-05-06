@@ -53,48 +53,6 @@ def render_game_page():
         current_stroke_color = color_options[st.session_state.last_pen_color]
         current_stroke_width = st.session_state.pen_size
 
-    #css for spacing and layout
-    st.markdown(
-        """
-    <style>
-    /* Add top margin to push content lower */
-    .main > .block-container {
-        padding-top: 80px !important;
-    }
-
-    h1 {
-        text-align: center;
-        color: #000000;
-        margin-bottom: 0 !important;
-    }
-
-    [data-testid="stVerticalBlock"] {
-        gap: 0 !important;
-    }
-
-    /* Ensure controls column has proper height and spacing */
-    [data-testid="column"] > div:first-child {
-        height: 400px !important;  /* Match canvas height */
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-    }
-
-    /* Ensure canvas and its toolbar are fully visible */
-    [data-testid="stCanvas"] {
-        margin-bottom: 50px !important;
-    }
-
-    div[data-testid="stButton"] > button {
-        font-size: 1.2rem;
-        padding: 0.8rem 1.5rem;
-        font-weight: bold;
-    }
-    </style>
-    """,
-        unsafe_allow_html=True,
-    )
-
     #title
     st.markdown(
         """

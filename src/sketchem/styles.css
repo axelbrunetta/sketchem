@@ -1,15 +1,13 @@
-/* Styles for the Sketchem application */
-
 /* Main theme colors */
 :root {
     --primary-bg: #ffffff;
     --secondary-bg: #f0f2f6;
     --accent-blue: #0066cc;
-    --accent-green: #4CAF50;
     --accent-grey: #4f5b66;
     --highlight: #e6f3ff;
-    --error-red: #ff6b6b;
 }
+
+
 
 /* Page title styling */
 .page-title {
@@ -18,52 +16,22 @@
     font-size: 2.5rem;
     font-weight: 600;
     margin-bottom: 2rem;
-    color: var(--accent-green);
 }
 
 /* Canvas container styling */
-.canvas-container {
-    margin: 0 auto;
+.stCanvas {
+    background: #000000;
     border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    min-height: 400px;
-    height: 100%;
-    border-left: 1px solid #ddd;
-    padding: 10px 0;
+    padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;  /* Center the canvas */
+    display: block;
 }
 
-/* Target all canvas elements and force center them */
-canvas,
-.canvas-container canvas,
-.stDrawingCanvas canvas,
-.stDrawingCanvas > div,
-.stDrawingCanvas > div > canvas {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    display: block !important;
-    position: relative !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-}
 
-/* Force center the streamlit drawable canvas container */
-.stDrawingCanvas,
-.stDrawingCanvas > div {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-}
 
-/* Target the fabric.js canvas specifically */
-.upper-canvas, .lower-canvas {
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+.stSlider input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
 }
 
 /* Button styling */
@@ -85,56 +53,6 @@ canvas,
 .stButton > button[data-baseweb="button"] {
     background-color: var(--accent-blue);
     color: white;
-}
-
-/* Mode indicator styling */
-.mode-indicator {
-    text-align: center;
-    font-weight: bold;
-    margin: 5px 0;
-}
-
-.eraser-mode {
-    color: var(--error-red);
-}
-
-.drawing-mode {
-    color: var(--accent-green);
-}
-
-/* Controls column styling */
-.controls-column {
-    padding: 10px;
-    border-right: 1px solid #ddd;
-    min-height: 400px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow-y: auto;
-}
-
-/* Styling for control elements */
-.control-item {
-    padding: 5px 0;
-    width: 100%;
-}
-
-/* Styling for control headers */
-.control-header {
-    text-align: center;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: var(--accent-green);
-}
-
-/* Controls container to ensure proper spacing */
-.controls-container {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 0;
 }
 
 /* Success message styling */
@@ -178,10 +96,42 @@ canvas,
 
 /* Slider label styling */
 .stSlider label {
-    color: #000000 !important;
+    color: #000000 !important; 
 }
 
-/* Slider thumb hover effect */
-.stSlider input[type="range"]::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
+
+/* Game page single */
+
+/* Add top margin to push content lower */
+.main > .block-container {
+    padding-top: 80px !important;
+}
+
+h1 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 0 !important;
+}
+
+[data-testid="stVerticalBlock"] {
+    gap: 0 !important;
+}
+
+/* Ensure controls column has proper height and spacing */
+[data-testid="column"] > div:first-child {
+    height: 400px !important;  /* Match canvas height */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+/* Ensure canvas and its toolbar are fully visible */
+[data-testid="stCanvas"] {
+    margin-bottom: 50px !important;
+}
+
+div[data-testid="stButton"] > button {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+    font-weight: bold;
 }
