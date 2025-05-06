@@ -1,0 +1,58 @@
+/* Add top margin to push content lower */
+.main > .block-container {
+    padding-top: 80px !important;
+}
+
+h1 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 0 !important;
+}
+
+[data-testid="stVerticalBlock"] {
+    gap: 0 !important;
+}
+
+/* Ensure controls column has proper height and spacing */
+[data-testid="column"] > div:first-child {
+    height: 400px !important;  /* Match canvas height */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+/* Ensure canvas and its toolbar are fully visible */
+[data-testid="stCanvas"] {
+    margin-bottom: 50px !important;
+}
+
+div[data-testid="stButton"] > button {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+    font-weight: bold;
+}
+
+/* Eraser button styling */
+.eraser-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.eraser-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Make buttons more prominent and ensure proper spacing */
+div[data-testid="stButton"] > button {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+/* Add space for the button row */
+.row-widget.stButton {
+    margin-top: 30px;
+}
