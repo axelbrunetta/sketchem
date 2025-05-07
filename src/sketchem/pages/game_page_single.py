@@ -4,6 +4,7 @@ from PIL import Image
 import io
 from streamlit_extras.vertical_slider import vertical_slider
 from sketchem.utils.environment import is_running_locally
+from contextlib import contextmanager
 
 def save_canvas_as_image(canvas_data):  # convert canvas data to png image
     if canvas_data is not None:
@@ -14,6 +15,37 @@ def save_canvas_as_image(canvas_data):  # convert canvas data to png image
         return buf.getvalue()
     return None
 
+# Horizontal layout helper function (copied from waiting_room.py)
+HORIZONTAL_STYLE = """
+<style class="hide-element">
+    /* Hides the style container and removes the extra spacing */
+    .element-container:has(.hide-element) {
+        display: none;
+    }
+    /*
+        The selector for >.element-container is necessary to avoid selecting the whole
+        body of the streamlit app, which is also a stVerticalBlock.
+    */
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) {
+        display: flex;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: baseline;
+    }
+    /* Buttons and their parent container all have a width of 704px, which we need to override */
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) div {
+        width: max-content !important;
+    }
+</style>
+"""
+
+@contextmanager
+def st_horizontal(): #Function to create an "inline" block for streamlit elements
+    st.markdown(HORIZONTAL_STYLE, unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<span class="hide-element horizontal-marker"></span>', unsafe_allow_html=True)
+        yield
 
 # switch between pen and eraser
 def toggle_drawing_mode():
@@ -50,13 +82,14 @@ def render_game_page():
     if "last_pen_color" not in st.session_state:
         st.session_state.last_pen_color = "White"  # default
 
-    # color options
+    # Define color options with hex values
     color_options = {
-        "White":  "#ffffff",
-        "Red":    "#ff0000",
-        "Blue":   "#0000ff",
-        "Green":  "#00ff00",
+        "White": "#ffffff",
+        "Red": "#ff0000",
+        "Blue": "#0000ff",
+        "Green": "#00ff00",
         "Yellow": "#ffff00",
+        "Purple": "#800080",
     }
 
     # configure canvas based on mode
@@ -67,114 +100,73 @@ def render_game_page():
         current_stroke_color = color_options[st.session_state.last_pen_color]
         current_stroke_width = st.session_state.pen_size
 
-    #css for spacing and layout
-    st.markdown(
-        """
-    <style>
-    /* Add top margin to push content lower */
-    .main > .block-container {
-        padding-top: 80px !important;
-    }
-
-    h1 {
-        text-align: center;
-        color: #000000;
-        margin-bottom: 0 !important;
-    }
-
-    [data-testid="stVerticalBlock"] {
-        gap: 0 !important;
-    }
-
-    /* Ensure controls column has proper height and spacing */
-    [data-testid="column"] > div:first-child {
-        height: 400px !important;  /* Match canvas height */
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-    }
-
-    /* Ensure canvas and its toolbar are fully visible */
-    [data-testid="stCanvas"] {
-        margin-bottom: 50px !important;
-    }
-
-    div[data-testid="stButton"] > button {
-        font-size: 1.2rem;
-        padding: 0.8rem 1.5rem;
-        font-weight: bold;
-    }
-    </style>
-    """,
-        unsafe_allow_html=True,
-    )
-
-    #title
-    st.markdown(
-        """
-    <h1 style='text-align: center; margin-bottom: 40px; color: #000000;'>Single Player Mode</h1>
-    <div style='margin-top: 40px;'></div>
-    """,
-        unsafe_allow_html=True,
-    )
-
-    #layout: controls vs. canvas
-    col1, col2 = st.columns([1, 3])
-
-    #controls
+    # Title
+    st.markdown("<h1 style='text-align: center; margin-bottom: 20px;'>Single Player Mode</h1>", unsafe_allow_html=True)
+    
+    # Function to handle color selection
+    def select_color(color_name):
+        st.session_state.last_pen_color = color_name
+        st.session_state.pen_color_selector = color_name
+    
+    # Create a centered row of color buttons using columns
+    left_spacer, col1, col2, col3, col4, col5, col6, col7, right_spacer = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1])
+    
     with col1:
-        eraser_key = (
-            "pen_toggle"
-            if st.session_state.drawing_mode == "erase"
-            else "eraser_toggle"
-        )
-        st.button(
-            "Switch",
-            on_click=toggle_drawing_mode,
-            key=eraser_key,
-            use_container_width=True,
-        )
-
-        if st.session_state.drawing_mode == "erase":
-            st.markdown(
-                "<p style='text-align: center; color: #ff6b6b;'><strong>ERASER MODE</strong></p>",
-                unsafe_allow_html=True,
-            )
-        else:
-            st.markdown(
-                "<p style='text-align: center; color: #4CAF50;'><strong>DRAWING MODE</strong></p>",
-                unsafe_allow_html=True,
-            )
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-
+        is_white_selected = st.session_state.last_pen_color == "White"
+        white_key = "White_selected" if is_white_selected else "White_color"
+        st.button("", key=white_key, on_click=select_color, args=("White",), help="Select White")
+    
+    with col2:
+        is_red_selected = st.session_state.last_pen_color == "Red"
+        red_key = "Red_selected" if is_red_selected else "Red_color"
+        st.button("", key=red_key, on_click=select_color, args=("Red",), help="Select Red")
+    
+    with col3:
+        is_blue_selected = st.session_state.last_pen_color == "Blue"
+        blue_key = "Blue_selected" if is_blue_selected else "Blue_color"
+        st.button("", key=blue_key, on_click=select_color, args=("Blue",), help="Select Blue")
+    
+    with col4:
+        is_green_selected = st.session_state.last_pen_color == "Green"
+        green_key = "Green_selected" if is_green_selected else "Green_color"
+        st.button("", key=green_key, on_click=select_color, args=("Green",), help="Select Green")
+    
+    with col5:
+        is_yellow_selected = st.session_state.last_pen_color == "Yellow"
+        yellow_key = "Yellow_selected" if is_yellow_selected else "Yellow_color"
+        st.button("", key=yellow_key, on_click=select_color, args=("Yellow",), help="Select Yellow")
+    
+    with col6:
+        is_purple_selected = st.session_state.last_pen_color == "Purple"
+        purple_key = "Purple_selected" if is_purple_selected else "Purple_color"
+        st.button("", key=purple_key, on_click=select_color, args=("Purple",), help="Select Purple")
+    
+    with col7:
+        # Eraser/pen toggle button
+        eraser_key = "pen_toggle" if st.session_state.drawing_mode == "erase" else "eraser_toggle"
+        eraser_help_message = "Switch to pen" if st.session_state.drawing_mode == "erase" else "Switch to eraser"
+        st.button("", on_click=toggle_drawing_mode, key=eraser_key, help=eraser_help_message)
+    
+    # Canvas and slider layout
+    slider_col, canvas_col = st.columns([1, 4])
+    
+    # Vertical slider on the left
+    with slider_col:
         if st.session_state.drawing_mode != "erase":
-            selected_color = st.selectbox(
-                "Choose Pen Color",
-                options=list(color_options.keys()),
-                key="pen_color_selector",
-            )
-            current_stroke_color = color_options[selected_color]
-            st.session_state.last_pen_color = selected_color
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        #vertical slider
-        if st.session_state.drawing_mode != "erase":
+            st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
             size = vertical_slider(
                 label="Pen Size",
                 min_value=1,
                 max_value=20,
                 default_value=st.session_state.pen_size,
                 key="pen_size_slider",
-                height=150,
+                height=300,
             )
             st.session_state.pen_size = size
             current_stroke_width = size
-
-    #canvas
-    with col2:
+    
+    # Canvas on the right
+    with canvas_col:
         canvas_result = st_canvas(
             stroke_color=current_stroke_color,
             fill_color="rgba(255, 255, 255, 0)",
@@ -186,34 +178,12 @@ def render_game_page():
             key=f"canvas_{st.session_state.canvas_key}",
             display_toolbar=True,
         )
-
-    #buttons row - add more space below the canvas
-    st.markdown("<div style='margin-top: 80px;'></div>", unsafe_allow_html=True)
-
-    #add custom styling for buttons
-    st.markdown(
-        """
-    <style>
-    /* Make buttons more prominent and ensure proper spacing */
-    div[data-testid="stButton"] > button {
-        font-size: 1.1rem;
-        font-weight: 500;
-        margin-top: 20px;
-    }
-
-    /* Add space for the button row */
-    .row-widget.stButton {
-        margin-top: 30px;
-    }
-    </style>
-    """,
-        unsafe_allow_html=True,
-    )
-
-    # 2 equal columns for buttons
+    
+    # Buttons row
+    st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
     submit_col, back_col = st.columns([1, 1])
-
-    #submit button (left)
+    
+    # Submit button
     with submit_col:
         if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True):
             if canvas_result.image_data is not None:
@@ -222,8 +192,8 @@ def render_game_page():
                     st.success("Drawing submitted successfully!")
             else:
                 st.warning("Please draw something before submitting!")
-
-    #back button (right)
+    
+    # Back button
     with back_col:
         if st.button("Back", key="back_btn", use_container_width=True):
             st.session_state.show_back_toast = True
