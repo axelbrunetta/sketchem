@@ -7,7 +7,7 @@ import random
 from streamlit_extras.vertical_slider import vertical_slider
 from sketchem.utils.environment import is_running_locally
 from sketchem.utils.back_button import back_button
-from sketchem.db.mock_db import update_score, get_game
+from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 
 def save_canvas_as_image(canvas_data):  # convert canvas data to png image
