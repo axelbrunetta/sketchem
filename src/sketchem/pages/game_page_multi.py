@@ -3,7 +3,7 @@ from streamlit_drawable_canvas import st_canvas
 from PIL import Image
 import io
 import os
-
+from sketchem.utils.back_button import back_button
 
 def save_canvas_as_image(canvas_data):
     """Convert canvas data to PNG image"""
@@ -17,12 +17,14 @@ def save_canvas_as_image(canvas_data):
         return buf.getvalue()
     return None
 
-def render_game_page():
-    # Load custom CSS for some styling of the page -> gets a little messy with streamlit's light / dark mode stuff
-    current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Need to go up one level to reach the css file
-    css_path = os.path.join(current_dir, "styles.css")
-    with open(css_path) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+def render_game_page_multi():
+    back_button(destination=None, label="Leave game") #Display back button at the top left
+    
+    # Load custom CSS for some styling of the page
+    #current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
+    #css_path = os.path.join(current_dir, "styles.css")
+    #with open(css_path) as f:
+    #    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     st.markdown("<h1 class='page-title'>Our Page Title Idk</h1>", unsafe_allow_html=True)
 
