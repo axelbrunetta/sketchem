@@ -113,6 +113,8 @@ def render_game_page_multi():
         st.session_state.game_over = False
     if "start_time" not in st.session_state: #starts timer for player
         st.session_state.start_time = time.time()
+    if "current_stroke_width" not in st.session_state:
+        st.session_state.current_stroke_width = 3
     
     # Get game info
     game = get_game(st.session_state.game_code)
@@ -231,11 +233,11 @@ def render_game_page_multi():
             
             # Update current_stroke_width based on the new size and drawing mode
             if st.session_state.drawing_mode == "erase":
-                current_stroke_width = st.session_state.pen_size + 20
+                st.session_state.current_stroke_width = st.session_state.pen_size + 20
             else:
-                current_stroke_width = st.session_state.pen_size
-            return current_stroke_width
-        current_stroke_width = slider_fragment()
+                st.session_state.current_stroke_width = st.session_state.pen_size
+            
+        slider_fragment()
 
     # Canvas on the right
     with canvas_col:
@@ -245,7 +247,7 @@ def render_game_page_multi():
                 canvas_result = st_canvas(
                     stroke_color=current_stroke_color,
                     fill_color="rgba(255, 255, 255, 0)",
-                    stroke_width=current_stroke_width,
+                    stroke_width=st.session_state.current_stroke_width,
                     background_color="#000000",
                     height=400,
                     width=600,
