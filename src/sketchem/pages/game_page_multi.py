@@ -111,6 +111,7 @@ def render_game_page_multi():
     if "points" not in st.session_state:
         st.session_state.points = 0
     if "current_molecule" not in st.session_state:
+        st.session_state.current_molecule = "Default Molecule"  # Fallback default
         select_next_molecule()
     if "game_over" not in st.session_state:
         st.session_state.game_over = False
