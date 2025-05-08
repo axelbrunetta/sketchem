@@ -55,8 +55,8 @@ def handle_submission(canvas_result):
 def select_next_molecule():
     # Get the selected category
     game = get_game(st.session_state.game_code)
-    if game and "molecule_category" in game:
-        category = game["molecule_category"]
+    if game and "category" in game:  
+        category = game["category"]
         if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
             molecules = list(MOLECULE_CATEGORIES[category].keys())
             if molecules:
