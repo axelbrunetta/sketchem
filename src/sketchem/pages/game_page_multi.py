@@ -254,7 +254,6 @@ def render_game_page_multi():
                 # Generate a unique key for the canvas based on pen size changes
                 if "canvas_key_counter" not in st.session_state:
                     st.session_state.canvas_key_counter = 0
-                canvas_key = f"canvas_{st.session_state.canvas_key_counter}"
                 
                 canvas_result = st_canvas(
                     stroke_color=current_stroke_color,
@@ -264,7 +263,7 @@ def render_game_page_multi():
                     height=400,
                     width=600,
                     drawing_mode="freedraw",
-                    key=canvas_key,
+                    key=f"canvas_{st.session_state.canvas_key_counter}",
                     display_toolbar=True,
                 )
                 return canvas_result
