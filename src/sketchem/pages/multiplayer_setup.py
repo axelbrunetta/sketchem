@@ -93,7 +93,7 @@ def render_multiplayer_setup():
             st.markdown("### Game Settings")
 
             
-            @st.fragment(run_every="1s")
+            @st.fragment()
             def slider_fragment():
                 st.session_state.game_duration = st.slider(
                     "Game Duration (seconds)",
