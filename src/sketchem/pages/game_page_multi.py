@@ -10,17 +10,7 @@ from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 
 
-@st.fragment(run_every="1s")
-def timer_fragment(game_duration):
-    elapsed_time = time.time() - st.session_state.start_time
-    remaining_time = max(0, game_duration - elapsed_time)
-    
-    # Check if game is over
-    if remaining_time <= 0 and not st.session_state.game_over:
-        st.session_state.game_over = True
-        st.session_state.toast_queue = {"message": "Game Over!", "icon": "🏁"}
-        st.rerun() #rerun the whole page
-    st.markdown(f"**Time remaining:** {int(remaining_time)}s")
+
     
 def save_canvas_as_image(canvas_data):  # convert canvas data to png image
     if canvas_data is not None:
@@ -137,6 +127,17 @@ def render_game_page_multi():
     with col1:
         st.markdown(f"**Score:** {st.session_state.points}")
     with col2:
+        @st.fragment(run_every="1s")
+        def timer_fragment(game_duration):
+            elapsed_time = time.time() - st.session_state.start_time
+            remaining_time = max(0, game_duration - elapsed_time)
+            
+            # Check if game is over
+            if remaining_time <= 0 and not st.session_state.game_over:
+                st.session_state.game_over = True
+                st.session_state.toast_queue = {"message": "Game Over!", "icon": "🏁"}
+                st.rerun() #rerun the whole page
+            st.markdown(f"**Time remaining:** {int(remaining_time)}s")
         timer_fragment(game_duration)
     
     # Define color options with hex values
