@@ -153,7 +153,7 @@ def render_game_page_multi():
         current_stroke_color = color_options[st.session_state.last_pen_color]
 
     # Display target molecule
-    st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
+    st.markdown(f"## Please draw: **{st.session_state.current_molecule}** (Category: {game.get('molecule_category', 'None')})")
     
     # Function to handle color selection
     def select_color(color_name):
@@ -279,7 +279,9 @@ def render_game_page_multi():
                 sorted_players = sorted(players, key=lambda x: x.get("score", 0), reverse=True)
                 for i, player in enumerate(sorted_players):
                     st.markdown(f"{i+1}. **{player.get('name', 'Unknown')}**: {player.get('score', 0)}") #defaults to 0 unknown if nothing found
-        
+                    
+    time.sleep(2)
+    st.rerun()#Needed to auto-refresh the game page
 
 if __name__ == "__main__":
     render_game_page_multi()
