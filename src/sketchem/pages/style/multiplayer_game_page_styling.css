@@ -10,6 +10,31 @@
     --highlight: #e6f3ff;
 }
 
+
+.stMarkdown h1, 
+.stMarkdown h2,
+.stMarkdown h3 {
+    text-align: center !important;
+}
+
+div[data-testid="column"]:has(div.stMarkdown:contains("Score")) {
+    display: flex !important;
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+div[data-testid="column"]:has(div.stMarkdown:contains("Time remaining")) {
+    display: flex !important;
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+/* Center the "Please draw" instruction */
+div.stMarkdown:has(h2:contains("Please draw")) {
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+
 /* Pen button styling */
 div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
