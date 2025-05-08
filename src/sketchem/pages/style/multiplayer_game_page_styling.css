@@ -11,7 +11,7 @@
 }
 
 /* Pen button styling */
-div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #3a444d;
@@ -32,7 +32,7 @@ div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-kj6h
 }
 
 /* Pen icon */
-div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     font-family: 'Font Awesome 5 Free';
     content: '\f304';
     display: inline-block;
@@ -43,7 +43,7 @@ div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-kj6h
 } 
 
 /* Eraser button styling */
-div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #3a444d;
@@ -63,7 +63,7 @@ div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-k
 }
 
 /* Eraser icon */
-div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     font-family: 'Font Awesome 5 Free';
     content: '\f12d';
     display: inline-block;
@@ -74,7 +74,7 @@ div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-k
 } 
 
 /*White button selected*/
-div.stElementContainer.element-container.st-key-White_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-White_selected.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #ffffff;
@@ -92,7 +92,7 @@ div.stElementContainer.element-container.st-key-White_selected.st-emotion-cache-
     justify-content: center !important;
 }
 
-div.stElementContainer.element-container.st-key-White_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-White_selected.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     font-family: 'Font Awesome 5 Free';
     content: '\2713';
     display: inline-block;
@@ -103,7 +103,7 @@ div.stElementContainer.element-container.st-key-White_selected.st-emotion-cache-
 } 
 
 /*White button unselected*/
-div.stElementContainer.element-container.st-key-White_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-White_color.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #ffffff;
@@ -121,7 +121,7 @@ div.stElementContainer.element-container.st-key-White_color.st-emotion-cache-kj6
     justify-content: center !important;
 }
 
-div.stElementContainer.element-container.st-key-White_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-White_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     display: inline-block;
     padding-right: 3px;
     vertical-align: middle;
@@ -130,7 +130,7 @@ div.stElementContainer.element-container.st-key-White_color.st-emotion-cache-kj6
 } 
 
 /*Red button selected*/
-div.stElementContainer.element-container.st-key-Red_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-Red_selected.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #ff0000;
@@ -149,7 +149,7 @@ div.stElementContainer.element-container.st-key-Red_selected.st-emotion-cache-kj
 }
 
 /*Red button unselected*/
-div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #ff0000;
@@ -168,7 +168,7 @@ div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-kj6he
 }
 
 /*Blue button selected*/
-div.stElementContainer.element-container.st-key-Blue_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-Blue_selected.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #0000ff;
@@ -187,7 +187,7 @@ div.stElementContainer.element-container.st-key-Blue_selected.st-emotion-cache-k
 }
 
 /*Blue button unselected*/
-div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #0000ff;
@@ -206,7 +206,7 @@ div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-kj6h
 }
 
 /*Green button selected*/
-div.stElementContainer.element-container.st-key-Green_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-Green_selected.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #00ff00;
@@ -225,7 +225,7 @@ div.stElementContainer.element-container.st-key-Green_selected.st-emotion-cache-
 }
 
 /*Green button unselected*/
-div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #00ff00;
@@ -244,7 +244,7 @@ div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-kj6
 }
 
 /*Yellow button selected*/
-div.stElementContainer.element-container.st-key-Yellow_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-Yellow_selected.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #ffff00;
@@ -263,7 +263,7 @@ div.stElementContainer.element-container.st-key-Yellow_selected.st-emotion-cache
 }
 
 /*Yellow button unselected*/
-div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #ffff00;
@@ -282,7 +282,7 @@ div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-kj
 }
 
 /*Purple button selected*/
-div.stElementContainer.element-container.st-key-Purple_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-Purple_selected.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #800080;
@@ -301,7 +301,7 @@ div.stElementContainer.element-container.st-key-Purple_selected.st-emotion-cache
 }
 
 /*Purple button unselected*/
-div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-17lr0tt.e1lln2w81 button {
     vertical-align: middle;
     font-weight: 900;
     background-color: #800080;
@@ -321,7 +321,7 @@ div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj
 
 /* Color button checkmarks */
 /* Red selected button icon */
-div.stElementContainer.element-container.st-key-Red_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-Red_selected.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     font-family: 'Font Awesome 5 Free';
     content: '\2713';
     display: inline-block;
@@ -332,7 +332,7 @@ div.stElementContainer.element-container.st-key-Red_selected.st-emotion-cache-kj
 } 
 
 /* Blue selected button icon */
-div.stElementContainer.element-container.st-key-Blue_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-Blue_selected.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     font-family: 'Font Awesome 5 Free';
     content: '\2713';
     display: inline-block;
@@ -343,7 +343,7 @@ div.stElementContainer.element-container.st-key-Blue_selected.st-emotion-cache-k
 } 
 
 /* Green selected button icon */
-div.stElementContainer.element-container.st-key-Green_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-Green_selected.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     font-family: 'Font Awesome 5 Free';
     content: '\2713';
     display: inline-block;
@@ -354,7 +354,7 @@ div.stElementContainer.element-container.st-key-Green_selected.st-emotion-cache-
 } 
 
 /* Yellow selected button icon */
-div.stElementContainer.element-container.st-key-Yellow_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-Yellow_selected.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     font-family: 'Font Awesome 5 Free';
     content: '\2713';
     display: inline-block;
@@ -365,7 +365,7 @@ div.stElementContainer.element-container.st-key-Yellow_selected.st-emotion-cache
 } 
 
 /* Purple selected button icon */
-div.stElementContainer.element-container.st-key-Purple_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-Purple_selected.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     font-family: 'Font Awesome 5 Free';
     content: '\2713';
     display: inline-block;
@@ -376,11 +376,11 @@ div.stElementContainer.element-container.st-key-Purple_selected.st-emotion-cache
 } 
 
 /* Unselected button styles (no icon) */
-div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
-div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
-div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
-div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
-div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before,
+div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before,
+div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before,
+div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before,
+div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     display: inline-block;
     padding-right: 3px;
     vertical-align: middle;
@@ -388,14 +388,14 @@ div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj
 }
 
 /* Color-specific text colors for unselected buttons */
-div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
-div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
-div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before,
+div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before,
+div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     color: white;
 }
 
-div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
-div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before,
+div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-17lr0tt.e1lln2w81 button:before {
     color: black;
 }
 
