@@ -8,8 +8,18 @@ from sketchem.pages.game_page_single import render_game_page
 from sketchem.pages.game_page_multi import render_game_page_multi
 
 def main():
-    st.set_page_config(page_title="Sketchem", layout="centered")
-    
+    st.set_page_config(page_title="Sketchem", layout="centered", initial_sidebar_state="collapsed")
+
+    st.markdown(
+        """
+    <style>
+        [data-testid="collapsedControl"] {
+            display: none
+        }
+    </style>
+    """,
+        unsafe_allow_html=True,
+    )
     display_queued_toast() #Show any active toast notifications
 
     st.title("🧪 Sketchem")
