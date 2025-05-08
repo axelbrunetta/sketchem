@@ -23,11 +23,16 @@ div.stHeading h1[id="sketchem"] {
     margin: 0 auto !important;
 }
 
-/* Center the score and time columns */
-div.stHorizontalBlock div.stColumn div.stMarkdown p strong {
-    display: block !important;
+/* Center the score and time columns - fix for values appearing on next line */
+div.stHorizontalBlock div.stColumn div.stMarkdown p {
     text-align: center !important;
     width: 100% !important;
+    display: block !important;
+}
+
+div.stHorizontalBlock div.stColumn div.stMarkdown p strong {
+    display: inline !important;
+    text-align: center !important;
 }
 
 /* Center the "Please draw" instruction */
