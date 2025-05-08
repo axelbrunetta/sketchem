@@ -88,7 +88,7 @@ def handle_skip():
     st.rerun()
 
 def render_game_page_multi():
-    st.clear()
+    st.empty()
     with open('/mount/src/sketchem/src/sketchem/pages/style/multiplayer_game_page_styling.css') as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
