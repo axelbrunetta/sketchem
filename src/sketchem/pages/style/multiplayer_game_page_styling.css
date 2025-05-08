@@ -454,7 +454,10 @@ div.stElementContainer.element-container.st-key-submit_btn.st-emotion-cache-83er
 div.stElementContainer.element-container.st-key-skip_btn.st-emotion-cache-83erdr.e1lln2w81 button:disabled,
 div.stElementContainer.element-container.st-key-submit_btn.st-emotion-cache-83erdr.e1lln2w81 button:disabled {
     background-color: #c0c0c0 !important;
+    background-image: none !important;
     color: #666666 !important;
     cursor: not-allowed !important;
     opacity: 0.7 !important;
+    transform: none !important;
+    box-shadow: none !important;
 }
