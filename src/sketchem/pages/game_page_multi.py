@@ -215,7 +215,10 @@ def render_game_page_multi():
             max_value=20,
             default_value=st.session_state.pen_size,
             key="pen_size_slider",
-            height=300,
+            height=350,
+            track_color="#c0c0c0",  # optional
+            thumb_color="#3a444d",  # optional
+            slider_color="#3a444d", 
         )
         st.session_state.pen_size = size
         
