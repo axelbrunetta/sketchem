@@ -93,15 +93,16 @@ def render_multiplayer_setup():
             st.markdown("### Game Settings")
 
             
-            
-            st.session_state.game_duration = st.slider(
-                "Game Duration (seconds)",
-                min_value=30,
-                max_value=180,
-                value=60,
-                step=10
-            )
-            
+            @st.fragment(run_every="1s")
+            def slider_fragment():
+                st.session_state.game_duration = st.slider(
+                    "Game Duration (seconds)",
+                    min_value=30,
+                    max_value=180,
+                    value=60,
+                    step=10
+                )
+            slider_fragment()
             st.session_state.enable_hints = st.toggle("Enable hints")
 
             st.divider()
