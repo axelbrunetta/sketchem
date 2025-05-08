@@ -11,7 +11,7 @@ from sketchem.data.molecules import MOLECULE_CATEGORIES
 
 
 @st.fragment()
-def timer_fragment(run_every="1s", game_duration):
+def timer_fragment(game_duration, run_every="1s"):
     elapsed_time = time.time() - st.session_state.start_time
     remaining_time = max(0, game_duration - elapsed_time)
     
