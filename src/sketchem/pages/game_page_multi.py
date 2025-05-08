@@ -214,26 +214,27 @@ def render_game_page_multi():
     
     # Vertical slider on the left
     with slider_col:
-        st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
-        size = vertical_slider(
-            label="Eraser Size" if st.session_state.drawing_mode == "erase" else "Pen Size",
-            min_value=1,
-            max_value=20,
-            default_value=st.session_state.pen_size,
-            key="pen_size_slider",
-            height=350,
-            track_color="#c0c0c0",  # optional
-            thumb_color="#3a444d",  # optional
-            slider_color="#3a444d", 
-        )
-        st.session_state.pen_size = size
-        
-        # Update current_stroke_width based on the new size and drawing mode
-        if st.session_state.drawing_mode == "erase":
-            current_stroke_width = st.session_state.pen_size + 20
-        else:
-            current_stroke_width = st.session_state.pen_size
-
+        @st.fragment()
+        def slider_fragment():
+            size = vertical_slider(
+                label="Eraser Size" if st.session_state.drawing_mode == "erase" else "Pen Size",
+                min_value=1,
+                max_value=20,
+                default_value=st.session_state.pen_size,
+                key="pen_size_slider",
+                height=350,
+                track_color="#c0c0c0",  # optional
+                thumb_color="#3a444d",  # optional
+                slider_color="#3a444d", 
+            )
+            st.session_state.pen_size = size
+            
+            # Update current_stroke_width based on the new size and drawing mode
+            if st.session_state.drawing_mode == "erase":
+                current_stroke_width = st.session_state.pen_size + 20
+            else:
+                current_stroke_width = st.session_state.pen_size
+        slider_fragment()
 
     # Canvas on the right
     with canvas_col:
