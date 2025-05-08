@@ -31,20 +31,20 @@ def toggle_drawing_mode():
         st.session_state.pen_color_selector = st.session_state.last_pen_color
 
 def handle_submission(canvas_result):
-    #MAYBE DO MORE HERE TO CHECK IF IMAGE IS ONLY BLACK??
+    ############MAYBE DO MORE HERE TO CHECK IF IMAGE IS ONLY BLACK??
     if canvas_result.image_data is None:
         st.session_state.toast_queue = {"message": "Please draw something before submitting!", "icon": "⚠️"}
         return
     
   
-    correct = True  # need to replace with actual validator
+    correct = True  ############### need to replace with actual validator
     
     if correct:
         st.session_state.points += 1
         st.session_state.toast_queue = {"message": f"Correct! You drew {st.session_state.current_molecule} correctly.", "icon": "✅"}
         
-        #TO DOOO -> Update score in database
-        #Also check that score <= nbr of molecules -> if == then win
+        #############TO DOOO -> Update score in database
+        ###############Also check that score <= nbr of molecules -> if == then win
         
         # Move to next molecule
         select_next_molecule()
@@ -238,20 +238,23 @@ def render_game_page_multi():
     # Canvas on the right
     with canvas_col:
         try:
-            canvas_result = st_canvas(
-                stroke_color=current_stroke_color,
-                fill_color="rgba(255, 255, 255, 0)",
-                stroke_width=current_stroke_width,
-                background_color="#000000",
-                height=400,
-                width=600,
-                drawing_mode="freedraw",
-                key=f"canvas",
-                display_toolbar=True,
-            )
+            @st.fragment()
+            def canvas_fragment():
+                canvas_result = st_canvas(
+                    stroke_color=current_stroke_color,
+                    fill_color="rgba(255, 255, 255, 0)",
+                    stroke_width=current_stroke_width,
+                    background_color="#000000",
+                    height=400,
+                    width=600,
+                    drawing_mode="freedraw",
+                    key=f"canvas",
+                    display_toolbar=True,
+                )
+                return canvas_result
+            canvas_result = canvas_fragment()
         except Exception as e:
             st.session_state.toast_queue = {"message": f"Canvas error: {e}", "icon": "❌"}
-            st.session_state.drawing_mode = "freedraw"
             st.rerun()
     
     # Buttons row
