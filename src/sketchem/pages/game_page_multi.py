@@ -229,7 +229,14 @@ def render_game_page_multi():
                 thumb_color="#3a444d",  # optional
                 slider_color="#3a444d", 
             )
-            st.session_state.pen_size = size
+            
+            # Update pen size in session state
+            if size != st.session_state.pen_size:
+                st.session_state.pen_size = size
+                # Update canvas key to force refresh
+                if "canvas_key_counter" not in st.session_state:
+                    st.session_state.canvas_key_counter = 0
+                st.session_state.canvas_key_counter += 1
             
             # Update current_stroke_width based on the new size and drawing mode
             if st.session_state.drawing_mode == "erase":
@@ -244,6 +251,11 @@ def render_game_page_multi():
         try:
             @st.fragment()
             def canvas_fragment():
+                # Generate a unique key for the canvas based on pen size changes
+                if "canvas_key_counter" not in st.session_state:
+                    st.session_state.canvas_key_counter = 0
+                canvas_key = f"canvas_{st.session_state.canvas_key_counter}"
+                
                 canvas_result = st_canvas(
                     stroke_color=current_stroke_color,
                     fill_color="rgba(255, 255, 255, 0)",
@@ -252,7 +264,7 @@ def render_game_page_multi():
                     height=400,
                     width=600,
                     drawing_mode="freedraw",
-                    key=f"canvas",
+                    key=canvas_key,
                     display_toolbar=True,
                 )
                 return canvas_result
