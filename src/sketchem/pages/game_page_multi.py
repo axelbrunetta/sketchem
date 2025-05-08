@@ -113,8 +113,6 @@ def render_game_page_multi():
         st.session_state.game_over = False
     if "start_time" not in st.session_state: #starts timer for player
         st.session_state.start_time = time.time()
-    if "current_stroke_width" not in st.session_state:
-        st.session_state.current_stroke_width = 3
     
     # Get game info
     game = get_game(st.session_state.game_code)
@@ -216,54 +214,43 @@ def render_game_page_multi():
     
     # Vertical slider on the left
     with slider_col:
-        @st.fragment()
-        def slider_fragment():
-            size = vertical_slider(
-                label="Eraser Size" if st.session_state.drawing_mode == "erase" else "Pen Size",
-                min_value=1,
-                max_value=20,
-                default_value=st.session_state.pen_size,
-                key="pen_size_slider",
-                height=350,
-                track_color="#c0c0c0",  # optional
-                thumb_color="#3a444d",  # optional
-                slider_color="#3a444d", 
-            )
+        
+        size = vertical_slider(
+            label="Eraser Size" if st.session_state.drawing_mode == "erase" else "Pen Size",
+            min_value=1,
+            max_value=20,
+            default_value=st.session_state.pen_size,
+            key="pen_size_slider",
+            height=350,
+            track_color="#c0c0c0",  # optional
+            thumb_color="#3a444d",  # optional
+            slider_color="#3a444d", 
+        )
+        
+        # Update pen size in session state
+        if size != st.session_state.pen_size:
+            st.session_state.pen_size = size
             
-            # Update pen size in session state
-            if size != st.session_state.pen_size:
-                st.session_state.pen_size = size
-                # Update canvas key to force refresh
-                if "canvas_key_counter" not in st.session_state:
-                    st.session_state.canvas_key_counter = 0
-                st.session_state.canvas_key_counter += 1
-            
-            # Update current_stroke_width based on the new size and drawing mode
-            if st.session_state.drawing_mode == "erase":
-                st.session_state.current_stroke_width = st.session_state.pen_size + 20
-            else:
-                st.session_state.current_stroke_width = st.session_state.pen_size
-            
-        slider_fragment()
-
+        # Update current_stroke_width based on the new size and drawing mode
+        if st.session_state.drawing_mode == "erase":
+            current_stroke_width = st.session_state.pen_size + 20
+        else:
+            current_stroke_width = st.session_state.pen_size
     # Canvas on the right
     with canvas_col:
         try:
             @st.fragment()
             def canvas_fragment():
-                # Generate a unique key for the canvas based on pen size changes
-                if "canvas_key_counter" not in st.session_state:
-                    st.session_state.canvas_key_counter = 0
                 
                 canvas_result = st_canvas(
                     stroke_color=current_stroke_color,
                     fill_color="rgba(255, 255, 255, 0)",
-                    stroke_width=st.session_state.current_stroke_width,
+                    stroke_width=current_stroke_width,
                     background_color="#000000",
                     height=400,
                     width=600,
                     drawing_mode="freedraw",
-                    key=f"canvas_{st.session_state.canvas_key_counter}",
+                    key=f"canvas",
                     display_toolbar=True,
                 )
                 return canvas_result
