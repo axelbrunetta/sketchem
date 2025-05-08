@@ -19,6 +19,9 @@ def main():
         section[data-testid="stSidebar"] {
             display: none;
         }
+        div[data-testid="stSidebarCollapsedControl"] {
+            display: none;
+        }
     </style>
     """,
         unsafe_allow_html=True,
