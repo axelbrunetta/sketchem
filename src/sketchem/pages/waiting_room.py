@@ -62,6 +62,11 @@ def render_waiting_room():
     if game:
         st.markdown(f"Game Duration: **{game['game_duration']}**")
         
+        # Check if game has started (for both host and joining players)
+        if game.get("status") == "active":
+            st.session_state.game_mode = "multiplayer"
+            st.rerun()
+        
     st.divider()
 
     col3, col4 = st.columns(2)
