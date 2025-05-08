@@ -9,6 +9,13 @@ from sketchem.utils.back_button import back_button
 from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 
+
+@st.fragment()
+def timer_fragment(remaining_time):
+    st.markdown(f"**Time remaining:** {int(remaining_time)}s")
+    time.sleep(2)
+    st.rerun(scope="fragment")
+    
 def save_canvas_as_image(canvas_data):  # convert canvas data to png image
     if canvas_data is not None:
         img_data = canvas_data.astype("uint8")
@@ -131,7 +138,7 @@ def render_game_page_multi():
     with col1:
         st.markdown(f"**Score:** {st.session_state.points}")
     with col2:
-        st.markdown(f"**Time remaining:** {int(remaining_time)}s")
+        timer_fragment(remaining_time)
     
     # Define color options with hex values
     color_options = {
@@ -280,8 +287,7 @@ def render_game_page_multi():
                 for i, player in enumerate(sorted_players):
                     st.markdown(f"{i+1}. **{player.get('name', 'Unknown')}**: {player.get('score', 0)}") #defaults to 0 unknown if nothing found
                     
-    time.sleep(2)
-    st.rerun()#Needed to auto-refresh the game page
+   
 
 if __name__ == "__main__":
     render_game_page_multi()
