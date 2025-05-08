@@ -11,22 +11,11 @@
 }
 
 
-.stMarkdown h1, 
-.stMarkdown h2,
-.stMarkdown h3 {
+div.stMarkdown p strong:contains("Score"),
+div.stMarkdown p strong:contains("Time remaining") {
+    display: block !important;
     text-align: center !important;
-}
-
-div[data-testid="column"]:has(div.stMarkdown:contains("Score")) {
-    display: flex !important;
-    justify-content: center !important;
-    text-align: center !important;
-}
-
-div[data-testid="column"]:has(div.stMarkdown:contains("Time remaining")) {
-    display: flex !important;
-    justify-content: center !important;
-    text-align: center !important;
+    width: 100% !important;
 }
 
 /* Center the "Please draw" instruction */
