@@ -234,7 +234,8 @@ def render_game_page_multi():
                 current_stroke_width = st.session_state.pen_size + 20
             else:
                 current_stroke_width = st.session_state.pen_size
-        slider_fragment()
+            return current_stroke_width
+        current_stroke_width = slider_fragment()
 
     # Canvas on the right
     with canvas_col:
