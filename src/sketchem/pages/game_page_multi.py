@@ -5,7 +5,6 @@ import io
 import time
 import random
 from streamlit_extras.vertical_slider import vertical_slider
-from sketchem.utils.environment import is_running_locally
 from sketchem.utils.back_button import back_button
 from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
@@ -87,14 +86,9 @@ def handle_skip():
     st.rerun()
 
 def render_game_page_multi():
-    if is_running_locally():
-        import os
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(current_dir, 'style', 'singleplayer_setup_styling.css')) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    else:
-        with open('/mount/src/sketchem/src/sketchem/pages/style/singleplayer_setup_styling.css') as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    
+    with open('/mount/src/sketchem/src/sketchem/pages/style/multiplayer_game_page_styling.css') as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     st.markdown(
             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>',

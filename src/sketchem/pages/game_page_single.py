@@ -31,10 +31,10 @@ def render_game_page():
     if is_running_locally():
         import os
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(current_dir, 'style', 'singleplayer_setup_styling.css')) as f:
+        with open(os.path.join(current_dir, 'style', 'singleplayer_game_page_styling.css')) as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     else:
-        with open('/mount/src/sketchem/src/sketchem/pages/style/singleplayer_setup_styling.css') as f:
+        with open('/mount/src/sketchem/src/sketchem/pages/style/singleplayer_game_page_styling.css') as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     st.markdown(

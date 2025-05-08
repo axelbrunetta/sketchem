@@ -1,0 +1,427 @@
+
+/* Multiplayer Game Page Styling with precise class names */
+
+/* Main theme colors */
+:root {
+    --primary-bg: #ffffff;
+    --secondary-bg: #f0f2f6;
+    --accent-blue: #0066cc;
+    --accent-grey: #4f5b66;
+    --highlight: #e6f3ff;
+}
+
+/* Pen button styling */
+div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #3a444d;
+    color: white;
+    
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 8px !important;
+    border: none !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Pen icon */
+div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f304';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
+
+/* Eraser button styling */
+div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #3a444d;
+    color: white;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 8px !important;
+    border: none !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Eraser icon */
+div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f12d';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
+
+/*White button selected*/
+div.stElementContainer.element-container.st-key-White_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ffffff;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+div.stElementContainer.element-container.st-key-White_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: black;
+} 
+
+/*White button unselected*/
+div.stElementContainer.element-container.st-key-White_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ffffff;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+div.stElementContainer.element-container.st-key-White_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: black;
+} 
+
+/*Red button selected*/
+div.stElementContainer.element-container.st-key-Red_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ff0000;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Red button unselected*/
+div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ff0000;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Blue button selected*/
+div.stElementContainer.element-container.st-key-Blue_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #0000ff;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Blue button unselected*/
+div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #0000ff;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Green button selected*/
+div.stElementContainer.element-container.st-key-Green_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #00ff00;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Green button unselected*/
+div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #00ff00;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Yellow button selected*/
+div.stElementContainer.element-container.st-key-Yellow_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ffff00;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Yellow button unselected*/
+div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ffff00;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Purple button selected*/
+div.stElementContainer.element-container.st-key-Purple_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #800080;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Purple button unselected*/
+div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #800080;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Color button checkmarks */
+/* Red selected button icon */
+div.stElementContainer.element-container.st-key-Red_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
+
+/* Blue selected button icon */
+div.stElementContainer.element-container.st-key-Blue_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
+
+/* Green selected button icon */
+div.stElementContainer.element-container.st-key-Green_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: black;
+} 
+
+/* Yellow selected button icon */
+div.stElementContainer.element-container.st-key-Yellow_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: black;
+} 
+
+/* Purple selected button icon */
+div.stElementContainer.element-container.st-key-Purple_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
+
+/* Unselected button styles (no icon) */
+div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
+div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
+div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
+div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
+div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+}
+
+/* Color-specific text colors for unselected buttons */
+div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
+div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
+div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    color: white;
+}
+
+div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-kj6hex.eu6p4el1 button:before,
+div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    color: black;
+}
+
+/* Game action buttons styling */
+div.stElementContainer.element-container.st-key-back_button_None.st-emotion-cache-83erdr.e1lln2w81 button {
+    background-color: var(--accent-grey) !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 8px !important;
+    border: none !important;
+    transition: background-color 0.3s ease !important;
+}
+
+div.stElementContainer.element-container.st-key-back_button_None.st-emotion-cache-83erdr.e1lln2w81 button:hover {
+    background-color: #3a444d !important;
+}
+
+div.stElementContainer.element-container.st-key-skip_btn.st-emotion-cache-83erdr.e1lln2w81 button {
+    background-color: var(--accent-grey) !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 8px !important;
+    border: none !important;
+    transition: background;
+}
