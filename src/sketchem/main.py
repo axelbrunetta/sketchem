@@ -16,6 +16,9 @@ def main():
         [data-testid="collapsedControl"] {
             display: none
         }
+        section[data-testid="stSidebar"] {
+            display: none;
+        }
     </style>
     """,
         unsafe_allow_html=True,
