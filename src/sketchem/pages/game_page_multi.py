@@ -10,8 +10,8 @@ from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 
 
-@st.fragment()
-def timer_fragment(game_duration, run_every="1s"):
+@st.fragment(run_every="1s")
+def timer_fragment(game_duration):
     elapsed_time = time.time() - st.session_state.start_time
     remaining_time = max(0, game_duration - elapsed_time)
     
