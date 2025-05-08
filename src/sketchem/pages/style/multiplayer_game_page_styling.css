@@ -11,8 +11,20 @@
 }
 
 
-div.stMarkdown p strong:contains("Score"),
-div.stMarkdown p strong:contains("Time remaining") {
+.stMarkdown h1, 
+.stMarkdown h2,
+.stMarkdown h3 {
+    text-align: center !important;
+}
+
+/* Center the main Sketchem title */
+div.stHeading h1[id="sketchem"] {
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+
+/* Center the score and time columns */
+div.stHorizontalBlock div.stColumn div.stMarkdown p strong {
     display: block !important;
     text-align: center !important;
     width: 100% !important;
