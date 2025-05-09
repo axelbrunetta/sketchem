@@ -8,13 +8,6 @@ from sketchem.utils.back_button import back_button
 from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 
-# Set page config at the very beginning
-st.set_page_config(
-    page_title="Molecular Pictionary",
-    layout="centered",
-    initial_sidebar_state="collapsed",
-)
-
 # Define color options at module level
 COLOR_OPTIONS = {
     "White": "#ffffff",
@@ -24,6 +17,11 @@ COLOR_OPTIONS = {
     "Yellow": "#ffff00",
     "Purple": "#800080",
 }
+
+def detect_device_type():
+    """Simple device detection based on viewport width"""
+    # For now, just return desktop as we'll handle the actual detection in the render function
+    return "desktop"
 
 def render_tool_buttons(current_mode):
     container = st.container()
@@ -70,24 +68,54 @@ def render_size_control(last_pen_color, current_pen_size, current_eraser_size):
     container = st.container()
     with container:
         if last_pen_color == "Black":  # Eraser mode
-            eraser_size = st.slider(
-                "Eraser Size",
-                min_value=5,
-                max_value=30,
-                value=current_eraser_size,
-                key=f"eraser_size_slider",
-                on_change=lambda: setattr(st.session_state, 'eraser_size', st.session_state.eraser_size_slider)
-            )
+            if st.session_state.device_mode == "desktop":
+                eraser_size = vertical_slider(
+                    label="Eraser Size",
+                    key=f"eraser_size_slider",
+                    min_value=5,
+                    max_value=20,
+                    default_value=current_eraser_size,
+                    step=1,
+                    thumb_color="#ff4b4b",  # Streamlit red
+                    track_color="#0e1117",  # Dark background
+                    slider_color="#ff4b4b"  # Streamlit red
+                )
+                if eraser_size != current_eraser_size:
+                    st.session_state.eraser_size = eraser_size
+            else:
+                eraser_size = st.slider(
+                    "Eraser Size",
+                    min_value=5,
+                    max_value=30,
+                    value=current_eraser_size,
+                    key=f"eraser_size_slider",
+                    on_change=lambda: setattr(st.session_state, 'eraser_size', st.session_state.eraser_size_slider)
+                )
             return eraser_size, "eraser"
         else:  # Pen mode
-            pen_size = st.slider(
-                "Pen Size",
-                min_value=1,
-                max_value=20,
-                value=current_pen_size,
-                key=f"pen_size_slider",
-                on_change=lambda: setattr(st.session_state, 'pen_size', st.session_state.pen_size_slider)
-            )
+            if st.session_state.device_mode == "desktop":
+                pen_size = vertical_slider(
+                    label="Pen Size",
+                    key=f"pen_size_slider",
+                    min_value=1,
+                    max_value=20,
+                    default_value=current_pen_size,
+                    step=1,
+                    thumb_color="#ff4b4b",  # Streamlit red
+                    track_color="#0e1117",  # Dark background
+                    slider_color="#ff4b4b"  # Streamlit red
+                )
+                if pen_size != current_pen_size:
+                    st.session_state.pen_size = pen_size
+            else:
+                pen_size = st.slider(
+                    "Pen Size",
+                    min_value=1,
+                    max_value=20,
+                    value=current_pen_size,
+                    key=f"pen_size_slider",
+                    on_change=lambda: setattr(st.session_state, 'pen_size', st.session_state.pen_size_slider)
+                )
             return pen_size, "pen"
 
 def render_canvas(stroke_color, stroke_width):
@@ -165,6 +193,11 @@ def render_game_page():
         st.session_state.last_pen_color = "White"
     if "device_mode" not in st.session_state:
         st.session_state.device_mode = "desktop"
+    
+    # Add a small toggle for device mode in the corner
+    with st.sidebar:
+        st.session_state.device_mode = "mobile" if st.checkbox("Mobile Mode", value=st.session_state.device_mode == "mobile") else "desktop"
+    
     if "current_molecule" not in st.session_state:
         st.session_state.current_molecule = "Default Molecule"
         select_next_molecule()
