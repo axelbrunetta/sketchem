@@ -4,18 +4,19 @@ import subprocess
 import sys
 from pathlib import Path
 import os
-import tempfile
 from .environment import is_running_locally
-import streamlit as st
+from streamlit.logger import get_logger
+import logging
+
+logger = get_logger(__name__)
+logger.setLevel(logging.DEBUG)
 
 def get_decimer_path():
     """Get the appropriate DECIMER path based on environment"""
     if is_running_locally():
-        return Path.home() / '.decimer'  # Local path
-    # Use a temporary directory for Streamlit Cloud
-    return Path(tempfile.gettempdir()) / 'decimer'
+        return Path.home() / '.decimer' # Local path
+    return Path('/mount/decimer')  # Streamlit Cloud path
 
-@st.cache_resource
 def install_decimer_model():
     """Install the DECIMER Canonical model if not already installed"""
     try:
@@ -25,22 +26,22 @@ def install_decimer_model():
         if decimer_path.exists():
             return True
             
-        # Ensure directory exists
-        os.makedirs(get_decimer_path(), exist_ok=True)
+        if not is_running_locally():
+            # In cloud, ensure mount directory exists
+            os.makedirs('/mount/decimer', exist_ok=True)
             
         print("Installing DECIMER Canonical model...")
         result = subprocess.run(
             [sys.executable, "-m", "decimer", "--model", "Canonical", "--image", "dummy"],
             capture_output=True,
-            text=True,
-            env=dict(os.environ, DECIMER_DATA_PATH=str(get_decimer_path()))
+            text=True
         )
         
         if result.returncode != 0:
-            print(f"Error installing DECIMER model: {result.stderr}")
+            logger.error(f"Error installing DECIMER model: {result.stderr}")
             return False
             
         return True
     except Exception as e:
-        print(f"Error during DECIMER model installation: {str(e)}")
+        logger.error(f"Error during DECIMER model installation: {str(e)}")
         return False

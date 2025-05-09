@@ -2,7 +2,8 @@
 
 import pytest
 from pathlib import Path
-from sketchem.utils.smiles_validator import validate_drawing, validate_drawing_with_ai
+from sketchem.utils.smiles_validator import validate_drawing
+from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
 from sketchem.utils.environment import get_gemini_api_key
 
 # Get current working directory and construct test data path
@@ -168,7 +169,7 @@ def test_validate_drawing_with_ai_invalid_inputs():
     # Test with invalid API key
     result = validate_drawing_with_ai(
         api_key="",
-        image_path=str(image_path),
+        image_path=str(image_path), #need to update to use image bytes
         target_smiles='CCO'
     )
     assert result == "❗ Gemini API key not set."

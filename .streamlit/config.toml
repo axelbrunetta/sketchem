@@ -12,3 +12,5 @@ font="sans serif"
 level = "info"
 messageFormat = "%(asctime)s %(message)s"
 
+[server]
+maxUploadSize = 700
