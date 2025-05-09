@@ -88,6 +88,9 @@ Make sure the molecules you find can be easily represented using a simple chemic
 - DNA
 - Graphite
 - Alloys
+- Fullerene
+- Carbon nanotubes
+- Complex / Big Proteins
 
 Do NOT ouptut atoms only (I am looking for molecules), as in do NOT output things like:
 

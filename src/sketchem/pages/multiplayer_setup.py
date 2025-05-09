@@ -97,9 +97,9 @@ def render_multiplayer_setup():
             def slider_fragment():
                 st.session_state.game_duration = st.slider(
                     "Game Duration (seconds)",
-                    min_value=30,
-                    max_value=180,
-                    value=60,
+                    min_value=180,
+                    max_value=600,
+                    value=300,
                     step=10
                 )
             slider_fragment()
