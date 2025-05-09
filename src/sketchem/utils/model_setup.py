@@ -4,6 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 import os
+import streamlit as st
 from .environment import is_running_locally
 from streamlit.logger import get_logger
 import logging
@@ -17,6 +18,7 @@ def get_decimer_path():
         return Path.home() / '.decimer' # Local path
     return Path('/mount/decimer')  # Streamlit Cloud path
 
+@st.cache_resource
 def install_decimer_model():
     """Install the DECIMER Canonical model if not already installed"""
     try:

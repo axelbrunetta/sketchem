@@ -64,7 +64,13 @@ def handle_submission(canvas_result):
         if target_smiles:
 
 
-            validation_result = validate_drawing(img_bytes, target_smiles, method='mcs')
+            from sketchem.utils.environment import get_gemini_api_key
+            from sketchem.utils.smiles_validator import validate_drawing_with_ai
+            
+            # Validate the drawing against the target SMILES
+            api_key = get_gemini_api_key()
+            validation_result = validate_drawing_with_ai(api_key, img_bytes, target_smiles)
+
             
             # Handle verification errors
             if isinstance(validation_result, bool):
