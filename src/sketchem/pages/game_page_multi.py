@@ -9,6 +9,7 @@ from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
+from sketchem.utils.smiles_validator import validate_drawing
 
 
 logger = get_logger(__name__)
@@ -61,12 +62,9 @@ def handle_submission(canvas_result):
                 target_smiles = game["additional_categories"][category].get(st.session_state.current_molecule)
         
         if target_smiles:
-            from sketchem.utils.environment import get_gemini_api_key
-            from sketchem.utils.smiles_validator import validate_drawing_with_ai
-            
-            # Validate the drawing against the target SMILES
-            api_key = get_gemini_api_key()
-            validation_result = validate_drawing_with_ai(api_key, img_bytes, target_smiles)
+
+
+            validation_result = validate_drawing(img_bytes, target_smiles, method='mcs')
             
             # Handle verification errors
             if isinstance(validation_result, bool):
