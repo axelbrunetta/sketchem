@@ -8,7 +8,11 @@ from sketchem.utils.back_button import back_button
 from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 
+from streamlit.logger import get_logger
+import logging
 
+logger = get_logger(__name__)
+logger.setLevel(logging.DEBUG)
 
     
 def save_canvas_as_image(canvas_data):  # convert canvas data to png image
@@ -32,6 +36,10 @@ def toggle_drawing_mode():
 
 def handle_submission(canvas_result):
     
+    if canvas_result.image_data is None:
+         st.session_state.toast_queue = {"message": "Please draw something before submitting!", "icon": "⚠️"}
+         return
+    
     # Check if canvas is all black (effectively empty)
     img_bytes = save_canvas_as_image(canvas_result.image_data)
     if img_bytes is None or Image.open(io.BytesIO(img_bytes)).getcolors() == [(400*600, (0, 0, 0))]:
@@ -50,6 +58,8 @@ def handle_submission(canvas_result):
         
         # Move to next molecule
         select_next_molecule()
+
+        
         st.rerun()
     else:
         st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
@@ -288,7 +298,6 @@ def render_game_page_multi():
     with col3:
         if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True, 
                     disabled=st.session_state.game_over or st.session_state.player_done):
-            st.rerun()
             handle_submission(canvas_result)
     
     # Game over screen
