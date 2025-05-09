@@ -63,7 +63,11 @@ def select_next_molecule():
                 # Get the next molecule in sequence instead of random
                 current_index = 0
                 if hasattr(st.session_state, 'molecule_index'):
-                    current_index = st.session_state.molecule_index + 1
+                    current_index = (st.session_state.molecule_index + 1) % len(molecules)
+                    # Check if we've gone through all molecules
+                    if current_index == 0:
+                        st.session_state.player_done = True
+                        return
                 st.session_state.molecule_index = current_index
                 st.session_state.current_molecule = molecules[current_index]
                 return
@@ -74,11 +78,15 @@ def select_next_molecule():
                     # Get the next molecule in sequence instead of random
                     current_index = 0
                     if hasattr(st.session_state, 'molecule_index'):
-                        current_index = st.session_state.molecule_index + 1
+                        current_index = (st.session_state.molecule_index + 1) % len(molecules)
+                        # Check if we've gone through all molecules
+                        if current_index == 0:
+                            st.session_state.player_done = True
+                            return
                     st.session_state.molecule_index = current_index
                     st.session_state.current_molecule = molecules[current_index]
                     return
-    
+    return
 
 
 
@@ -113,6 +121,8 @@ def render_game_page_multi():
         st.session_state.game_over = False
     if "start_time" not in st.session_state: #starts timer for player
         st.session_state.start_time = time.time()
+    if "player_done" not in st.session_state:
+        st.session_state.player_done = False
     
     # Get game info
     game = get_game(st.session_state.game_code)
@@ -268,29 +278,38 @@ def render_game_page_multi():
     
     # Skip button
     with col2:
-        if st.button("Skip Molecule", key="skip_btn", use_container_width=True, disabled=st.session_state.game_over):
+        if st.button("Skip Molecule", key="skip_btn", use_container_width=True, 
+                    disabled=st.session_state.game_over or st.session_state.player_done):
             handle_skip()
     
     # Submit button
     with col3:
-        if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True, disabled=st.session_state.game_over):
+        if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True, 
+                    disabled=st.session_state.game_over or st.session_state.player_done):
             handle_submission(canvas_result)
     
     # Game over screen
     if st.session_state.game_over:
         st.markdown("## Game Over!")
-        st.markdown(f"Your final score: **DISPLAY POINTS HERE**")  
-        
+        st.markdown(f"Your final score: **{st.session_state.points}**")  
+        # Hide player_done message when game is over
+        st.session_state.player_done = False
+    elif st.session_state.player_done:
+        st.markdown(f"## You're done! Your score: **{st.session_state.points}**")
         # Show leaderboard
+
+    # Leaderboard
+    @st.fragment(run_every="5s")
+    def leaderboard_fragment():
         st.markdown("### Leaderboard")
-        if game and "players" in game:
+        if game:
             players = game["players"]
             # Sort players by score
             if isinstance(players, list):
                 sorted_players = sorted(players, key=lambda x: x.get("score", 0), reverse=True)
                 for i, player in enumerate(sorted_players):
                     st.markdown(f"{i+1}. **{player.get('name', 'Unknown')}**: {player.get('score', 0)}") #defaults to 0 unknown if nothing found
-                    
+    leaderboard_fragment()           
    
 
 if __name__ == "__main__":

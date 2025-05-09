@@ -98,6 +98,8 @@ Do NOT ouptut atoms only (I am looking for molecules), as in do NOT output thing
 - Bismuth
 - Radon
 - Krypton
+- Iron
+- Gold
 
 Also make sure the smiles you find are valid. If you are not sure, try to find another molecule that fits the category and has a valid smiles string.
 
