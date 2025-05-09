@@ -288,6 +288,7 @@ def render_game_page_multi():
     with col3:
         if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True, 
                     disabled=st.session_state.game_over or st.session_state.player_done):
+            st.rerun()
             handle_submission(canvas_result)
     
     # Game over screen

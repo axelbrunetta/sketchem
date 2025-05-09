@@ -106,18 +106,12 @@ def validate_drawing(image_path: str, target_smiles: str, method: str = 'mcs', t
         return False
 
 
-def validate_drawing_with_ai(api_key, image_path: str, target_smiles: str, method: str = 'mcs', threshold: float = 0.85) -> bool:
+def validate_drawing_with_ai(api_key, image_bytes: bytes, target_smiles: str, threshold: float = 0.85) -> bool:
     # Check for empty API key first
     if not api_key:
         return "❗ Gemini API key not set."
     
     try:
-        # Load the image properly
-        img = Image.open(image_path)
-        img = img.convert('RGB')
-        buf = io.BytesIO()
-        img.save(buf, format="PNG")
-        image_bytes = buf.getvalue()
 
         # Call the Gemini API to get the smiles 
         client = genai.Client(api_key=api_key)
