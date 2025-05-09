@@ -89,6 +89,7 @@ def handle_submission(canvas_result):
         st.rerun()
     else:
         st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
+        st.rerun()
 
 def select_next_molecule():
     # Get the selected category
