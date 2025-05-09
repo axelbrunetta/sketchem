@@ -155,7 +155,7 @@ def render_multiplayer_setup():
 
 
             
-            if st.button("Create a molecule category using AI", key="create_category_button"):
+            if st.button("Create a molecule category using AI", key="create_category_button", help="This is an experimental feature, some things may not work as intended."):
                 openModal()
 
             st.divider()
