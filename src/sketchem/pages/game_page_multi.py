@@ -42,7 +42,7 @@ def handle_submission(canvas_result):
     img_bytes = save_canvas_as_image(canvas_result.image_data)
     if img_bytes is None or Image.open(io.BytesIO(img_bytes)).getcolors() == [(400*600, (0, 0, 0))]:
         st.session_state.toast_queue = {"message": "Please draw something before submitting!", "icon": "⚠️"}
-        logging.info("Player submitted an empty drawing")
+        logger.info("Player submitted an empty drawing")
         return
     
   
@@ -58,7 +58,7 @@ def handle_submission(canvas_result):
         # Move to next molecule
         select_next_molecule()
 
-        logging.info("UI reruns")
+        logger.info("UI reruns")
         st.rerun()
     else:
         st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
