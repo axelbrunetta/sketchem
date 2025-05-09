@@ -36,14 +36,13 @@ def toggle_drawing_mode():
 
 def handle_submission(canvas_result):
     
-    if canvas_result.image_data is None:
-         st.session_state.toast_queue = {"message": "Please draw something before submitting!", "icon": "⚠️"}
-         return
+
     
     # Check if canvas is all black (effectively empty)
     img_bytes = save_canvas_as_image(canvas_result.image_data)
     if img_bytes is None or Image.open(io.BytesIO(img_bytes)).getcolors() == [(400*600, (0, 0, 0))]:
         st.session_state.toast_queue = {"message": "Please draw something before submitting!", "icon": "⚠️"}
+        logging.info("Player submitted an empty drawing")
         return
     
   
@@ -59,7 +58,7 @@ def handle_submission(canvas_result):
         # Move to next molecule
         select_next_molecule()
 
-        
+        logging.info("UI reruns")
         st.rerun()
     else:
         st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
@@ -302,8 +301,14 @@ def render_game_page_multi():
     
     # Game over screen
     if st.session_state.game_over:
-        st.markdown("## Game Over!")
-        st.markdown(f"Your final score: **{st.session_state.points}**")  
+        if game and "category" in game:  
+            category = game["category"]
+            if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
+                molecules = list(MOLECULE_CATEGORIES[category].keys())
+            elif not game.get("category_is_default", True) and "additional_categories" in game:
+                if category in game["additional_categories"]:
+                    molecules = list(game["additional_categories"][category].keys())
+        st.markdown(f"## Game Over! Your final score: **{st.session_state.points}/{len(molecules)}**")
         # Hide player_done message when game is over
         st.session_state.player_done = False
     elif st.session_state.player_done:
