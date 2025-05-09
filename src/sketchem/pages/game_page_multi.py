@@ -31,8 +31,10 @@ def toggle_drawing_mode():
         st.session_state.pen_color_selector = st.session_state.last_pen_color
 
 def handle_submission(canvas_result):
-    ############MAYBE DO MORE HERE TO CHECK IF IMAGE IS ONLY BLACK??
-    if canvas_result.image_data is None:
+    
+    # Check if canvas is all black (effectively empty)
+    img_bytes = save_canvas_as_image(canvas_result.image_data)
+    if img_bytes is None or Image.open(io.BytesIO(img_bytes)).getcolors() == [(400*600, (0, 0, 0))]:
         st.session_state.toast_queue = {"message": "Please draw something before submitting!", "icon": "⚠️"}
         return
     
@@ -304,7 +306,8 @@ def render_game_page_multi():
                     molecules = list(game["additional_categories"][category].keys())
         st.markdown(f"## You're done! Your score: **{st.session_state.points}/{len(molecules)}**")
        
-
+    st.divider()
+    
     # Leaderboard
     @st.fragment(run_every="5s")
     def leaderboard_fragment():
