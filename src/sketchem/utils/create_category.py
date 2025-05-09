@@ -89,6 +89,12 @@ Make sure the molecules you find can be easily represented using a simple chemic
 - Graphite
 - Alloys
 
+Do NOT ouptut atoms only (I am looking for molecules), as in do NOT output things like:
+
+- Osmium
+- Bismuth
+- Radon
+- Krypton
 
 Also make sure the smiles you find are valid. If you are not sure, try to find another molecule that fits the category and has a valid smiles string.
 
