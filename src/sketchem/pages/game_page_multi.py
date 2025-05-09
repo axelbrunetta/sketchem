@@ -295,8 +295,15 @@ def render_game_page_multi():
         # Hide player_done message when game is over
         st.session_state.player_done = False
     elif st.session_state.player_done:
-        st.markdown(f"## You're done! Your score: **{st.session_state.points}**")
-        # Show leaderboard
+        if game and "category" in game:  
+            category = game["category"]
+            if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
+                molecules = list(MOLECULE_CATEGORIES[category].keys())
+            elif not game.get("category_is_default", True) and "additional_categories" in game:
+                if category in game["additional_categories"]:
+                    molecules = list(game["additional_categories"][category].keys())
+        st.markdown(f"## You're done! Your score: **{st.session_state.points}/{len(molecules)}**")
+       
 
     # Leaderboard
     @st.fragment(run_every="5s")
