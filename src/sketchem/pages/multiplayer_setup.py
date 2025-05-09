@@ -43,7 +43,6 @@ def handle_create_game(player_name: str):
                 st.session_state.game_mode = "created_multi"
                 
                 
-                
                 st.rerun()
             else:
                 st.error("Failed to create game")

@@ -23,6 +23,7 @@ python-dotenv = "*"
 google-genai = "*"
 streamlit-extras = "*"
 
+
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
 tox = "^4.0"

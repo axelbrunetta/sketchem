@@ -7,9 +7,9 @@ from streamlit_extras.vertical_slider import vertical_slider
 from sketchem.utils.back_button import back_button
 from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
-
 from streamlit.logger import get_logger
 import logging
+
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -45,8 +45,36 @@ def handle_submission(canvas_result):
         st.rerun()
         return
     
-  
-    correct = True  ############### need to replace with actual validator
+    # Get the game to find the target molecule's SMILES
+    game = get_game(st.session_state.game_code)
+    correct = False
+    
+    if game and "category" in game:
+        category = game["category"]
+        target_smiles = None
+        
+        # Get SMILES from appropriate category
+        if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
+            target_smiles = MOLECULE_CATEGORIES[category].get(st.session_state.current_molecule)
+        elif not game.get("category_is_default", True) and "additional_categories" in game:
+            if category in game["additional_categories"]:
+                target_smiles = game["additional_categories"][category].get(st.session_state.current_molecule)
+        
+        if target_smiles:
+            from sketchem.utils.environment import get_gemini_api_key
+            from sketchem.utils.smiles_validator import validate_drawing_with_ai
+            
+            # Validate the drawing against the target SMILES
+            api_key = get_gemini_api_key()
+            validation_result = validate_drawing_with_ai(api_key, img_bytes, target_smiles)
+            
+            # Handle verification errors
+            if isinstance(validation_result, bool):
+                correct = validation_result
+            elif isinstance(validation_result, str) and "error" in validation_result.lower():
+                st.session_state.toast_queue = {"message": validation_result, "icon": "❌"}
+                st.rerun()
+                return
     
     if correct:
         st.session_state.points += 1
