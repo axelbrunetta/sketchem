@@ -22,7 +22,7 @@ streamlit-drawable-canvas = "*"
 python-dotenv = "*"
 google-genai = "*"
 streamlit-extras = "*"
-opencv-python-headless = "*"  # Add headless OpenCV to avoid GUI dependencies
+opencv-python-headless = "*"  
 
 
 [tool.poetry.group.dev.dependencies]
