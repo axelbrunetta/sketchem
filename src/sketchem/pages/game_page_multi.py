@@ -43,6 +43,7 @@ def handle_submission(canvas_result):
     if img_bytes is None or Image.open(io.BytesIO(img_bytes)).getcolors() == [(400*600, (0, 0, 0))]:
         st.session_state.toast_queue = {"message": "Please draw something before submitting!", "icon": "⚠️"}
         logger.info("Player submitted an empty drawing")
+        st.rerun()
         return
     
   
