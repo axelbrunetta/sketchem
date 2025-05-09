@@ -9,7 +9,7 @@ from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
-from sketchem.utils.smiles_validator import validate_drawing_ai
+from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
 
 
 logger = get_logger(__name__)
