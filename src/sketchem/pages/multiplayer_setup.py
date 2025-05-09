@@ -41,6 +41,17 @@ def handle_create_game(player_name: str):
                 st.session_state.game_code = response["game_code"]
                 st.session_state.player_id = response["player_id"]
                 st.session_state.game_mode = "created_multi"
+                
+                # Copy code to clipboard and show toast notification
+                st.write(f"""
+                <script>
+                    navigator.clipboard.writeText("{response["game_code"]}");
+                </script>
+                """, unsafe_allow_html=True)
+                
+                # Queue toast notification
+                st.session_state.toast_queue = {"message": "Game code copied to clipboard!", "icon": "📋"}
+                
                 st.rerun()
             else:
                 st.error("Failed to create game")
