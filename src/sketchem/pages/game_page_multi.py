@@ -62,7 +62,8 @@ def handle_submission(canvas_result):
                 target_smiles = game["additional_categories"][category].get(st.session_state.current_molecule)
         
         if target_smiles:
-
+            
+            logger.info(f"Target smiles: {target_smiles}")
 
             from sketchem.utils.environment import get_gemini_api_key
             from sketchem.utils.smiles_validator import validate_drawing_with_ai
