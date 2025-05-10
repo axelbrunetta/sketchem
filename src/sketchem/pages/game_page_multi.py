@@ -87,6 +87,12 @@ def handle_submission(canvas_result):
         #############TO DOOO -> Update score in database
         ###############Also check that score <= nbr of molecules -> if == then you're done -> leaderboard will be based on points + time
         
+
+         # Reset the canvas by incrementing a canvas key counter
+        if "canvas_key_counter" not in st.session_state:
+            st.session_state.canvas_key_counter = 0
+        st.session_state.canvas_key_counter += 1
+        
         # Move to next molecule
         select_next_molecule()
 
@@ -147,6 +153,11 @@ def select_next_molecule():
 
 
 def handle_skip():
+    # Reset the canvas by incrementing the counter
+    if "canvas_key_counter" not in st.session_state:
+        st.session_state.canvas_key_counter = 0
+    st.session_state.canvas_key_counter += 1
+    
     select_next_molecule()
     st.session_state.toast_queue = {"message": "Skipped to next molecule", "icon": "⏭️"}
     st.rerun()
@@ -302,6 +313,10 @@ def render_game_page_multi():
             current_stroke_width = st.session_state.pen_size + 20
         else:
             current_stroke_width = st.session_state.pen_size
+    # Initialize canvas key counter if it doesn't exist
+    if "canvas_key_counter" not in st.session_state:
+        st.session_state.canvas_key_counter = 0
+    
     # Canvas on the right
     with canvas_col:
         try:
@@ -316,7 +331,7 @@ def render_game_page_multi():
                     height=400,
                     width=600,
                     drawing_mode="freedraw",
-                    key=f"canvas",
+                    key=f"canvas_{st.session_state.canvas_key_counter}",
                     display_toolbar=True,
                 )
                 return canvas_result
