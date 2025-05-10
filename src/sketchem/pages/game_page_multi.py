@@ -84,7 +84,7 @@ def handle_submission(canvas_result):
         st.session_state.toast_queue = {"message": f"Correct! You drew {st.session_state.current_molecule} correctly.", "icon": "✅"}
         
         #############TO DOOO -> Update score in database
-        ###############Also check that score <= nbr of molecules -> if == then win
+        ###############Also check that score <= nbr of molecules -> if == then you're done -> leaderboard will be based on points + time
         
         # Move to next molecule
         select_next_molecule()
