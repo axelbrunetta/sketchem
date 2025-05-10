@@ -76,13 +76,7 @@ def handle_submission(canvas_result):
             if isinstance(validation_result, bool):
                 correct = validation_result
             elif isinstance(validation_result, str):
-                if game.get("hints", False):  # Check if hints are enabled
-                    if st.session_state.last_gemini_detected_mol:
-                        compounds = pcp.get_compounds(st.session_state.last_gemini_detected_mol, namespace='smiles') 
-                        compound = compounds[0]
-                        st.session_state.toast_queue = {"message": f"Wrong molecule, what you drew looks more like {compound.iupac_name}", "icon": "☝️"}
-                else:
-                    st.session_state.toast_queue = {"message": validation_result, "icon": "❌"}
+                st.session_state.toast_queue = {"message": validation_result, "icon": "❌"}
                 st.rerun()
                 return
     
@@ -98,7 +92,13 @@ def handle_submission(canvas_result):
 
         st.rerun()
     else:
-        st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
+        if game.get("hints", False):  # Check if hints are enabled
+            if st.session_state.last_gemini_detected_mol:
+                compounds = pcp.get_compounds(st.session_state.last_gemini_detected_mol, namespace='smiles') 
+                compound = compounds[0]
+                st.session_state.toast_queue = {"message": f"Wrong molecule, what you drew looks more like {compound.iupac_name}", "icon": "☝️"}
+        else:
+            st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
         st.rerun()
 
 def select_next_molecule():
