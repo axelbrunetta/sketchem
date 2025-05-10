@@ -94,9 +94,16 @@ def handle_submission(canvas_result):
     else:
         if game.get("hints", False):  # Check if hints are enabled
             if st.session_state.last_gemini_detected_mol:
-                compounds = pcp.get_compounds(st.session_state.last_gemini_detected_mol, namespace='smiles') 
-                compound = compounds[0]
-                st.session_state.toast_queue = {"message": f"Wrong molecule, what you drew looks more like {compound.iupac_name}", "icon": "☝️"}
+                try:
+                    compounds = pcp.get_compounds(st.session_state.last_gemini_detected_mol, namespace='smiles') 
+                    if compounds:
+                        compound = compounds[0]
+                        st.session_state.toast_queue = {"message": f"Wrong molecule, what you drew looks more like {compound.iupac_name}", "icon": "☝️"}
+                    else:
+                        st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
+                except Exception as e:
+                    logger.error(f"PubChem error: {e}")
+                    st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
         else:
             st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
         st.rerun()
