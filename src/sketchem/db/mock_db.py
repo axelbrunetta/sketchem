@@ -36,6 +36,7 @@ def create_game(player_name: str) -> Dict:
         "category_is_default": st.session_state.category_is_default,
         "additional_categories": st.session_state.additional_categories, #Adds additional categories to database when creating the game
         "game_duration": st.session_state.game_duration,
+        "hints": st.session_state.enable_hints,
         "players": {
             player_id: {
                 "name": player_name,

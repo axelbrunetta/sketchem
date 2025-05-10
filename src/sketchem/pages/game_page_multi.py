@@ -11,6 +11,7 @@ from streamlit.logger import get_logger
 import logging
 from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
 from sketchem.utils.environment import get_gemini_api_key
+import pubchempy as pcp
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -74,8 +75,14 @@ def handle_submission(canvas_result):
             # Handle verification errors
             if isinstance(validation_result, bool):
                 correct = validation_result
-            elif isinstance(validation_result, str) in validation_result:
-                st.session_state.toast_queue = {"message": validation_result, "icon": "❌"}
+            elif isinstance(validation_result, str):
+                if game.get("hints", False):  # Check if hints are enabled
+                    if st.session_state.last_gemini_detected_mol:
+                        compounds = pcp.get_compounds(st.session_state.last_gemini_detected_mol, namespace='smiles') 
+                        compound = compounds[0]
+                        st.session_state.toast_queue = {"message": f"Wrong molecule, what you drew looks more like {compound.iupac_name}", "icon": "☝️"}
+                else:
+                    st.session_state.toast_queue = {"message": validation_result, "icon": "❌"}
                 st.rerun()
                 return
     

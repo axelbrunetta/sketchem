@@ -1,6 +1,7 @@
 # This file contains the main function that compares a drawn molecule against a target SMILES string using AI
 
 
+import streamlit as st
 from rdkit import Chem
 from rdkit.Chem import rdFMCS
 from google import genai
@@ -32,7 +33,8 @@ def validate_drawing_with_ai(api_key, image_bytes: bytes, target_smiles: str, th
             ],
         )
         logger.info(f"Gemini Detected Mol: {response.text.strip()}")
-
+        st.session_state.last_gemini_detected_mol = response.text.strip()
+        
         if response.text.strip() == "INVALID_STRUCTURE":
             return response.text.strip()
         

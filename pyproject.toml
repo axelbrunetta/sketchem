@@ -23,6 +23,7 @@ python-dotenv = "*"
 google-genai = "*"
 streamlit-extras = "*"
 opencv-python-headless = "*"  
+pubchempy = "*"
 
 
 [tool.poetry.group.dev.dependencies]
