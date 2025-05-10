@@ -97,13 +97,16 @@ def render_multiplayer_setup():
             
             @st.fragment()
             def slider_fragment():
-                st.session_state.game_duration = st.slider(
+                
+                displayed_duration = st.slider(
                     "Game Duration (seconds)",
                     min_value=180,
                     max_value=600,
                     value=300,
                     step=10
                 )
+                # Add 5 seconds to the actual game duration to account for loading time of the game page -> because of the timer
+                st.session_state.game_duration = displayed_duration + 5
             slider_fragment()
             st.session_state.enable_hints = st.toggle("Enable hints")
 
