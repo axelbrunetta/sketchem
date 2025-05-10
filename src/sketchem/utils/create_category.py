@@ -47,6 +47,7 @@ def process_gemini_category_response(response_text):
         st.session_state.selected_molecule_category = category_name
         st.session_state.category_is_default = False
         
+        logger.info(f"Created category: {category_name}, Elements: {molecules_dict}")
         logger.info(f"Updated category: {st.session_state.selected_molecule_category}, isDefault: {st.session_state.category_is_default}")
         
         return True
