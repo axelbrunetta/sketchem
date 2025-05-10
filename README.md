@@ -87,3 +87,13 @@ streamlit run src/sketchem/main.py
 
 
 
+## Troubleshooting
+
+### StreamlitSetPageConfigMustBeFirstCommandError
+
+If you encounter this error when deploying on Streamlit Cloud:
+```
+streamlit.errors.StreamlitSetPageConfigMustBeFirstCommandError: This app has encountered an error.
+```
+
+This is a normal occurrence during the first load of the app on Streamlit Cloud and is linked to us disabling the default Streamlit sidebar. Simply reload the page once and the error will disappear. 
