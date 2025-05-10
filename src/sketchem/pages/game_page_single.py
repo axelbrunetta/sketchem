@@ -2,9 +2,108 @@ import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 from PIL import Image
 import io
+import time
 from streamlit_extras.vertical_slider import vertical_slider
-from sketchem.utils.environment import is_running_locally
-from contextlib import contextmanager
+from sketchem.utils.back_button import back_button
+from sketchem.db.mock_db import get_game
+from sketchem.data.molecules import MOLECULE_CATEGORIES
+
+# Set page config at the very beginning
+st.set_page_config(
+    page_title="Molecular Pictionary",
+    layout="centered",
+    initial_sidebar_state="collapsed",
+)
+
+# Define color options at module level
+COLOR_OPTIONS = {
+    "White": "#ffffff",
+    "Red": "#ff0000",
+    "Blue": "#0000ff",
+    "Green": "#00ff00",
+    "Yellow": "#ffff00",
+    "Purple": "#800080",
+}
+
+def render_tool_buttons(current_mode):
+    container = st.container()
+    with container:
+        tool_cols = st.columns(2)
+        with tool_cols[0]:
+            if st.button("✏️", key=f"pen_button_{current_mode}"):
+                st.session_state.drawing_mode = "freedraw"
+                st.session_state.last_pen_color = "White"
+        with tool_cols[1]:
+            if st.button("🧽", key=f"eraser_button_{current_mode}"):
+                st.session_state.drawing_mode = "freedraw"
+                st.session_state.last_pen_color = "Black"
+
+def render_color_buttons(last_pen_color):
+    container = st.container()
+    with container:
+        color_cols = st.columns(len(COLOR_OPTIONS))
+        for i, (color_name, color_value) in enumerate(COLOR_OPTIONS.items()):
+            with color_cols[i]:
+                is_selected = last_pen_color == color_name
+                button_key = f"{color_name}_{'selected' if is_selected else 'color'}_{last_pen_color}"
+                
+                # Add button-specific styling
+                st.markdown(f"""
+                <style>
+                div[data-testid="stButton"] button[key="{button_key}"] {{
+                    background-color: {color_value} !important;
+                    border: {("3px solid #fff !important; box-shadow: 0 0 0 2px #333;") if is_selected else "2px solid #333 !important"};
+                    width: 30px !important;
+                    height: 30px !important;
+                    border-radius: 50% !important;
+                    padding: 0 !important;
+                    min-width: unset !important;
+                }}
+                </style>
+                """, unsafe_allow_html=True)
+                
+                if st.button("", key=button_key, help=f"Select {color_name}"):
+                    st.session_state.last_pen_color = color_name
+                    st.session_state.drawing_mode = "freedraw"
+
+def render_size_control(last_pen_color, current_pen_size, current_eraser_size):
+    container = st.container()
+    with container:
+        if last_pen_color == "Black":  # Eraser mode
+            eraser_size = st.slider(
+                "Eraser Size",
+                min_value=5,
+                max_value=30,
+                value=current_eraser_size,
+                key=f"eraser_size_slider",
+                on_change=lambda: setattr(st.session_state, 'eraser_size', st.session_state.eraser_size_slider)
+            )
+            return eraser_size, "eraser"
+        else:  # Pen mode
+            pen_size = st.slider(
+                "Pen Size",
+                min_value=1,
+                max_value=20,
+                value=current_pen_size,
+                key=f"pen_size_slider",
+                on_change=lambda: setattr(st.session_state, 'pen_size', st.session_state.pen_size_slider)
+            )
+            return pen_size, "pen"
+
+def render_canvas(stroke_color, stroke_width):
+    container = st.container()
+    with container:
+        return st_canvas(
+            stroke_color=stroke_color,
+            fill_color="rgba(255, 255, 255, 0)",
+            stroke_width=stroke_width,
+            background_color="#000000",
+            height=400,
+            width=600,
+            drawing_mode="freedraw",
+            key="canvas",
+            display_toolbar=True,
+        )
 
 def save_canvas_as_image(canvas_data):  # convert canvas data to png image
     if canvas_data is not None:
@@ -15,179 +114,149 @@ def save_canvas_as_image(canvas_data):  # convert canvas data to png image
         return buf.getvalue()
     return None
 
-
-# switch between pen and eraser
-def toggle_drawing_mode():
-    if st.session_state.drawing_mode == "freedraw":
-        st.session_state.drawing_mode = "erase"
-    else:
-        st.session_state.drawing_mode = "freedraw"
-        # restore last pen color
-        st.session_state.pen_color_selector = st.session_state.last_pen_color
+def handle_submission(canvas_result):
+    if canvas_result.image_data is None:
+        st.session_state.toast_queue = {"message": "Please draw something before submitting!", "icon": "⚠️"}
+        return
     
+    correct = True  # need to replace with actual validator
+    
+    if correct:
+        st.session_state.points += 1
+        st.session_state.toast_queue = {"message": f"Correct! You drew {st.session_state.current_molecule} correctly.", "icon": "✅"}
+        select_next_molecule()
+        st.rerun()
+    else:
+        st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
 
+def select_next_molecule():
+    if "category" not in st.session_state:
+        st.error("No category selected. Please go back and choose one.")
+        return
+
+    category = st.session_state.category
+
+    if category in MOLECULE_CATEGORIES:
+        molecules = list(MOLECULE_CATEGORIES[category].keys())
+        if molecules:
+            current_index = st.session_state.get("molecule_index", 0)
+            if current_index >= len(molecules):
+                st.session_state.game_over = True
+            else:
+                st.session_state.current_molecule = molecules[current_index]
+                st.session_state.molecule_index = current_index
+
+def handle_skip():
+    select_next_molecule()
+    st.session_state.toast_queue = {"message": "Skipped to next molecule", "icon": "⏭️"}
+    st.rerun()
 
 def render_game_page():
-    if is_running_locally():
-        import os
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(current_dir, 'style', 'singleplayer_game_page_styling.css')) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    else:
-        with open('/mount/src/sketchem/src/sketchem/pages/style/singleplayer_game_page_styling.css') as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-    st.markdown(
-            '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>',
-            unsafe_allow_html=True,
-        )
-    
-    # initialize session states
+    # Initialize session states
     if "pen_size" not in st.session_state:
         st.session_state.pen_size = 3
+    if "eraser_size" not in st.session_state:
+        st.session_state.eraser_size = 10
+    if "canvas_key" not in st.session_state:
+        st.session_state.canvas_key = 0
     if "drawing_mode" not in st.session_state:
-        st.session_state.drawing_mode = "freedraw"  # default to pen mode
+        st.session_state.drawing_mode = "freedraw"
     if "last_pen_color" not in st.session_state:
-        st.session_state.last_pen_color = "White"  # default
+        st.session_state.last_pen_color = "White"
+    if "device_mode" not in st.session_state:
+        st.session_state.device_mode = "desktop"
+    if "current_molecule" not in st.session_state:
+        st.session_state.current_molecule = "Default Molecule"
+        select_next_molecule()
+    if "game_code" not in st.session_state:
+        st.session_state.game_code = "demo_code"
+    if "points" not in st.session_state:
+        st.session_state.points = 0
+    if "molecule_index" not in st.session_state:
+        st.session_state.molecule_index = 0
+    if "game_over" not in st.session_state:
+        st.session_state.game_over = False
 
-    # Define color options with hex values
-    color_options = {
-        "White": "#ffffff",
-        "Red": "#ff0000",
-        "Blue": "#0000ff",
-        "Green": "#00ff00",
-        "Yellow": "#ffff00",
-        "Purple": "#800080",
-    }
+    # Layout: controls vs. canvas
+    col1, col2 = st.columns([1, 3])
 
-    # configure canvas based on mode
-    if st.session_state.drawing_mode == "erase":
-        current_stroke_color = "#000000"  # Black for eraser on black background
-    else:
-        # Make sure last_pen_color is a valid key in color_options
-        if st.session_state.last_pen_color not in color_options:
-            st.session_state.last_pen_color = "White"  # Default to white if invalid
-        current_stroke_color = color_options[st.session_state.last_pen_color]
-
-    # Title
-    st.markdown("<h1 style='text-align: center; margin-bottom: 20px;'>Single Player Mode</h1>", unsafe_allow_html=True)
-    
-    # Function to handle color selection
-    def select_color(color_name):
-        st.session_state.last_pen_color = color_name
-        st.session_state.pen_color_selector = color_name
-        
-        # Switch to freedraw mode if currently in eraser mode
-        if st.session_state.drawing_mode == "erase":
-            st.session_state.drawing_mode = "freedraw"
-    
-    # Create a centered row of color buttons using columns
-    left_spacer, col1, col2, col3, col4, col5, col6, col7, right_spacer = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1])
-    
+    # Controls column
     with col1:
-        is_white_selected = st.session_state.last_pen_color == "White"
-        white_key = "White_selected" if is_white_selected else "White_color"
-        st.button("", key=white_key, on_click=select_color, args=("White",), help="Select White")
-    
-    with col2:
-        is_red_selected = st.session_state.last_pen_color == "Red"
-        red_key = "Red_selected" if is_red_selected else "Red_color"
-        st.button("", key=red_key, on_click=select_color, args=("Red",), help="Select Red")
-    
-    with col3:
-        is_blue_selected = st.session_state.last_pen_color == "Blue"
-        blue_key = "Blue_selected" if is_blue_selected else "Blue_color"
-        st.button("", key=blue_key, on_click=select_color, args=("Blue",), help="Select Blue")
-    
-    with col4:
-        is_green_selected = st.session_state.last_pen_color == "Green"
-        green_key = "Green_selected" if is_green_selected else "Green_color"
-        st.button("", key=green_key, on_click=select_color, args=("Green",), help="Select Green")
-    
-    with col5:
-        is_yellow_selected = st.session_state.last_pen_color == "Yellow"
-        yellow_key = "Yellow_selected" if is_yellow_selected else "Yellow_color"
-        st.button("", key=yellow_key, on_click=select_color, args=("Yellow",), help="Select Yellow")
-    
-    with col6:
-        is_purple_selected = st.session_state.last_pen_color == "Purple"
-        purple_key = "Purple_selected" if is_purple_selected else "Purple_color"
-        st.button("", key=purple_key, on_click=select_color, args=("Purple",), help="Select Purple")
-    
-    with col7:
-        # Eraser/pen toggle button
-        eraser_key = "pen_toggle" if st.session_state.drawing_mode == "erase" else "eraser_toggle"
-        eraser_help_message = "Switch to pen" if st.session_state.drawing_mode == "erase" else "Switch to eraser"
-        st.button("", on_click=toggle_drawing_mode, key=eraser_key, help=eraser_help_message)
-    
-    # Canvas and slider layout
-    slider_col, canvas_col = st.columns([1, 4])
-    
-    # Vertical slider on the left
-    with slider_col:
-        st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
-        size = vertical_slider(
-            label="Eraser Size" if st.session_state.drawing_mode == "erase" else "Pen Size",
-            min_value=1,
-            max_value=20,
-            default_value=st.session_state.pen_size,
-            key="pen_size_slider",
-            height=300,
+        # Style for tool buttons
+        st.markdown("""
+        <style>
+        div[data-testid="stButton"] button {
+            border-radius: 8px;
+            padding: 10px;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        div[data-testid="stButton"] button:hover {
+            transform: translateY(-2px);
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+        # Pen and Eraser buttons
+        render_tool_buttons(st.session_state.drawing_mode)
+
+        # Highlight active tool
+        st.markdown(f"""
+        <style>
+        div[data-testid="stButton"] button[key="pen_button_{st.session_state.drawing_mode}"] {{
+            border: 2px solid {("#4CAF50" if st.session_state.last_pen_color != "Black" else "#ddd")} !important;
+        }}
+        div[data-testid="stButton"] button[key="eraser_button_{st.session_state.drawing_mode}"] {{
+            border: 2px solid {("#ff6b6b" if st.session_state.last_pen_color == "Black" else "#ddd")} !important;
+        }}
+        </style>
+        """, unsafe_allow_html=True)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # Color buttons (only show when not in eraser mode)
+        if st.session_state.last_pen_color != "Black":
+            render_color_buttons(st.session_state.last_pen_color)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # Size slider
+        new_size, size_type = render_size_control(
+            st.session_state.last_pen_color,
+            st.session_state.pen_size,
+            st.session_state.eraser_size
         )
-        st.session_state.pen_size = size
-        
-        # Update current_stroke_width based on the new size and drawing mode
-        if st.session_state.drawing_mode == "erase":
-            current_stroke_width = st.session_state.pen_size + 20
+
+    # Canvas column
+    with col2:
+        # Update stroke color based on current mode
+        if st.session_state.last_pen_color == "Black":  # Eraser mode
+            current_stroke_color = "#000000"
+            current_stroke_width = st.session_state.eraser_size
         else:
+            current_stroke_color = COLOR_OPTIONS[st.session_state.last_pen_color]
             current_stroke_width = st.session_state.pen_size
 
+        canvas_result = render_canvas(current_stroke_color, current_stroke_width)
 
-    # Canvas on the right
-    with canvas_col:
-        try:
-            canvas_result = st_canvas(
-                stroke_color=current_stroke_color,
-                fill_color="rgba(255, 255, 255, 0)",
-                stroke_width=current_stroke_width,
-                background_color="#000000",
-                height=400,
-                width=600,
-                drawing_mode="freedraw",
-                key=f"canvas",
-                display_toolbar=True,
-            )
-        except Exception as e:
-            st.error(f"Canvas error: {e}")
-            # Reset drawing mode to freedraw if there's an error
-            st.session_state.drawing_mode = "freedraw"
-            st.rerun()
-    
     # Buttons row
-    back_col, submit_col  = st.columns([1, 1])
-    
-    # Back button
+    st.markdown("<div style='margin-top: 40px;'></div>", unsafe_allow_html=True)
+    submit_col, back_col = st.columns([1, 1])
+
+    with submit_col:
+        if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True):
+            handle_submission(canvas_result)
+
     with back_col:
-        if st.button("Back", key="back_btn", use_container_width=True):
+        if st.button("Back", key="simple_back_btn", use_container_width=True):
             st.session_state.show_back_toast = True
             st.session_state.game_mode = "single_setup"
             st.rerun()
-    # Submit button
-    with submit_col:
-        if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True):
-            if canvas_result.image_data is not None:
-                img_bytes = save_canvas_as_image(canvas_result.image_data)
-                if img_bytes:
-                    st.success("Drawing submitted successfully!")
-            else:
-                st.warning("Please draw something before submitting!")
-    
 
+    # Game over screen
+    if st.session_state.game_over:
+        st.markdown("## Game Over!")
+        st.markdown(f"Your final score: **{st.session_state.points}**")
 
 if __name__ == "__main__":
-    st.set_page_config(
-        page_title="Molecular Pictionary",
-        layout="centered",
-        initial_sidebar_state="collapsed",
-    )
     render_game_page()

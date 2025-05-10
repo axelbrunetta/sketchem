@@ -10,7 +10,7 @@ from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
 from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
-
+from sketchem.utils.environment import get_gemini_api_key
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -65,8 +65,6 @@ def handle_submission(canvas_result):
             
             logger.info(f"Target smiles: {target_smiles}")
 
-            from sketchem.utils.environment import get_gemini_api_key
-            from sketchem.utils.smiles_validator import validate_drawing_with_ai
             
             # Validate the drawing against the target SMILES
             api_key = get_gemini_api_key()
