@@ -74,7 +74,7 @@ def handle_submission(canvas_result):
             # Handle verification errors
             if isinstance(validation_result, bool):
                 correct = validation_result
-            elif isinstance(validation_result, str) and "error" in validation_result.lower():
+            elif isinstance(validation_result, str) in validation_result:
                 st.session_state.toast_queue = {"message": validation_result, "icon": "❌"}
                 st.rerun()
                 return
