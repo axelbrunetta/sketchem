@@ -6,6 +6,11 @@ from rdkit.Chem import rdFMCS
 from google import genai
 from google.genai import types
 from sketchem.utils.smiles_validator_ai_prompt import ai_prompt
+from streamlit.logger import get_logger
+import logging
+
+logger = get_logger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 def validate_drawing_with_ai(api_key, image_bytes: bytes, target_smiles: str, threshold: float = 0.85) -> bool | str:
@@ -26,6 +31,8 @@ def validate_drawing_with_ai(api_key, image_bytes: bytes, target_smiles: str, th
                 prompt,
             ],
         )
+        logger.info(f"Gemini Detected Mol: {response.text.strip()}")
+
         if response.text.strip() == "INVALID_STRUCTURE":
             return response.text.strip()
         
