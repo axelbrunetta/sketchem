@@ -25,14 +25,16 @@ MOLECULE_CATEGORIES = {
         "1-Pentyne": "CCCC#C",
         "3-Methyl-1-butyne": "CC(C)C#C",
     },
-    "Common Solvents (15)": {
+    "Common Solvents (7)": {
         "Water": "O",
         "Ethanol": "CCO",
         "Methanol": "CO",
         "Isopropanol": "CC(O)C",
         "Acetone": "CC(=O)C",
         "Ethyl acetate": "CC(=O)OCC",
-        "Diethyl ether": "CCOCC",
+        "Diethyl ether": "CCOCC",   
+    },
+    "Common Solvents #2 (8)": {
         "Tetrahydrofuran (THF)": "C1CCOC1",
         "Dichloromethane (DCM)": "ClCCl",
         "Chloroform": "ClC(Cl)Cl",
@@ -98,7 +100,7 @@ MOLECULE_CATEGORIES = {
         "Uracil": "O=c1ccn([H])c(=O)[nH]1", 
         "Adenosine": "Nc1ncnc2n(cnc12)[C@@H]3O[C@H](CO)[C@@H](O)[C@H]3O"
     },
-    "Common Small Pharmaceuticals (7)": {
+    "Common Small Pharmaceuticals (5)": {
         "Aspirin (Acetylsalicylic acid)": "CC(=O)Oc1ccccc1C(=O)O",
         "Paracetamol (Acetaminophen)": "CC(=O)Nc1ccc(O)cc1",
         "Ibuprofen": "CC(C)Cc1ccc(C(C)C(=O)O)cc1",
