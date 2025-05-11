@@ -14,7 +14,7 @@ def render_home_page():
             st.rerun()
 
     with col2:
-        if not is_running_locally():
+        if not is_running_locally(): # Prevents multiplayer button from showing when running locally
             if st.button("Multiplayer", use_container_width=True):
                 st.session_state.game_mode = "multiplayer_setup"
                 st.rerun()

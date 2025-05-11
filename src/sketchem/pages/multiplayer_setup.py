@@ -4,7 +4,8 @@ from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
 from sketchem.utils.back_button import back_button
-from sketchem.utils.create_category import check_category_is_default, generate_new_category
+#from sketchem.utils.create_category import check_category_is_default, generate_new_category
+from sketchem.utils.create_category_2 import get_molecules_for_category_pubchem
 from streamlit_extras.stoggle import stoggle
 
 logger = get_logger(__name__)
@@ -127,9 +128,13 @@ def render_multiplayer_setup():
                 st.write(f"What kind of molecule category are you looking for?")
                 user_input = st.text_input("")
                 if st.button("Submit"):
-                    returned_var = generate_new_category(api_key = st.secrets.get("GEMINI_API_KEY", ""), user_prompt = user_input)
+                    #returned_var = generate_new_category(api_key = st.secrets.get("GEMINI_API_KEY", ""), user_prompt = user_input)
+                    returned_var = get_molecules_for_category_pubchem(api_key = st.secrets.get("GEMINI_API_KEY", ""), user_prompt = user_input)
+
                     st.session_state.category_update_counter += 1
+
                     logger.info(f"Generate category message: {returned_var}")
+                    
                     if returned_var == "Successfully created category":
                         st.session_state.toast_queue = {"message": "Successfully created category.", "icon": "✅"}
                     else:
