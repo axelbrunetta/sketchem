@@ -3,6 +3,7 @@ import pubchempy as pcp
 from streamlit.logger import get_logger
 import logging
 import streamlit as st
+from sketchem.data.molecules import MOLECULE_CATEGORIES
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -12,7 +13,7 @@ def check_category_is_default(selected_category):
         st.session_state.category_is_default = True
     else:
         st.session_state.category_is_default = False
-        
+
 def get_molecules_for_category_pubchem(api_key, user_prompt):
     full_prompt = f"""
 Generate a list of molecule names that fit most accurately a category described by : "{user_prompt}".
