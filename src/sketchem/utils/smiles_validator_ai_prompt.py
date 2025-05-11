@@ -1,3 +1,6 @@
+# This file contains the prompt for the Gemini AI to convert a hand-drawn molecule to SMILES
+
+
 ai_prompt = """
 
 **System Preamble (Set the Stage):**

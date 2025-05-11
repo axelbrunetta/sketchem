@@ -2,7 +2,7 @@
 
 import pytest
 from pathlib import Path
-from sketchem.utils.smiles_validator import validate_drawing
+from sketchem.utils.deprecated.smiles_validator import validate_drawing
 from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
 from sketchem.utils.environment import get_gemini_api_key
 
