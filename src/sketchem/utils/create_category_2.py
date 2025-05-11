@@ -103,17 +103,20 @@ IMPORTANT Rules to Follow for Molecule Name Selection and Output:
                         logger.info(f"Found SMILES for '{name}': {compound.canonical_smiles}")
                     else:
                         logger.info(f"Warning: No canonical SMILES found for '{name}' in PubChem.")
-                        
-                        return "NO_SMILES_FOUND_IN_PUBCHEM"
+                        # just continue
+                        continue
                 else:
                     logger.info(f"Warning: No molecule found for '{name}' in PubChem.")
-                    return "NAME_NOT_FOUND_IN_PUBCHEM"
+                    # skip this molecule
+                    continue
             except pcp.PubChemPyError as e:
                 logger.info(f"PubChemPy Error for '{name}': {e}")
-                return "PUBCHEM_API_ERROR"
+                # Skip this molecule 
+                continue
             except Exception as e:
                 logger.info(f"General Error processing '{name}': {e}")
-                return "PROCESSING_ERROR"
+                # Skip this molecule
+                continue
         
         # Add the new category to the additional_categories state var
         molecules_dict = {item["name"]: item["smiles"] for item in molecules_with_smiles}
