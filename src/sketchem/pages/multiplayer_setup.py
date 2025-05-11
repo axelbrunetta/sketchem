@@ -5,7 +5,7 @@ from streamlit.logger import get_logger
 import logging
 from sketchem.utils.back_button import back_button
 #from sketchem.utils.create_category import check_category_is_default, generate_new_category
-from sketchem.utils.create_category_2 import get_molecules_for_category_pubchem
+from sketchem.utils.create_category_2 import check_category_is_default,get_molecules_for_category_pubchem
 from streamlit_extras.stoggle import stoggle
 
 logger = get_logger(__name__)
