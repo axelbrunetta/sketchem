@@ -3,6 +3,7 @@ from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
 from google import genai
+from streamlit_extras.stoggle import stoggle
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -229,6 +230,35 @@ def render_singleplayer_setup():
         .stSelectbox, .stSlider {
             margin-top: 20px !important;
         }
+        /* Remove grey bar from selectbox */
+        .stSelectbox > div {
+            background-color: transparent !important;
+        }
+        .stSelectbox > div > div {
+            background-color: transparent !important;
+        }
+        /* Remove grey bar and adjust spacing */
+        .element-container {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .stMarkdown {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        /* Target Streamlit's default spacing */
+        div[data-testid="stVerticalBlock"] > div {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        div[data-testid="stVerticalBlock"] > div > div {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        /* Remove any background colors */
+        div[data-testid="stVerticalBlock"] {
+            background-color: transparent !important;
+        }
         .molecule-container {
             border: 1px solid #ddd;
             border-radius: 10px;
@@ -355,9 +385,11 @@ def render_singleplayer_setup():
                             # Set flag to show success message on main page
                             st.session_state.show_success_message = True
 
-                            # Close button
-                            if st.button("Close", use_container_width=True):
-                                return
+                            # Set the newly created category as the selected category
+                            st.session_state.selected_molecule_category = st.session_state.last_created_category
+                            
+                            # Force rerun to update UI and close dialog automatically
+                            st.rerun()
 
                         except Exception as e:
                             st.error(f"Error generating category: {str(e)}")
@@ -400,38 +432,37 @@ def render_singleplayer_setup():
         st.session_state.selected_molecule_category = selected_category
     st.session_state.game_duration = game_duration
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
     #only show molecule list if a valid category is selected (not "Choose Category")
     if selected_category and selected_category != "Choose Category":
-        st.markdown("<div class='molecule-container'>", unsafe_allow_html=True)
-        st.markdown(f"<h3 style='text-align: center; margin-top: 0;'>Molecules in {selected_category}:</h3>", unsafe_allow_html=True)
-        st.markdown("<div style='text-align: center; columns: 2; column-gap: 40px;'>", unsafe_allow_html=True)
-
+        st.markdown(f"### Molecules in {selected_category}:")
+        molecule_list = ""
         if selected_category in MOLECULE_CATEGORIES:
             for mol in MOLECULE_CATEGORIES[selected_category].keys():
-                st.markdown(f"• {mol}", unsafe_allow_html=True)
+                molecule_list += f"- {mol}\n"
         elif hasattr(st.session_state, "additionalCategories") and selected_category in st.session_state.additionalCategories:
             for mol in st.session_state.additionalCategories[selected_category].keys():
-                st.markdown(f"• {mol}", unsafe_allow_html=True)
-
-        st.markdown("</div></div>", unsafe_allow_html=True)
+                molecule_list += f"- {mol}\n"
+        
+        st.markdown(molecule_list)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     #row with start and back button
     start_col, back_col = st.columns([1, 1])
 
-    #start button
+    #back button
     with start_col:
+        if st.button("Back", key="back_button", use_container_width=True):
+            # Reset game mode to return to main menu
+            st.session_state.game_mode = None
+            st.rerun()
+
+    #start button
+    with back_col:
         start_disabled = selected_category is None
         if st.button("Start Game", type="primary", use_container_width=True, disabled=start_disabled, key="start_button"):
             st.session_state.game_mode = "single"
             st.rerun()
 
-    #back button
-    with back_col:
-        if st.button("Back", key="back_button", use_container_width=True):
-            # Reset game mode to return to main menu
-            st.session_state.game_mode = None
-            st.rerun()
+# Call the main rendering function
+render_singleplayer_setup()
