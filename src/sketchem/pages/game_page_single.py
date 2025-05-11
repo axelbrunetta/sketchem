@@ -220,8 +220,8 @@ def render_game_page():
         <style>
         div[data-testid="stButton"] button {
             border-radius: 8px;
-            padding: 10px;
-            margin: 5px;
+            padding: 8px;
+            margin: 2px;
             transition: all 0.3s ease;
         }
         div[data-testid="stButton"] button:hover {
@@ -244,8 +244,6 @@ def render_game_page():
         }}
         </style>
         """, unsafe_allow_html=True)
-
-        st.markdown("<br>", unsafe_allow_html=True)
 
         # Color buttons (only show when not in eraser mode)
         if st.session_state.last_pen_color != "Black":
@@ -274,17 +272,17 @@ def render_game_page():
 
     # Buttons row
     st.markdown("<div style='margin-top: 40px;'></div>", unsafe_allow_html=True)
-    submit_col, back_col = st.columns([1, 1])
-
-    with submit_col:
-        if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True):
-            handle_submission(canvas_result)
+    back_col, submit_col = st.columns([1, 1])
 
     with back_col:
         if st.button("Back", key="simple_back_btn", use_container_width=True):
             st.session_state.show_back_toast = True
             st.session_state.game_mode = "single_setup"
             st.rerun()
+
+    with submit_col:
+        if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True):
+            handle_submission(canvas_result)
 
     # Game over screen
     if st.session_state.game_over:
