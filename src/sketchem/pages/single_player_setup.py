@@ -348,9 +348,11 @@ def render_singleplayer_setup():
         @st.dialog("Generate a molecule category")
         def openModal():
             st.write(f"What kind of molecule category are you looking for?")
-            user_input = st.text_input("")
+            user_input = st.text_input("", placeholder="e.g., 'drugs', 'alcohols', 'sugars', 'vitamins'")
             if st.button("Submit"):
-                returned_var = get_molecules_for_category_pubchem(api_key=st.secrets.get("GEMINI_API_KEY", ""), user_prompt=user_input)
+                # Enable test mode for development
+                api_key = "TEST_MODE_ENABLED"
+                returned_var = get_molecules_for_category_pubchem(api_key=api_key, user_prompt=user_input)
 
                 st.session_state.category_update_counter += 1
 
@@ -365,10 +367,10 @@ def render_singleplayer_setup():
         #"or" between dropdown and button
         st.markdown("<div style='text-align: center; margin: 10px 0;'><strong> or </strong></div>", unsafe_allow_html=True)
 
-        if st.button("Create a molecule category using AI", use_container_width=True, type="primary"):
-            if "category_input" in st.session_state:
-                del st.session_state.category_input  # Clean up the input state when opening fresh
+        if st.button("Create a molecule category using AI", key="create_category_button", help="This is an experimental feature, some things may not work as intended.", type="primary", use_container_width=True):
             openModal()
+
+        st.divider()
 
     with col2:
         st.markdown("### Game Duration (seconds)")
