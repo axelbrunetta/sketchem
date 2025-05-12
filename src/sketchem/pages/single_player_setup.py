@@ -5,6 +5,7 @@ import logging
 from google import genai
 from streamlit_extras.stoggle import stoggle
 from sketchem.utils.create_category import get_molecules_for_category_pubchem
+import time
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -425,6 +426,26 @@ def render_singleplayer_setup():
     with back_col:
         start_disabled = selected_category is None
         if st.button("Start Game", type="secondary", use_container_width=True, disabled=start_disabled, key="start_button"):
+            # Create a game object for single player
+            game_code = "single_" + str(int(time.time()))  # Create a unique game code
+            st.session_state.game_code = game_code
+            
+            # Create game data
+            game_data = {
+                "code": game_code,
+                "status": "active",
+                "created_at": int(time.time()),
+                "category": selected_category,
+                "category_is_default": True,  # Single player always uses default categories for now
+                "game_duration": game_duration,
+                "hints": False,  # No hints in single player
+                "players": {}
+            }
+            
+            # Add game to mock database
+            from sketchem.db.mock_db import _games
+            _games[game_code] = game_data
+            
             st.session_state.game_mode = "single"
             st.rerun()
 
