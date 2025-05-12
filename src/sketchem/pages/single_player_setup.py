@@ -3,6 +3,7 @@ from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
 from google import genai
+from streamlit_extras.stoggle import stoggle
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -432,18 +433,20 @@ def render_singleplayer_setup():
 
     #only show molecule list if a valid category is selected (not "Choose Category")
     if selected_category and selected_category != "Choose Category":
-        st.markdown("<div class='molecule-container'>", unsafe_allow_html=True)
-        st.markdown(f"<h3 style='text-align: center; margin-top: 0;'>Molecules in {selected_category}:</h3>", unsafe_allow_html=True)
-        st.markdown("<div style='text-align: center; columns: 2; column-gap: 40px;'>", unsafe_allow_html=True)
-
+        # Display molecules in selected category
+        st.session_state.selected_molecule_category = selected_category
+        molecule_list = ""
         if selected_category in MOLECULE_CATEGORIES:
             for mol in MOLECULE_CATEGORIES[selected_category].keys():
-                st.markdown(f"• {mol}", unsafe_allow_html=True)
+                molecule_list += f"- {mol}<br>"
         elif hasattr(st.session_state, "additionalCategories") and selected_category in st.session_state.additionalCategories:
             for mol in st.session_state.additionalCategories[selected_category].keys():
-                st.markdown(f"• {mol}", unsafe_allow_html=True)
-
-        st.markdown("</div></div>", unsafe_allow_html=True)
+                molecule_list += f"- {mol}<br>"
+        
+        stoggle(
+            f"Molecules in {selected_category}:",
+            f"{molecule_list}",
+        )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
