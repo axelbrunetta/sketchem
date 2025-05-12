@@ -1,6 +1,14 @@
+#config needs to be in the same folder as main.py for theme to take effect
+
+[theme]
+primaryColor="#4f5b66"
+backgroundColor="#FFFFFF"
+secondaryBackgroundColor="#F0F2F6"
+textColor="#000000"
+font="sans serif"
+
 [logger]
 
-
 level = "info"
-
 messageFormat = "%(asctime)s %(message)s"
+

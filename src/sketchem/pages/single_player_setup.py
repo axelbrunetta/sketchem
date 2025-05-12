@@ -3,7 +3,6 @@ from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
 from google import genai
-from streamlit_extras.stoggle import stoggle
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -214,11 +213,20 @@ def render_singleplayer_setup():
     #general CSS for layout and buttons
     st.markdown("""
         <style>
-        div[data-testid="stButton"] > button {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-top: 20px;
+        /* Basic form styling */
+        div.stButton > button {
+            width: 100%;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 10px;
         }
+        
+        /* Divider styling */
+        hr {
+            margin: 20px 0;
+            border-color: #f0f0f0;
+        }
+        
         [data-testid="column"] {
             width: 45% !important;
             padding: 0 2% !important;
@@ -230,35 +238,6 @@ def render_singleplayer_setup():
         .stSelectbox, .stSlider {
             margin-top: 20px !important;
         }
-        /* Remove grey bar from selectbox */
-        .stSelectbox > div {
-            background-color: transparent !important;
-        }
-        .stSelectbox > div > div {
-            background-color: transparent !important;
-        }
-        /* Remove grey bar and adjust spacing */
-        .element-container {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        .stMarkdown {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        /* Target Streamlit's default spacing */
-        div[data-testid="stVerticalBlock"] > div {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        div[data-testid="stVerticalBlock"] > div > div {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        /* Remove any background colors */
-        div[data-testid="stVerticalBlock"] {
-            background-color: transparent !important;
-        }
         .molecule-container {
             border: 1px solid #ddd;
             border-radius: 10px;
@@ -266,23 +245,42 @@ def render_singleplayer_setup():
             margin: 20px 0;
             background-color: #f8f9fa;
         }
-        div[data-testid="stButton"] > button.stButton.primary {
-            font-size: 1.2rem;
-            padding: 0.8rem 1.5rem;
-            font-weight: bold;
+
+        /* Create category button styling */
+        button[kind="primary"] {
+            background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
+            background-size: 200% 100% !important;
+            color: white !important;
+            padding: 15px 32px !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+            border-radius: 12px !important;
+            border: none !important;
+            transition: background-position 0.5s ease,
+                        transform 0.3s ease, 
+                        box-shadow 0.3s ease !important;
+        }
+        
+        button[kind="primary"]:hover {
+            background-position: 100% 0 !important;
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 20px 5px rgba(77, 166, 255, 0.6) !important;
         }
 
-        /* Back button styling */
-        button[kind="secondary"] {
-            background-color: #f0f0f0;
-            color: #333;
-            border: 1px solid #ddd;
-            transition: all 0.3s;
+        /* Back and Start Game button styling */
+        div[data-testid="stButton"] button[kind="secondary"] {
+            background-color: #4f5b66 !important;
+            color: white !important;
+            padding: 10px 20px !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+            border-radius: 8px !important;
+            border: none !important;
+            transition: background-color 0.3s ease !important;
         }
 
-        button[kind="secondary"]:hover {
-            background-color: #e0e0e0;
-            border-color: #ccc;
+        div[data-testid="stButton"] button[kind="secondary"]:hover {
+            background-color: #3a444d !important;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -385,11 +383,9 @@ def render_singleplayer_setup():
                             # Set flag to show success message on main page
                             st.session_state.show_success_message = True
 
-                            # Set the newly created category as the selected category
-                            st.session_state.selected_molecule_category = st.session_state.last_created_category
-                            
-                            # Force rerun to update UI and close dialog automatically
-                            st.rerun()
+                            # Close button
+                            if st.button("Close", use_container_width=True):
+                                return
 
                         except Exception as e:
                             st.error(f"Error generating category: {str(e)}")
@@ -411,7 +407,7 @@ def render_singleplayer_setup():
         #"or" between dropdown and button
         st.markdown("<div style='text-align: center; margin: 10px 0;'><strong> or </strong></div>", unsafe_allow_html=True)
 
-        if st.button("Create a molecule category", use_container_width=True):
+        if st.button("Create a molecule category", use_container_width=True, type="primary"):
             openModal()
 
     with col2:
@@ -432,18 +428,22 @@ def render_singleplayer_setup():
         st.session_state.selected_molecule_category = selected_category
     st.session_state.game_duration = game_duration
 
+    st.markdown("<br>", unsafe_allow_html=True)
+
     #only show molecule list if a valid category is selected (not "Choose Category")
     if selected_category and selected_category != "Choose Category":
-        st.markdown(f"### Molecules in {selected_category}:")
-        molecule_list = ""
+        st.markdown("<div class='molecule-container'>", unsafe_allow_html=True)
+        st.markdown(f"<h3 style='text-align: center; margin-top: 0;'>Molecules in {selected_category}:</h3>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; columns: 2; column-gap: 40px;'>", unsafe_allow_html=True)
+
         if selected_category in MOLECULE_CATEGORIES:
             for mol in MOLECULE_CATEGORIES[selected_category].keys():
-                molecule_list += f"- {mol}\n"
+                st.markdown(f"• {mol}", unsafe_allow_html=True)
         elif hasattr(st.session_state, "additionalCategories") and selected_category in st.session_state.additionalCategories:
             for mol in st.session_state.additionalCategories[selected_category].keys():
-                molecule_list += f"- {mol}\n"
-        
-        st.markdown(molecule_list)
+                st.markdown(f"• {mol}", unsafe_allow_html=True)
+
+        st.markdown("</div></div>", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -452,7 +452,7 @@ def render_singleplayer_setup():
 
     #back button
     with start_col:
-        if st.button("Back", key="back_button", use_container_width=True):
+        if st.button("Back", key="back_button", use_container_width=True, type="secondary"):
             # Reset game mode to return to main menu
             st.session_state.game_mode = None
             st.rerun()
@@ -460,9 +460,9 @@ def render_singleplayer_setup():
     #start button
     with back_col:
         start_disabled = selected_category is None
-        if st.button("Start Game", type="primary", use_container_width=True, disabled=start_disabled, key="start_button"):
+        if st.button("Start Game", type="secondary", use_container_width=True, disabled=start_disabled, key="start_button"):
             st.session_state.game_mode = "single"
             st.rerun()
 
-# Call the main rendering function
-render_singleplayer_setup()
+if __name__ == "__main__":
+    render_singleplayer_setup()

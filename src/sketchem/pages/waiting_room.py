@@ -60,7 +60,9 @@ def render_waiting_room():
 
     game = get_game(st.session_state.game_code)
     if game:
-        st.markdown(f"Game Duration: **{game['game_duration']}**")
+        # Display the original duration (5 seconds less than the actual game duration)
+        displayed_duration = game['game_duration'] - 5
+        st.markdown(f"Game Duration: **{displayed_duration} seconds**")
         
         # Check if game has started (for both host and joining players)
         if game.get("status") == "active":

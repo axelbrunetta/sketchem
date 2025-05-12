@@ -22,14 +22,29 @@ def initialize_game_state():
 
     if "selected_molecule_category" not in st.session_state:
         st.session_state.selected_molecule_category = ""
+        
+    if "category_is_default" not in st.session_state:
+        st.session_state.category_is_default = True
 
-    if "categoryIsDefault" not in st.session_state:
-        st.session_state.categoryIsDefault = True
+    if "additional_categories" not in st.session_state:
+        st.session_state.additional_categories = {}
 
-    if "additionalCategories" not in st.session_state:
-        st.session_state.additionalCategories = {}
+    if "returned_category_error" not in st.session_state:
+        st.session_state.returned_category_error = False
 
 def reset_game_state():
     """Reset game state"""
-    pass
-    # Will be needed for resetting the various parameters
+    # Reset game mode and player information
+    st.session_state.game_mode = None
+    st.session_state.player_name = ""
+    st.session_state.player_id = None
+    st.session_state.game_code = None
+    
+    # Reset game settings
+    st.session_state.game_duration = 60
+    st.session_state.selected_molecule_category = ""
+    st.session_state.category_is_default = True
+    #Keep previously created categories but deselect the current one
+    
+
+

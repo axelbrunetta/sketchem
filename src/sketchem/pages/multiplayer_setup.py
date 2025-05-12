@@ -4,7 +4,8 @@ from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
 from sketchem.utils.back_button import back_button
-from sketchem.utils.create_category import check_category_is_default, generate_new_category
+
+from sketchem.utils.create_category import check_category_is_default,get_molecules_for_category_pubchem
 from streamlit_extras.stoggle import stoggle
 
 logger = get_logger(__name__)
@@ -41,6 +42,8 @@ def handle_create_game(player_name: str):
                 st.session_state.game_code = response["game_code"]
                 st.session_state.player_id = response["player_id"]
                 st.session_state.game_mode = "created_multi"
+                
+                
                 st.rerun()
             else:
                 st.error("Failed to create game")
@@ -52,9 +55,30 @@ def handle_create_game(player_name: str):
 def render_multiplayer_setup():
     """Renders the multiplayer setup page"""
     
-    
-    with open('/mount/src/sketchem/src/sketchem/pages/style/multiplayer_setup_styling.css') as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    # Try to load the style from file, fall back to inline style if file doesn't exist
+    try:
+        style_path = '/mount/src/sketchem/src/sketchem/pages/style/multiplayer_setup_styling.css'
+        with open(style_path) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    except FileNotFoundError:
+        # Fallback inline style
+        st.markdown("""
+        <style>
+        /* Basic form styling */
+        div.stButton > button {
+            width: 100%;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        /* Divider styling */
+        hr {
+            margin: 20px 0;
+            border-color: #f0f0f0;
+        }
+        </style>
+        """, unsafe_allow_html=True)
     
     back_button(destination=None, label="Back to Home") #Display back button at the top left
 
@@ -95,13 +119,16 @@ def render_multiplayer_setup():
             
             @st.fragment()
             def slider_fragment():
-                st.session_state.game_duration = st.slider(
+                
+                displayed_duration = st.slider(
                     "Game Duration (seconds)",
-                    min_value=30,
-                    max_value=180,
-                    value=60,
+                    min_value=180,
+                    max_value=600,
+                    value=300,
                     step=10
                 )
+                # Add 5 seconds to the actual game duration to account for loading time of the game page -> because of the timer
+                st.session_state.game_duration = displayed_duration + 5
             slider_fragment()
             st.session_state.enable_hints = st.toggle("Enable hints")
 
@@ -122,9 +149,13 @@ def render_multiplayer_setup():
                 st.write(f"What kind of molecule category are you looking for?")
                 user_input = st.text_input("")
                 if st.button("Submit"):
-                    returned_var = generate_new_category(api_key = st.secrets.get("GEMINI_API_KEY", ""), user_prompt = user_input)
+                    
+                    returned_var = get_molecules_for_category_pubchem(api_key = st.secrets.get("GEMINI_API_KEY", ""), user_prompt = user_input)
+
                     st.session_state.category_update_counter += 1
+
                     logger.info(f"Generate category message: {returned_var}")
+                    
                     if returned_var == "Successfully created category":
                         st.session_state.toast_queue = {"message": "Successfully created category.", "icon": "✅"}
                     else:
@@ -155,7 +186,7 @@ def render_multiplayer_setup():
 
 
             
-            if st.button("Create a molecule category using AI", key="create_category_button"):
+            if st.button("Create a molecule category using AI", key="create_category_button", help="This is an experimental feature, some things may not work as intended."):
                 openModal()
 
             st.divider()

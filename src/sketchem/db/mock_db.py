@@ -5,10 +5,19 @@ import streamlit as st
 from typing import Dict, List, Optional
 import random
 import string
+from streamlit.logger import get_logger
+import logging
+
+logger = get_logger(__name__)
+logger.setLevel(logging.DEBUG)
 
 # In-memory storage / Mock database -> Could replace this with an actual database like Firestore but not needed here since Streamlit cloud only runs one instance of the code hence everyone can use the "same storage"
 
 _games = {} # This will be a dictionary of all the games running
+
+def remove_player_from_game(game_id: str, player_id: str):
+    # TODO: implement logic to remove player
+    pass
 
 def generate_game_code(length: int = 6) -> str: #Self-explanatory
     """Generate a random game code"""
@@ -29,9 +38,10 @@ def create_game(player_name: str) -> Dict:
         "status": "waiting",
         "created_at": int(time.time()),
         "category": st.session_state.selected_molecule_category,
-        "categoryIsDefault": st.session_state.categoryIsDefault,
-        "additionalCategories": st.session_state.additionalCategories, #Adds additional categories to database when creating the game
+        "category_is_default": st.session_state.category_is_default,
+        "additional_categories": st.session_state.additional_categories, #Adds additional categories to database when creating the game
         "game_duration": st.session_state.game_duration,
+        "hints": st.session_state.enable_hints,
         "players": {
             player_id: {
                 "name": player_name,
@@ -41,8 +51,8 @@ def create_game(player_name: str) -> Dict:
             }
         },
     }
-
-    _games[code] = game_data # Add game element to the fake database using the code as the key and the game data as the attached value
+    logger.info(f"selected molecule category {st.session_state.selected_molecule_category}category_is_default  {st.session_state.category_is_default} additional_categories {st.session_state.additional_categories}")
+    _games[code] = game_data # Add game element to the fake database using the code as the key and the game data as the attached value 
     return {"game_code": code, "player_id": player_id}
 
 
@@ -50,9 +60,11 @@ def create_game(player_name: str) -> Dict:
 def join_game(code: str, player_name: str) -> Dict: #Processes code entered by player and allowsthem to join a hosted game
     """Join an existing game"""
     if code not in _games:
+        logger.info("Game not found")
         return {"success": False, "error": "Game not found"}
 
     game = _games[code]
+    logger.info(f"Game: {game}")
 
     player_id = str(uuid.uuid4()) #No need to check that player name alr exists as we're using unique identifiers
     game["players"][player_id] = {
@@ -61,7 +73,7 @@ def join_game(code: str, player_name: str) -> Dict: #Processes code entered by p
         "score": 0,
         "last_active": int(time.time())
     }
-
+    logger.info("Successfully joined game")
     return {"success": True, "player_id": player_id}
 
 def get_game(code: str) -> Optional[Dict]: #Returns game for given code -> used in waiting room to display game info
@@ -78,6 +90,38 @@ def start_game(code: str) -> Dict: #Self-explanatory
         return {"success": False, "error": "Game not found"}
 
     _games[code]["status"] = "active"
+    return {"success": True}
+
+def remove_player_from_game(code: str, player_id: str) -> Dict:
+    """Remove a player from a game
+    
+    Args:
+        code: The game code
+        player_id: The ID of the player to remove
+        
+    Returns:
+        Dict with success status and error message if applicable
+    """
+    if code not in _games:
+        logger.info(f"Game with code {code} not found")
+        return {"success": False, "error": "Game not found"}
+        
+    game = _games[code]
+    
+    if player_id not in game["players"]:
+        logger.info(f"Player {player_id} not found in game {code}")
+        return {"success": False, "error": "Player not found in game"}
+    
+    # Remove the player
+    del game["players"][player_id]
+    logger.info(f"Player {player_id} removed from game {code}")
+    
+    # If no players left, delete the game
+    if not game["players"]:
+        logger.info(f"No players left in game {code}, deleting game")
+        del _games[code]
+        return {"success": True, "game_deleted": True}
+    
     return {"success": True}
 
 #Will need end game function here?

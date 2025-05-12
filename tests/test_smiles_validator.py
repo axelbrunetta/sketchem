@@ -2,7 +2,8 @@
 
 import pytest
 from pathlib import Path
-from sketchem.utils.smiles_validator import validate_drawing, validate_drawing_with_ai
+from sketchem.utils.deprecated.smiles_validator import validate_drawing
+from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
 from sketchem.utils.environment import get_gemini_api_key
 
 # Get current working directory and construct test data path
@@ -130,6 +131,8 @@ def test_validate_drawing_with_ai():
     """Test AI-based validation using Gemini"""
 
     image_path = TEST_DATA_DIR / 'ethanol.png'
+    with open(image_path, 'rb') as f:
+        image_bytes = f.read()
     api_key = get_gemini_api_key()
     
     if not api_key:
@@ -152,7 +155,7 @@ def test_validate_drawing_with_ai():
     for case in test_cases:
         result = validate_drawing_with_ai(
             api_key=api_key,
-            image_path=str(image_path),
+            image_bytes=image_bytes,
             target_smiles=case['target'],
             threshold=case['threshold']
         )
@@ -163,12 +166,15 @@ def test_validate_drawing_with_ai_invalid_inputs():
     """Test AI validation with invalid inputs"""
 
     image_path = TEST_DATA_DIR / 'ethanol.png'
+    # Convert image to bytes
+    with open(image_path, 'rb') as f:
+        image_bytes = f.read()
     api_key = get_gemini_api_key()
     
     # Test with invalid API key
     result = validate_drawing_with_ai(
         api_key="",
-        image_path=str(image_path),
+        image_bytes=image_bytes, 
         target_smiles='CCO'
     )
     assert result == "❗ Gemini API key not set."
@@ -177,7 +183,7 @@ def test_validate_drawing_with_ai_invalid_inputs():
         # Test with invalid SMILES
         result = validate_drawing_with_ai(
             api_key=api_key,
-            image_path=str(image_path),
+            image_bytes=image_bytes,
             target_smiles='invalid_smiles'
         )
         assert result is False
@@ -185,7 +191,7 @@ def test_validate_drawing_with_ai_invalid_inputs():
         # Test with invalid image path - only test if we have API key
         result = validate_drawing_with_ai(
             api_key=api_key,
-            image_path='nonexistent.png',
+            image_bytes=b'nonexistent.png', #creates wrong bytes object
             target_smiles='CCO'
         )
         assert isinstance(result, str) and "error" in result.lower()

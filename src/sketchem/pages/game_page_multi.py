@@ -7,8 +7,14 @@ from streamlit_extras.vertical_slider import vertical_slider
 from sketchem.utils.back_button import back_button
 from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
+from streamlit.logger import get_logger
+import logging
+from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
+from sketchem.utils.environment import get_gemini_api_key
+import pubchempy as pcp
 
-
+logger = get_logger(__name__)
+logger.setLevel(logging.DEBUG)
 
     
 def save_canvas_as_image(canvas_data):  # convert canvas data to png image
@@ -31,26 +37,82 @@ def toggle_drawing_mode():
         st.session_state.pen_color_selector = st.session_state.last_pen_color
 
 def handle_submission(canvas_result):
-    ############MAYBE DO MORE HERE TO CHECK IF IMAGE IS ONLY BLACK??
-    if canvas_result.image_data is None:
+    
+
+    
+    # Check if canvas is all black (effectively empty)
+    img_bytes = save_canvas_as_image(canvas_result.image_data)
+    if img_bytes is None or Image.open(io.BytesIO(img_bytes)).getcolors() == [(400*600, (0, 0, 0))]:
         st.session_state.toast_queue = {"message": "Please draw something before submitting!", "icon": "⚠️"}
+        st.rerun()
         return
     
-  
-    correct = True  ############### need to replace with actual validator
+    # Get the game to find the target molecule's SMILES
+    game = get_game(st.session_state.game_code)
+    correct = False
+    
+    if game and "category" in game:
+        category = game["category"]
+        target_smiles = None
+        
+        # Get SMILES from appropriate category
+        if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
+            target_smiles = MOLECULE_CATEGORIES[category].get(st.session_state.current_molecule)
+        elif not game.get("category_is_default", True) and "additional_categories" in game:
+            if category in game["additional_categories"]:
+                target_smiles = game["additional_categories"][category].get(st.session_state.current_molecule)
+        
+        if target_smiles:
+            
+            logger.info(f"Target smiles: {target_smiles}")
+
+            
+            # Validate the drawing against the target SMILES
+            api_key = get_gemini_api_key()
+            validation_result = validate_drawing_with_ai(api_key, img_bytes, target_smiles)
+
+            
+            # Handle verification errors
+            if isinstance(validation_result, bool):
+                correct = validation_result
+            elif isinstance(validation_result, str):
+                st.session_state.toast_queue = {"message": validation_result, "icon": "❌"}
+                st.rerun()
+                return
     
     if correct:
         st.session_state.points += 1
         st.session_state.toast_queue = {"message": f"Correct! You drew {st.session_state.current_molecule} correctly.", "icon": "✅"}
         
         #############TO DOOO -> Update score in database
-        ###############Also check that score <= nbr of molecules -> if == then win
+        ###############Also check that score <= nbr of molecules -> if == then you're done -> leaderboard will be based on points + time
+        
+
+         # Reset the canvas by incrementing a canvas key counter
+        if "canvas_key_counter" not in st.session_state:
+            st.session_state.canvas_key_counter = 0
+        st.session_state.canvas_key_counter += 1
         
         # Move to next molecule
         select_next_molecule()
+
         st.rerun()
     else:
-        st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
+        if game.get("hints", False):  # Check if hints are enabled
+            if st.session_state.last_gemini_detected_mol:
+                try:
+                    compounds = pcp.get_compounds(st.session_state.last_gemini_detected_mol, namespace='smiles') 
+                    if compounds:
+                        compound = compounds[0]
+                        st.session_state.toast_queue = {"message": f"Wrong molecule, what you drew looks more like {compound.iupac_name}", "icon": "☝️"}
+                    else:
+                        st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
+                except Exception as e:
+                    logger.error(f"PubChem error: {e}")
+                    st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
+        else:
+            st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
+        st.rerun()
 
 def select_next_molecule():
     # Get the selected category
@@ -63,7 +125,11 @@ def select_next_molecule():
                 # Get the next molecule in sequence instead of random
                 current_index = 0
                 if hasattr(st.session_state, 'molecule_index'):
-                    current_index = st.session_state.molecule_index + 1
+                    current_index = (st.session_state.molecule_index + 1) % len(molecules)
+                    # Check if we've gone through all molecules
+                    if current_index == 0:
+                        st.session_state.player_done = True
+                        return
                 st.session_state.molecule_index = current_index
                 st.session_state.current_molecule = molecules[current_index]
                 return
@@ -74,23 +140,100 @@ def select_next_molecule():
                     # Get the next molecule in sequence instead of random
                     current_index = 0
                     if hasattr(st.session_state, 'molecule_index'):
-                        current_index = st.session_state.molecule_index + 1
+                        current_index = (st.session_state.molecule_index + 1) % len(molecules)
+                        # Check if we've gone through all molecules
+                        if current_index == 0:
+                            st.session_state.player_done = True
+                            return
                     st.session_state.molecule_index = current_index
                     st.session_state.current_molecule = molecules[current_index]
                     return
-    
+    return
 
 
 
 def handle_skip():
+    # Reset the canvas by incrementing the counter
+    if "canvas_key_counter" not in st.session_state:
+        st.session_state.canvas_key_counter = 0
+    st.session_state.canvas_key_counter += 1
+    
     select_next_molecule()
     st.session_state.toast_queue = {"message": "Skipped to next molecule", "icon": "⏭️"}
     st.rerun()
 
 def render_game_page_multi():
     
-    with open('/mount/src/sketchem/src/sketchem/pages/style/multiplayer_game_page_styling.css') as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    # Try to load the style from file, fall back to inline style if file doesn't exist
+    try:
+        style_path = '/mount/src/sketchem/src/sketchem/pages/style/multiplayer_game_page_styling.css'
+        with open(style_path) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    except FileNotFoundError:
+        # Fallback inline style
+        st.markdown("""
+        <style>
+        /* White button styling */
+        div[data-testid="stButton"] button[key*="White_"] {
+            background-color: #ffffff !important;
+            border: 2px solid #333 !important;
+        }
+        
+        /* Red button styling */
+        div[data-testid="stButton"] button[key*="Red_"] {
+            background-color: #ff0000 !important;
+            border: 2px solid #333 !important;
+        }
+        
+        /* Blue button styling */
+        div[data-testid="stButton"] button[key*="Blue_"] {
+            background-color: #0000ff !important;
+            border: 2px solid #333 !important;
+        }
+        
+        /* Green button styling */
+        div[data-testid="stButton"] button[key*="Green_"] {
+            background-color: #00ff00 !important;
+            border: 2px solid #333 !important;
+        }
+        
+        /* Yellow button styling */
+        div[data-testid="stButton"] button[key*="Yellow_"] {
+            background-color: #ffff00 !important;
+            border: 2px solid #333 !important;
+        }
+        
+        /* Purple button styling */
+        div[data-testid="stButton"] button[key*="Purple_"] {
+            background-color: #800080 !important;
+            border: 2px solid #333 !important;
+        }
+        
+        /* Selected button styling */
+        div[data-testid="stButton"] button[key*="_selected"] {
+            border: 3px solid #fff !important; 
+            box-shadow: 0 0 0 2px #333 !important;
+        }
+        
+        /* Common button styling */
+        div[data-testid="stButton"] button[key*="_color"],
+        div[data-testid="stButton"] button[key*="_selected"] {
+            width: 28px !important;
+            height: 28px !important;
+            border-radius: 50% !important;
+            padding: 0 !important;
+            min-width: unset !important;
+            margin: 0 auto !important;
+            display: block !important;
+        }
+        
+        /* Eraser button styling */
+        div[data-testid="stButton"] button[key="eraser_toggle"] {
+            background-color: #f0f0f0 !important;
+            border: 2px solid #333 !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
 
     st.markdown(
             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>',
@@ -113,6 +256,8 @@ def render_game_page_multi():
         st.session_state.game_over = False
     if "start_time" not in st.session_state: #starts timer for player
         st.session_state.start_time = time.time()
+    if "player_done" not in st.session_state:
+        st.session_state.player_done = False
     
     # Get game info
     game = get_game(st.session_state.game_code)
@@ -236,6 +381,10 @@ def render_game_page_multi():
             current_stroke_width = st.session_state.pen_size + 20
         else:
             current_stroke_width = st.session_state.pen_size
+    # Initialize canvas key counter if it doesn't exist
+    if "canvas_key_counter" not in st.session_state:
+        st.session_state.canvas_key_counter = 0
+    
     # Canvas on the right
     with canvas_col:
         try:
@@ -250,7 +399,7 @@ def render_game_page_multi():
                     height=400,
                     width=600,
                     drawing_mode="freedraw",
-                    key=f"canvas",
+                    key=f"canvas_{st.session_state.canvas_key_counter}",
                     display_toolbar=True,
                 )
                 return canvas_result
@@ -268,29 +417,52 @@ def render_game_page_multi():
     
     # Skip button
     with col2:
-        if st.button("Skip Molecule", key="skip_btn", use_container_width=True, disabled=st.session_state.game_over):
+        if st.button("Skip Molecule", key="skip_btn", use_container_width=True, 
+                    disabled=st.session_state.game_over or st.session_state.player_done):
             handle_skip()
     
     # Submit button
     with col3:
-        if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True, disabled=st.session_state.game_over):
+        if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True, 
+                    disabled=st.session_state.game_over or st.session_state.player_done):
             handle_submission(canvas_result)
     
     # Game over screen
     if st.session_state.game_over:
-        st.markdown("## Game Over!")
-        st.markdown(f"Your final score: **DISPLAY POINTS HERE**")  
-        
-        # Show leaderboard
+        if game and "category" in game:  
+            category = game["category"]
+            if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
+                molecules = list(MOLECULE_CATEGORIES[category].keys())
+            elif not game.get("category_is_default", True) and "additional_categories" in game:
+                if category in game["additional_categories"]:
+                    molecules = list(game["additional_categories"][category].keys())
+        st.markdown(f"## Game Over! Your final score: **{st.session_state.points}/{len(molecules)}**")
+        # Hide player_done message when game is over
+        st.session_state.player_done = False
+    elif st.session_state.player_done:
+        if game and "category" in game:  
+            category = game["category"]
+            if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
+                molecules = list(MOLECULE_CATEGORIES[category].keys())
+            elif not game.get("category_is_default", True) and "additional_categories" in game:
+                if category in game["additional_categories"]:
+                    molecules = list(game["additional_categories"][category].keys())
+        st.markdown(f"## You're done! Your score: **{st.session_state.points}/{len(molecules)}**")
+       
+    st.divider()
+    
+    # Leaderboard
+    @st.fragment(run_every="5s")
+    def leaderboard_fragment():
         st.markdown("### Leaderboard")
-        if game and "players" in game:
+        if game:
             players = game["players"]
             # Sort players by score
             if isinstance(players, list):
                 sorted_players = sorted(players, key=lambda x: x.get("score", 0), reverse=True)
                 for i, player in enumerate(sorted_players):
                     st.markdown(f"{i+1}. **{player.get('name', 'Unknown')}**: {player.get('score', 0)}") #defaults to 0 unknown if nothing found
-                    
+    leaderboard_fragment()           
    
 
 if __name__ == "__main__":

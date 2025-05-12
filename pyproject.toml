@@ -21,6 +21,10 @@ streamlit = "*"
 streamlit-drawable-canvas = "*"
 python-dotenv = "*"
 google-genai = "*"
+streamlit-extras = "*"
+opencv-python-headless = "*"  
+pubchempy = "*"
+
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
