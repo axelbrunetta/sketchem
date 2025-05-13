@@ -47,7 +47,7 @@ def render_guide_page():
     
     # Get user's home directory and construct path to Downloads
     home = str(Path.home())
-    pdf_path = os.path.join(home, "Downloads", "userguide.pdf")
+    pdf_path = os.path.join(home, "Downloads", "userguide.pdf") #FIX THIS
     
     # Check if the PDF file exists
     if os.path.exists(pdf_path):
@@ -68,7 +68,7 @@ def render_guide_page():
             '''
             st.markdown(pdf_display, unsafe_allow_html=True)
     else:
-        st.error(f"User guide PDF file not found. Please make sure 'userguide.pdf' exists in your Downloads folder at: {pdf_path}")
+        st.error(f"User guide PDF file not found. ")
 
 if __name__ == "__main__":
     render_guide_page()
