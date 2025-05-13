@@ -1,8 +1,12 @@
+
 import streamlit as st
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
 from google import genai
+from streamlit_extras.stoggle import stoggle
+from sketchem.utils.create_category import get_molecules_for_category_pubchem
+import time
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -50,8 +54,13 @@ def process_gemini_category_response(response_text):
 
 def generate_new_category(api_key, user_prompt):
     """Generate a new molecule category using Gemini AI"""
-    # Check for test mode
-    if api_key == "TEST_MODE_ENABLED" or user_prompt.lower() == "test":
+    # Check for test mode - only use test categories when explicitly testing
+    if api_key == "TEST_MODE_ENABLED" and (user_prompt.lower() == "test" or 
+        any(keyword in user_prompt.lower() for keyword in [
+            "alcohol", "acid", "drug", "pharmaceutical", "medicine",
+            "aroma", "fragrance", "smell", "sugar", "carbohydrate",
+            "vitamin", "nutrient"
+        ])):
         logger.info("Using test category")
 
         # Create a test category based on the prompt
@@ -154,8 +163,12 @@ Ethanol: CCO
 Methane: C
 Benzene: C1=CC=CC=C1
 
-IMPORTANT: Do not include any other explanations or commentary. Simply output what is asked above.
-Be lenient on the category descriptions. If the description is vague, try to find molecules related to that description.
+IMPORTANT: 
+1. Do not include any other explanations or commentary. Simply output what is asked above.
+2. Be lenient on the category descriptions. If the description is vague, try to find molecules related to that description.
+3. For inorganic molecules, include their common names and SMILES notation.
+4. For solvents or other chemical categories, provide accurate and relevant molecules.
+5. Make sure to include the most common and well-known molecules in the requested category.
 """
 
         response = client.models.generate_content(
@@ -182,6 +195,8 @@ def render_singleplayer_setup():
         st.session_state.category_update_counter = 0
     if "additionalCategories" not in st.session_state:
         st.session_state.additionalCategories = {}
+    if "toast_queue" not in st.session_state:
+        st.session_state.toast_queue = None
 
     # Check if we need to show a toast message from the game page
     if st.session_state.get("show_back_toast", False):
@@ -189,6 +204,13 @@ def render_singleplayer_setup():
         st.toast("You quit the game. Click 'Start Game' to start a new one.", icon="🎮")
         # Reset the flag
         st.session_state.show_back_toast = False
+
+    # Check if we need to show a toast message for category creation
+    if st.session_state.toast_queue is not None:
+        toast_data = st.session_state.toast_queue
+        if isinstance(toast_data, dict) and "message" in toast_data and "icon" in toast_data:
+            st.toast(toast_data["message"], icon=toast_data["icon"])
+        st.session_state.toast_queue = None
 
     # Get the API key from secrets (if available)
     try:
@@ -208,16 +230,25 @@ def render_singleplayer_setup():
         api_key = "TEST_MODE_ENABLED"
 
     #page title
-    st.markdown("<h2 style='text-align: center; margin-bottom: 20px;'>Single Player Mode</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
 
     #general CSS for layout and buttons
     st.markdown("""
         <style>
-        div[data-testid="stButton"] > button {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-top: 20px;
+        /* Basic form styling */
+        div.stButton > button {
+            width: 100%;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 10px;
         }
+        
+        /* Divider styling */
+        hr {
+            margin: 20px 0;
+            border-color: #f0f0f0;
+        }
+        
         [data-testid="column"] {
             width: 45% !important;
             padding: 0 2% !important;
@@ -236,23 +267,42 @@ def render_singleplayer_setup():
             margin: 20px 0;
             background-color: #f8f9fa;
         }
-        div[data-testid="stButton"] > button.stButton.primary {
-            font-size: 1.2rem;
-            padding: 0.8rem 1.5rem;
-            font-weight: bold;
+
+        /* Create category button styling */
+        button[kind="primary"] {
+            background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
+            background-size: 200% 100% !important;
+            color: white !important;
+            padding: 15px 32px !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+            border-radius: 12px !important;
+            border: none !important;
+            transition: background-position 0.5s ease,
+                        transform 0.3s ease, 
+                        box-shadow 0.3s ease !important;
+        }
+        
+        button[kind="primary"]:hover {
+            background-position: 100% 0 !important;
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 20px 5px rgba(77, 166, 255, 0.6) !important;
         }
 
-        /* Back button styling */
-        button[kind="secondary"] {
-            background-color: #f0f0f0;
-            color: #333;
-            border: 1px solid #ddd;
-            transition: all 0.3s;
+        /* Back and Start Game button styling */
+        div[data-testid="stButton"] button[kind="secondary"] {
+            background-color: #4f5b66 !important;
+            color: white !important;
+            padding: 10px 20px !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+            border-radius: 8px !important;
+            border: none !important;
+            transition: background-color 0.3s ease !important;
         }
 
-        button[kind="secondary"]:hover {
-            background-color: #e0e0e0;
-            border-color: #ccc;
+        div[data-testid="stButton"] button[kind="secondary"]:hover {
+            background-color: #3a444d !important;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -296,91 +346,33 @@ def render_singleplayer_setup():
             selected_category = None
             st.session_state.selected_molecule_category = None
 
-        # Track if we need to show a success message
-        if "show_success_message" not in st.session_state:
-            st.session_state.show_success_message = False
-
-        # Track the last created category name
-        if "last_created_category" not in st.session_state:
-            st.session_state.last_created_category = ""
-
         # Dialog for category creation
         @st.dialog("Generate a molecule category")
         def openModal():
-            st.markdown("### Create a Custom Molecule Category")
+            st.write(f"What kind of molecule category are you looking for?")
+            user_input = st.text_input("", placeholder="e.g., 'drugs', 'alcohols', 'sugars', 'vitamins'")
+            if st.button("Submit"):
+                # Enable test mode for development
+                api_key = "TEST_MODE_ENABLED"
+                returned_var = get_molecules_for_category_pubchem(api_key=api_key, user_prompt=user_input)
 
-            # Category input
-            st.write("What kind of molecule category are you looking for?")
-            user_input = st.text_input("", key="category_input",
-                                      placeholder="e.g., 'drugs', 'alcohols', 'sugars', 'vitamins'")
+                st.session_state.category_update_counter += 1
 
-            # Generate Category button
-            if st.button("Generate Category", type="primary", use_container_width=True):
-                if not user_input:
-                    st.error("Please enter a category description")
+                logger.info(f"Generate category message: {returned_var}")
+                
+                if returned_var == "Successfully created category":
+                    st.session_state.toast_queue = {"message": "Successfully created category.", "icon": "✅"}
                 else:
-                    # Show a spinner while generating
-                    with st.spinner("Generating molecule category..."):
-                        try:
-                            # Call the generate function
-                            result = generate_new_category(api_key=api_key, user_prompt=user_input)
-
-                            # Log the result
-                            logger.info(f"Generate category message: {result}")
-
-                            # Update the counter to refresh the UI
-                            st.session_state.category_update_counter += 1
-
-                            # Store the name of the category that was just created
-                            if "drug" in user_input.lower() or "pharmaceutical" in user_input.lower() or "medicine" in user_input.lower():
-                                st.session_state.last_created_category = "Pharmaceutical Compounds"
-                            elif "alcohol" in user_input.lower():
-                                st.session_state.last_created_category = "Alcohols"
-                            elif "acid" in user_input.lower():
-                                st.session_state.last_created_category = "Organic Acids"
-                            elif "sugar" in user_input.lower() or "carbohydrate" in user_input.lower():
-                                st.session_state.last_created_category = "Sugars"
-                            elif "vitamin" in user_input.lower() or "nutrient" in user_input.lower():
-                                st.session_state.last_created_category = "Vitamins"
-                            elif "aroma" in user_input.lower() or "fragrance" in user_input.lower():
-                                st.session_state.last_created_category = "Aromatic Compounds"
-                            else:
-                                st.session_state.last_created_category = "Test Category"
-
-                            # Clear the form and show success message
-                            st.empty()
-                            st.markdown("### Category Created Successfully!")
-                            st.success(f"The category '{st.session_state.last_created_category}' has been added to the dropdown menu.")
-
-                            # Set flag to show success message on main page
-                            st.session_state.show_success_message = True
-
-                            # Close button
-                            if st.button("Close", use_container_width=True):
-                                return
-
-                        except Exception as e:
-                            st.error(f"Error generating category: {str(e)}")
-                            logger.error(f"Error in category generation: {str(e)}", exc_info=True)
-
-            # Add a small note at the bottom
-            st.markdown("---")
-            st.caption("Available test categories: drugs, alcohols, acids, aromatics, sugars, vitamins")
-
-        # Show success message if needed
-        if st.session_state.show_success_message:
-            if st.session_state.last_created_category:
-                st.success(f"Category '{st.session_state.last_created_category}' created successfully!")
-            else:
-                st.success("Category created successfully!")
-            # Reset the flag
-            st.session_state.show_success_message = False
+                    st.session_state.toast_queue = {"message": "Failed to create category, try to formulate your query differently.", "icon": "☹️"}
+                st.rerun() #Closes the modal view
 
         #"or" between dropdown and button
         st.markdown("<div style='text-align: center; margin: 10px 0;'><strong> or </strong></div>", unsafe_allow_html=True)
 
-        if st.button("Create a molecule category", use_container_width=True):
+        if st.button("Create a molecule category using AI", key="create_category_button", help="This is an experimental feature, some things may not work as intended.", type="primary", use_container_width=True):
             openModal()
+
+        st.divider()
 
     with col2:
         st.markdown("### Game Duration (seconds)")
@@ -404,36 +396,58 @@ def render_singleplayer_setup():
 
     #only show molecule list if a valid category is selected (not "Choose Category")
     if selected_category and selected_category != "Choose Category":
-        st.markdown("<div class='molecule-container'>", unsafe_allow_html=True)
-        st.markdown(f"<h3 style='text-align: center; margin-top: 0;'>Molecules in {selected_category}:</h3>", unsafe_allow_html=True)
-        st.markdown("<div style='text-align: center; columns: 2; column-gap: 40px;'>", unsafe_allow_html=True)
-
+        # Display molecules in selected category
+        st.session_state.selected_molecule_category = selected_category
+        molecule_list = ""
         if selected_category in MOLECULE_CATEGORIES:
             for mol in MOLECULE_CATEGORIES[selected_category].keys():
-                st.markdown(f"• {mol}", unsafe_allow_html=True)
+                molecule_list += f"- {mol}<br>"
         elif hasattr(st.session_state, "additionalCategories") and selected_category in st.session_state.additionalCategories:
             for mol in st.session_state.additionalCategories[selected_category].keys():
-                st.markdown(f"• {mol}", unsafe_allow_html=True)
-
-        st.markdown("</div></div>", unsafe_allow_html=True)
+                molecule_list += f"- {mol}<br>"
+        
+        stoggle(
+            f"Molecules in {selected_category}:",
+            f"{molecule_list}",
+        )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     #row with start and back button
     start_col, back_col = st.columns([1, 1])
 
-    #start button
-    with start_col:
-        start_disabled = selected_category is None
-        if st.button("Start Game", type="primary", use_container_width=True, disabled=start_disabled, key="start_button"):
-            st.session_state.game_mode = "single"
-            st.rerun()
-
     #back button
-    with back_col:
-        if st.button("Back", key="back_button", use_container_width=True):
+    with start_col:
+        if st.button("Back to Home", key="back_button", use_container_width=True, type="secondary"):
             # Reset game mode to return to main menu
             st.session_state.game_mode = None
+            st.rerun()
+
+    #start button
+    with back_col:
+        start_disabled = selected_category is None
+        if st.button("Start Game", type="secondary", use_container_width=True, disabled=start_disabled, key="start_button"):
+            # Create a game object for single player
+            game_code = "single_" + str(int(time.time()))  # Create a unique game code
+            st.session_state.game_code = game_code
+            
+            # Create game data
+            game_data = {
+                "code": game_code,
+                "status": "active",
+                "created_at": int(time.time()),
+                "category": selected_category,
+                "category_is_default": True,  # Single player always uses default categories for now
+                "game_duration": game_duration,
+                "hints": False,  # No hints in single player
+                "players": {}
+            }
+            
+            # Add game to mock database
+            from sketchem.db.mock_db import _games
+            _games[game_code] = game_data
+            
+            st.session_state.game_mode = "single"
             st.rerun()
 
 if __name__ == "__main__":

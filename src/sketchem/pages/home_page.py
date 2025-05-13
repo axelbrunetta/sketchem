@@ -21,6 +21,10 @@ def render_home_page():
         else:
             st.info("Multiplayer is only available in the deployed version (Using Streamlit Cloud)")
 
+    if st.button("How to play", use_container_width=True):
+                st.session_state.game_mode = "guide"
+                st.rerun()
+
     with bottom():
         stoggle(
         "Credits",
