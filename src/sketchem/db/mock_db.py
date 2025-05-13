@@ -137,6 +137,16 @@ def update_player_data(elapsed_time):
     logger.info(f"Updated player data for {st.session_state.player_id}: {elapsed_time} seconds played, {st.session_state.points} points")
     return {"success": True}
 
-#Will need end game function here?
 
-#Will need something that deletes games and players after x amount of time
+def cleanup_old_games():
+    """Delete games that are older than 20 minutes"""
+    current_time = int(time.time())
+    timeout = 20 * 60  # 20 minutes in seconds
+    
+    deleted_games = []
+    for code in list(_games.keys()):
+        if current_time - _games[code]["created_at"] > timeout:
+            logger.info(f"Deleting old game {code}")
+            deleted_games.append(code)
+            del _games[code]
+

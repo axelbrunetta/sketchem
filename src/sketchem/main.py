@@ -8,6 +8,7 @@ from sketchem.utils.toast import display_queued_toast
 from sketchem.pages.game_page_single import render_game_page
 from sketchem.pages.game_page_multi import render_game_page_multi
 from sketchem.pages.guide_page import render_guide_page
+from sketchem.db.mock_db import cleanup_old_games
 
 def main():
     st.set_page_config(page_title="Sketchem", layout="centered", initial_sidebar_state="collapsed")
@@ -50,6 +51,13 @@ def main():
         render_game_page_multi()
     elif st.session_state.game_mode == "guide":
         render_guide_page()
+
+    @st.fragment(run_every="20m")  # Run every 20 minutes
+    def cleanup_fragment():
+        """Periodically clean up old games"""
+        cleanup_old_games()
+        st.session_state.toast_queue = {"message": f"Cleaned up inactive games", "icon": "🧹"}
+    cleanup_fragment()
 
 if __name__ == "__main__":
     main()
