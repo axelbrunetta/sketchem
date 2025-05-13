@@ -208,7 +208,7 @@ def render_game_page_multi():
     
     
     
-    if (not st.session_state.game_over) or (not st.session_state.player_done):
+    if st.session_state.game_over or st.session_state.player_done:
         # Display game info
         col1, col2 = st.columns(2)
         with col1:
