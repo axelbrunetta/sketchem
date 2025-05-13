@@ -12,6 +12,7 @@ import logging
 from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
 from sketchem.utils.environment import get_gemini_api_key
 import pubchempy as pcp
+from sketchem.db.mock_db import update_player_data
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -84,11 +85,21 @@ def handle_submission(canvas_result):
         st.session_state.points += 1
         st.session_state.toast_queue = {"message": f"Correct! You drew {st.session_state.current_molecule} correctly.", "icon": "✅"}
         
-        #############TO DOOO -> Update score in database
-        ###############Also check that score <= nbr of molecules -> if == then you're done -> leaderboard will be based on points + time
+        # Update score and gameplay_time in database
+        try:
+            # Calculate elapsed time since game start
+            elapsed_time = time.time() - st.session_state.start_time - 5
+            
+            # Update player data in the database
+            
+            update_result = update_player_data(elapsed_time)
+            
+            if not update_result or not update_result.get("success", False):
+                logger.error(f"Failed to update player data: {update_result}")
+        except Exception as e:
+            logger.error(f"Error updating player data: {e}")
         
-
-         # Reset the canvas by incrementing a canvas key counter
+        # Reset the canvas by incrementing a canvas key counter
         if "canvas_key_counter" not in st.session_state:
             st.session_state.canvas_key_counter = 0
         st.session_state.canvas_key_counter += 1
@@ -389,11 +400,17 @@ def render_game_page_multi():
         st.markdown("### Leaderboard")
         if game:
             players = game["players"]
-            # Sort players by score
-            if isinstance(players, list):
-                sorted_players = sorted(players, key=lambda x: x.get("score", 0), reverse=True)
-                for i, player in enumerate(sorted_players):
-                    st.markdown(f"{i+1}. **{player.get('name', 'Unknown')}**: {player.get('score', 0)}") #defaults to 0 unknown if nothing found
+
+            players_list = []
+            for player_id, player_data in players.items():
+                players_list.append(player_data)
+            # Sort first by score (higher is better), then by time (lower is better)
+            sorted_players = sorted(players_list, 
+                                   key=lambda x: (x.get("score", 0), -x.get("gameplay_time", 0)), 
+                                   reverse=True)
+                
+            for i, player in enumerate(sorted_players):
+                st.markdown(f"{i+1}. **{player.get('name', 'Unknown')}**: {player.get('score', 0)}")
     leaderboard_fragment()           
    
 

@@ -40,9 +40,8 @@ def create_game(player_name: str) -> Dict:
         "players": {
             player_id: {
                 "name": player_name,
-                "id": player_id,
                 "score": 0,
-                "last_active": int(time.time()),
+                "gameplay_time": 0,
             }
         },
     }
@@ -117,6 +116,25 @@ def remove_player_from_game(code: str, player_id: str) -> Dict:
         del _games[code]
         return {"success": True, "game_deleted": True}
     
+    return {"success": True}
+
+def update_player_data(elapsed_time):
+    """Update a player's score and gameplay time."""
+    code = st.session_state.game_code
+
+    if code not in _games:
+        return {"success": False, "error": "Game not found"}
+
+    if "players" not in _games[code]:
+        return {"success": False, "error": "No players in game"}
+
+    if st.session_state.player_id not in _games[code]["players"]:
+        return {"success": False, "error": "Player not found in game"}
+
+    _games[code]["players"][st.session_state.player_id]["score"] = st.session_state.points
+    _games[code]["players"][st.session_state.player_id]["gameplay_time"] = elapsed_time
+
+    logger.info(f"Updated player data for {st.session_state.player_id}: {elapsed_time} seconds played, {st.session_state.points} points")
     return {"success": True}
 
 #Will need end game function here?
