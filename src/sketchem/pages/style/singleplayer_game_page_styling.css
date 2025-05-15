@@ -1,168 +1,410 @@
-/* Main theme colors */
-:root {
-    --primary-bg: #ffffff;
-    --secondary-bg: #f0f2f6;
-    --accent-blue: #0066cc;
-    --accent-grey: #4f5b66;
-    --highlight: #e6f3ff;
-}
 
-/* Center all headings */
-.stMarkdown h1, 
-.stMarkdown h2,
-.stMarkdown h3 {
-    text-align: center !important;
-}
 
-/* Center the score and time columns */
-div.stHorizontalBlock div.stColumn div.stMarkdown p {
-    text-align: center !important;
-    width: 100% !important;
-    display: block !important;
-}
+/* Eraser button styling */
+div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-kj6hex.eu6p4el1 button {
+        vertical-align: middle;
+        font-weight: 900;
+        background-color: #3a444d;
+        color: white;
+        padding: 0 !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+        border: none !important;
+        transition: background-color 0.3s ease !important;
+        aspect-ratio: 1 / 1 !important;
+        width: 60px !important;
+        height: 60px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
 
-div.stHorizontalBlock div.stColumn div.stMarkdown p strong {
-    display: inline !important;
-    text-align: center !important;
-}
+    /* Eraser icon */
+div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+        font-family: 'Font Awesome 5 Free';
+        content: '\f12d';
+        display: inline-block;
+        padding-right: 3px;
+        vertical-align: middle;
+        font-weight: 900;
+        color: white ;
+} 
 
-/* Column layout for buttons */
-[data-testid="column"] {
-    width: fit-content !important;
-    flex: unset !important;
-}
+    /* Pen button styling */
+div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-kj6hex.eu6p4el1 button {
+        vertical-align: middle;
+        font-weight: 900;
+        background-color: #3a444d;
+        color: white;
+        
+        padding: 0 !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+        border: none !important;
+        transition: background-color 0.3s ease !important;
+        aspect-ratio: 1 / 1 !important;
+        width: 60px !important;
+        height: 60px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
 
-[data-testid="column"] > div {
-    width: fit-content !important;
-}
+    /* Pen icon */
+div.stElementContainer.element-container.st-key-pen_toggle.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+        font-family: 'Font Awesome 5 Free';
+        content: '\f304';
+        display: inline-block;
+        padding-right: 3px;
+        vertical-align: middle;
+        font-weight: 900;
+        color: white ;
+} 
 
-/* Common button styling */
-div[data-testid="stButton"] button[key*="_color"],
-div[data-testid="stButton"] button[key*="_selected"] {
-    width: 60px !important;
-    height: 60px !important;
-    border-radius: 8px !important;
-    padding: 0 !important;
-    min-width: unset !important;
-    margin: 0 auto !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 16px !important;
-    font-weight: bold !important;
-    transition: background-color 0.3s ease !important;
-    aspect-ratio: 1 / 1 !important;
-}
-
-/* Selected button styling */
-div[data-testid="stButton"] button[key*="_selected"] {
+/*White button selected*/
+div.stElementContainer.element-container.st-key-White_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ffffff;
     border: 2px solid #3a444d !important;
-}
-
-/* Color button styles */
-div[data-testid="stButton"] button[key*="White_"] {
-    background-color: #ffffff !important;
-    border: 2px solid #3a444d !important;
-}
-
-div[data-testid="stButton"] button[key*="Red_"] {
-    background-color: #ff0000 !important;
-    border: 2px solid #3a444d !important;
-}
-
-div[data-testid="stButton"] button[key*="Blue_"] {
-    background-color: #0000ff !important;
-    border: 2px solid #3a444d !important;
-}
-
-div[data-testid="stButton"] button[key*="Green_"] {
-    background-color: #00ff00 !important;
-    border: 2px solid #3a444d !important;
-}
-
-div[data-testid="stButton"] button[key*="Yellow_"] {
-    background-color: #ffff00 !important;
-    border: 2px solid #3a444d !important;
-}
-
-div[data-testid="stButton"] button[key*="Purple_"] {
-    background-color: #800080 !important;
-    border: 2px solid #3a444d !important;
-}
-
-/* Eraser/Pen toggle button styling */
-div[data-testid="stButton"] button[key="eraser_toggle"],
-div[data-testid="stButton"] button[key="pen_toggle"] {
-    background-color: #3a444d !important;
-    color: white !important;
-    border: none !important;
-    width: 60px !important;
-    height: 60px !important;
     border-radius: 8px !important;
     padding: 0 !important;
     font-size: 16px !important;
     font-weight: bold !important;
     transition: background-color 0.3s ease !important;
     aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
 }
 
-/* Icons for selected buttons */
-div[data-testid="stButton"] button[key*="_selected"]:before {
+div.stElementContainer.element-container.st-key-White_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
     font-family: 'Font Awesome 5 Free';
     content: '\2713';
     display: inline-block;
     padding-right: 3px;
     vertical-align: middle;
     font-weight: 900;
-}
-
-/* Icon colors for selected buttons */
-div[data-testid="stButton"] button[key="White_selected"]:before {
-    color: black;
-}
-
-div[data-testid="stButton"] button[key="Red_selected"]:before,
-div[data-testid="stButton"] button[key="Blue_selected"]:before,
-div[data-testid="stButton"] button[key="Purple_selected"]:before {
-    color: white;
-}
-
-div[data-testid="stButton"] button[key="Green_selected"]:before,
-div[data-testid="stButton"] button[key="Yellow_selected"]:before {
-    color: black;
-}
-
-/* Eraser/Pen icons */
-div[data-testid="stButton"] button[key="eraser_toggle"]:before {
-    font-family: 'Font Awesome 5 Free';
-    content: '\f12d';
-    display: inline-block;
-    padding-right: 3px;
+    color: black ;
+} 
+/*White button unselected*/
+div.stElementContainer.element-container.st-key-White_color.st-emotion-cache-kj6hex.eu6p4el1 button {
     vertical-align: middle;
     font-weight: 900;
-    color: white;
-}
-
-div[data-testid="stButton"] button[key="pen_toggle"]:before {
-    font-family: 'Font Awesome 5 Free';
-    content: '\f304';
-    display: inline-block;
-    padding-right: 3px;
-    vertical-align: middle;
-    font-weight: 900;
-    color: white;
-}
-
-/* Button column spacing */
-[data-testid="column"] {
+    background-color: #ffffff;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
     padding: 0 !important;
-    margin: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
-/* Canvas spacing */
-div[style*="height: 20px"] {
-    margin: 20px 0;
+div.stElementContainer.element-container.st-key-White_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: black ;
+} 
+
+/*Red button selected*/
+div.stElementContainer.element-container.st-key-Red_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ff0000;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
+
+/*Red button unselected*/
+div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ff0000;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Blue button selected*/
+div.stElementContainer.element-container.st-key-Blue_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #0000ff;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Blue button unselected*/
+div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #0000ff;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Green button selected*/
+div.stElementContainer.element-container.st-key-Green_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #00ff00;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Green button unselected*/
+div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #00ff00;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Yellow button selected*/
+div.stElementContainer.element-container.st-key-Yellow_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ffff00;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Yellow button unselected*/
+div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #ffff00;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Purple button selected*/
+div.stElementContainer.element-container.st-key-Purple_selected.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #800080;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/*Purple button unselected*/
+div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj6hex.eu6p4el1 button {
+    vertical-align: middle;
+    font-weight: 900;
+    background-color: #800080;
+    border: 2px solid #3a444d !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    aspect-ratio: 1 / 1 !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+/* Red selected button icon */
+div.stElementContainer.element-container.st-key-Red_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
+
+/* Blue selected button icon */
+div.stElementContainer.element-container.st-key-Blue_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
+
+/* Green selected button icon */
+div.stElementContainer.element-container.st-key-Green_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: black;
+} 
+
+/* Yellow selected button icon */
+div.stElementContainer.element-container.st-key-Yellow_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: black;
+} 
+
+/* Purple selected button icon */
+div.stElementContainer.element-container.st-key-Purple_selected.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\2713';
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
+
+/* Red unselected button (no icon) */
+div.stElementContainer.element-container.st-key-Red_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
+
+/* Blue unselected button (no icon) */
+div.stElementContainer.element-container.st-key-Blue_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
+
+/* Green unselected button (no icon) */
+div.stElementContainer.element-container.st-key-Green_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: black;
+} 
+
+/* Yellow unselected button (no icon) */
+div.stElementContainer.element-container.st-key-Yellow_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: black;
+} 
+
+/* Purple unselected button (no icon) */
+div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj6hex.eu6p4el1 button:before {
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: white;
+} 
