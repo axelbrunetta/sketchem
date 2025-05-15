@@ -3,6 +3,7 @@ import streamlit as st
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
+from sketchem.utils.back_button import back_button
 from streamlit_extras.stoggle import stoggle
 from sketchem.utils.create_category import get_molecules_for_category_pubchem
 import time
@@ -38,6 +39,7 @@ def render_singleplayer_setup():
     with open(css_path) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+    back_button(destination=None, label="Back to Home")
 
     #columns for setup
     col1, col2 = st.columns([1, 1])
@@ -103,8 +105,6 @@ def render_singleplayer_setup():
         if st.button("Create a molecule category using AI", key="create_category_button", help="This is an experimental feature, some things may not work as intended.", type="primary", use_container_width=True):
             openModal()
 
-        st.divider()
-
     with col2:
         st.markdown("### Game Duration (seconds)")
 
@@ -142,45 +142,34 @@ def render_singleplayer_setup():
             f"{molecule_list}",
         )
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.divider()
 
-    #row with start and back button
-    start_col, back_col = st.columns([1, 1])
-
-    #back button
-    with start_col:
-        if st.button("Back to Home", key="back_button", use_container_width=True, type="secondary"):
-            # Reset game mode to return to main menu
-            st.session_state.game_mode = None
-            st.rerun()
-
-    #start button
-    with back_col:
-        start_disabled = selected_category is None
-        if st.button("Start Game", type="secondary", use_container_width=True, disabled=start_disabled, key="start_button"):
-            # Create a game object for single player
-            game_code = "single_" + str(int(time.time()))  # Create a unique game code
-            st.session_state.game_code = game_code
-            
-            # Create game data
-            game_data = {
-                "code": game_code,
-                "status": "active",
-                "created_at": int(time.time()),
-                "category": selected_category,
-                "category_is_default": st.session_state.category_is_default,  # Use the stored value
-                "additional_categories": st.session_state.additional_categories,  # Include additional categories
-                "game_duration": game_duration,
-                "hints": False,  # No hints in single player
-                "players": {}
-            }
-            
-            # Add game to mock database
-            from sketchem.db.mock_db import _games
-            _games[game_code] = game_data
-            
-            st.session_state.game_mode = "single"
-            st.rerun()
+    
+    start_disabled = selected_category is None
+    if st.button("Start Game", type="secondary", use_container_width=True, disabled=start_disabled, key="start_button"):
+        # Create a game object for single player
+        game_code = "single_" + str(int(time.time()))  # Create a unique game code
+        st.session_state.game_code = game_code
+        
+        # Create game data
+        game_data = {
+            "code": game_code,
+            "status": "active",
+            "created_at": int(time.time()),
+            "category": selected_category,
+            "category_is_default": st.session_state.category_is_default,  # Use the stored value
+            "additional_categories": st.session_state.additional_categories,  # Include additional categories
+            "game_duration": game_duration,
+            "hints": False,  # No hints in single player
+            "players": {}
+        }
+        
+        # Add game to mock database
+        from sketchem.db.mock_db import _games
+        _games[game_code] = game_data
+        
+        st.session_state.game_mode = "single"
+        st.rerun()
 
 if __name__ == "__main__":
     render_singleplayer_setup()

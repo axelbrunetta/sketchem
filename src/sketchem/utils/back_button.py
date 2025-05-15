@@ -65,7 +65,8 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
                     "multiplayer_setup": None,  # setup goes back to home
                     "created_multi": None,  # waiting room (host) goes back home
                     "joined_multi": None,  # waiting room (player) goes back home
-                    "guide": None
+                    "guide": None,
+                    "singleplayer_setup": None,
                     # need one for single player goes back to home from setup + game page
                 }
                 
