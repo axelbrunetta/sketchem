@@ -16,10 +16,16 @@ def render_singleplayer_setup():
     # Initialize session state variables if they don't exist
     if "category_update_counter" not in st.session_state:
         st.session_state.category_update_counter = 0
-    if "additionalCategories" not in st.session_state:
-        st.session_state.additionalCategories = {}
+    if "additional_categories" not in st.session_state:
+        st.session_state.additional_categories = {}
+    # Add this line to store the last created category
+    if "last_created_category" not in st.session_state:
+        st.session_state.last_created_category = None
     if "toast_queue" not in st.session_state:
         st.session_state.toast_queue = None
+    # Add this to track if category is default
+    if "category_is_default" not in st.session_state:
+        st.session_state.category_is_default = True
 
     # Get the API key using the environment utility function
     api_key = get_gemini_api_key()
@@ -43,8 +49,9 @@ def render_singleplayer_setup():
         all_categories = list(MOLECULE_CATEGORIES.keys())
         update_counter = st.session_state.get("category_update_counter", 0)
 
-        if hasattr(st.session_state, "additionalCategories"):
-            all_categories.extend(st.session_state.additionalCategories.keys())
+        # Add custom categories to the list
+        if st.session_state.additional_categories:
+            all_categories.extend(st.session_state.additional_categories.keys())
 
         #add a placeholder for the selected category
         if "selected_molecule_category" not in st.session_state:
@@ -126,8 +133,8 @@ def render_singleplayer_setup():
         if selected_category in MOLECULE_CATEGORIES:
             for mol in MOLECULE_CATEGORIES[selected_category].keys():
                 molecule_list += f"- {mol}<br>"
-        elif hasattr(st.session_state, "additionalCategories") and selected_category in st.session_state.additionalCategories:
-            for mol in st.session_state.additionalCategories[selected_category].keys():
+        elif selected_category in st.session_state.additional_categories:
+            for mol in st.session_state.additional_categories[selected_category].keys():
                 molecule_list += f"- {mol}<br>"
         
         stoggle(
@@ -161,7 +168,8 @@ def render_singleplayer_setup():
                 "status": "active",
                 "created_at": int(time.time()),
                 "category": selected_category,
-                "category_is_default": True,  # Single player always uses default categories for now
+                "category_is_default": st.session_state.category_is_default,  # Use the stored value
+                "additional_categories": st.session_state.additional_categories,  # Include additional categories
                 "game_duration": game_duration,
                 "hints": False,  # No hints in single player
                 "players": {}
