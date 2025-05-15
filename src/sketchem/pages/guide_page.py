@@ -3,9 +3,11 @@ import os
 from pathlib import Path
 import base64
 
+
 def render_guide_page():
     # Add custom CSS for the page layout
-    st.markdown("""
+    st.markdown(
+        """
         <style>
         /* Hide the fullscreen button */
         .css-1lb4qv9 {display: none;}
@@ -41,23 +43,26 @@ def render_guide_page():
             padding-bottom: 1rem;
         }
         </style>
-    """, unsafe_allow_html=True)
-    
-    st.title("A guide on how to use SketChem")
-    
-    # Get user's home directory and construct path to Downloads
-    home = str(Path.home())
-    pdf_path = os.path.join(home, "Downloads", "userguide_final.pdf")
-    
+    """,
+        unsafe_allow_html=True,
+    )
+
+    st.title("A guide on how to use sketchem")
+
+    # Construct path to the userguide.pdf in the data directory
+    current_file = Path(__file__)
+    src_dir = current_file.parent.parent
+    pdf_path = os.path.join(src_dir, "data", "userguide.pdf")
+
     # Check if the PDF file exists
     if os.path.exists(pdf_path):
         # Read and display the PDF file
         with open(pdf_path, "rb") as f:
             pdf_bytes = f.read()
-            
+
             # Display PDF using PDF viewer with custom styling
-            base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
-            pdf_display = f'''
+            base64_pdf = base64.b64encode(pdf_bytes).decode("utf-8")
+            pdf_display = f"""
                 <div class="pdf-container">
                     <iframe 
                         src="data:application/pdf;base64,{base64_pdf}" 
@@ -65,10 +70,13 @@ def render_guide_page():
                         type="application/pdf">
                     </iframe>
                 </div>
-            '''
+            """
             st.markdown(pdf_display, unsafe_allow_html=True)
     else:
-        st.error(f"User guide PDF file not found. Please make sure 'userguide_final.pdf' exists in your Downloads folder at: {pdf_path}")
+        st.error(
+            f"User guide PDF file not found. Please make sure 'userguide.pdf' exists in the data directory at: {pdf_path}"
+        )
+
 
 if __name__ == "__main__":
     render_guide_page()
