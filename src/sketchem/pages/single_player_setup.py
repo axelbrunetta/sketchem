@@ -226,6 +226,8 @@ def render_singleplayer_setup():
         st.session_state.additionalCategories = {}
     if "toast_queue" not in st.session_state:
         st.session_state.toast_queue = None
+    if "last_created_category" not in st.session_state:
+        st.session_state.last_created_category = None
 
     # Check if we need to show a toast message from the game page
     if st.session_state.get("show_back_toast", False):
@@ -247,7 +249,7 @@ def render_singleplayer_setup():
 
     # Try to load the style from file, fall back to inline style if file doesn't exist
     try:
-        style_path = "src/sketchem/pages/style/singleplayer_game_page_styling.css"
+        style_path = "src/sketchem/pages/style/single_player_setup_styling.css"
         with open(style_path) as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     except FileNotFoundError:
@@ -276,6 +278,13 @@ def render_singleplayer_setup():
         # add a placeholder for the selected category
         if "selected_molecule_category" not in st.session_state:
             st.session_state.selected_molecule_category = None
+
+        # If we have a last created category, select it
+        if st.session_state.last_created_category:
+            st.session_state.selected_molecule_category = (
+                st.session_state.last_created_category
+            )
+            st.session_state.last_created_category = None  # Clear it after use
 
         # create a selectbox that looks like a dropdown button
         # determine the initial index based on the current selection
@@ -333,6 +342,7 @@ def render_singleplayer_setup():
                         "message": "Successfully created category.",
                         "icon": "✅",
                     }
+                    st.session_state.last_created_category = selected_category
                 else:
                     st.session_state.toast_queue = {
                         "message": f"Failed to create category: {returned_var}",
@@ -434,7 +444,8 @@ def render_singleplayer_setup():
                 "status": "active",
                 "created_at": int(time.time()),
                 "category": selected_category,
-                "category_is_default": True,  # Single player always uses default categories for now
+                "category_is_default": selected_category
+                in MOLECULE_CATEGORIES,  # Set based on whether it's a default category
                 "game_duration": game_duration,
                 "hints": False,  # No hints in single player
                 "players": {},

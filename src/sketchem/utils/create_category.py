@@ -91,12 +91,12 @@ def get_molecules_for_category_pubchem(api_key, user_prompt):
                 # Skip this molecule
                 continue
 
-        # Add the new category to the additional_categories state var
+        # Add the new category to the additionalCategories state var
         molecules_dict = {
             item["name"]: item["smiles"] for item in molecules_with_smiles
         }
 
-        st.session_state.additional_categories[category_header] = molecules_dict
+        st.session_state.additionalCategories[category_header] = molecules_dict
 
         # Store the newly created category name temporarily to select it later
         st.session_state.last_created_category = category_header
