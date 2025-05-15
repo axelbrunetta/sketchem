@@ -7,6 +7,8 @@ from streamlit_extras.vertical_slider import vertical_slider
 from sketchem.utils.back_button import back_button
 from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
+from sketchem.utils.environment import is_running_locally
+import os
 
 # Define color options at module level
 COLOR_OPTIONS = {
@@ -93,76 +95,14 @@ def handle_skip():
     st.rerun()
 
 def render_game_page():
-    # Try to load the style from file, fall back to inline style if file doesn't exist
-    try:
-        style_path = '/mount/src/sketchem/src/sketchem/pages/style/multiplayer_game_page_styling.css'
-        with open(style_path) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    except FileNotFoundError:
-        # Fallback inline style
-        st.markdown("""
-        <style>
-        /* White button styling */
-        div[data-testid="stButton"] button[key*="White_"] {
-            background-color: #ffffff !important;
-            border: 2px solid #333 !important;
-        }
-        
-        /* Red button styling */
-        div[data-testid="stButton"] button[key*="Red_"] {
-            background-color: #ff0000 !important;
-            border: 2px solid #333 !important;
-        }
-        
-        /* Blue button styling */
-        div[data-testid="stButton"] button[key*="Blue_"] {
-            background-color: #0000ff !important;
-            border: 2px solid #333 !important;
-        }
-        
-        /* Green button styling */
-        div[data-testid="stButton"] button[key*="Green_"] {
-            background-color: #00ff00 !important;
-            border: 2px solid #333 !important;
-        }
-        
-        /* Yellow button styling */
-        div[data-testid="stButton"] button[key*="Yellow_"] {
-            background-color: #ffff00 !important;
-            border: 2px solid #333 !important;
-        }
-        
-        /* Purple button styling */
-        div[data-testid="stButton"] button[key*="Purple_"] {
-            background-color: #800080 !important;
-            border: 2px solid #333 !important;
-        }
-        
-        /* Selected button styling */
-        div[data-testid="stButton"] button[key*="_selected"] {
-            border: 3px solid #fff !important; 
-            box-shadow: 0 0 0 2px #333 !important;
-        }
-        
-        /* Common button styling */
-        div[data-testid="stButton"] button[key*="_color"],
-        div[data-testid="stButton"] button[key*="_selected"] {
-            width: 28px !important;
-            height: 28px !important;
-            border-radius: 50% !important;
-            padding: 0 !important;
-            min-width: unset !important;
-            margin: 0 auto !important;
-            display: block !important;
-        }
-        
-        /* Eraser button styling */
-        div[data-testid="stButton"] button[key="eraser_toggle"] {
-            background-color: #f0f0f0 !important;
-            border: 2px solid #333 !important;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+    
+    css_path = os.path.join(os.path.dirname(__file__), "style", "singleplayer_game_page_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/singleplayer_game_page_styling.css'
+    
+    with open(css_path) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+    
+       
 
     # Initialize session states
     if "pen_size" not in st.session_state:
