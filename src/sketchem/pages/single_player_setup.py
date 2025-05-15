@@ -198,19 +198,6 @@ def render_singleplayer_setup():
     if "toast_queue" not in st.session_state:
         st.session_state.toast_queue = None
 
-    # Check if we need to show a toast message from the game page
-    if st.session_state.get("show_back_toast", False):
-        # Show toast message
-        st.toast("You quit the game. Click 'Start Game' to start a new one.", icon="🎮")
-        # Reset the flag
-        st.session_state.show_back_toast = False
-
-    # Check if we need to show a toast message for category creation
-    if st.session_state.toast_queue is not None:
-        toast_data = st.session_state.toast_queue
-        if isinstance(toast_data, dict) and "message" in toast_data and "icon" in toast_data:
-            st.toast(toast_data["message"], icon=toast_data["icon"])
-        st.session_state.toast_queue = None
 
     # Get the API key from secrets (if available)
     try:
