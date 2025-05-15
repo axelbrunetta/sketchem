@@ -54,7 +54,7 @@ def main():
 
     @st.fragment(run_every="20m")  # Run every 20 minutes
     def cleanup_fragment():
-        """Periodically clean up old games"""
+        """Periodically clean up old inactive games"""
         cleanup_old_games()
         st.session_state.toast_queue = {"message": f"Cleaned up inactive games", "icon": "🧹"}
     cleanup_fragment()
