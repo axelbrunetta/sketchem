@@ -27,7 +27,7 @@ pubchempy = "*"
 streamlit-screen-stats = "*"
 streamlit-local-storage = "*"
 streamlit-browser-storage = "*"
-st-screen-stats = {git = "https://github.com/axelbrunetta/st_screen_stats.git", rev = "48a96a4e6c25ad7afcd563bcc94f1921c4de3cf2"}
+st-screen-stats = {git = "https://github.com/axelbrunetta/st-screen-stats", rev = "48a96a4e6c25ad7afcd563bcc94f1921c4de3cf2"}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
