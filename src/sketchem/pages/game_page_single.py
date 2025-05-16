@@ -8,6 +8,7 @@ from sketchem.utils.back_button import back_button
 from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from sketchem.utils.environment import is_running_locally
+from st_screen_stats import WindowQueryHelper
 import os
 
 # Define color options at module level
@@ -226,22 +227,37 @@ def render_game_page():
     else:
         current_stroke_color = COLOR_OPTIONS[st.session_state.last_pen_color]
 
+    # Initialize screen size helper
+    screen_helper = WindowQueryHelper()
+    is_small_screen = screen_helper.maximum_window_size(max_width=768)
+
     # Canvas and slider layout
     slider_col, canvas_col = st.columns([1, 4])
     
-    # Vertical slider on the left
+    # Choose slider type based on screen size
     with slider_col:
-        size = vertical_slider(
-            label="Eraser Size" if st.session_state.drawing_mode == "erase" else "Pen Size",
-            min_value=1,
-            max_value=20,
-            default_value=st.session_state.pen_size,
-            key="pen_size_slider",
-            height=350,
-            track_color="#c0c0c0",  # optional
-            thumb_color="#3a444d",  # optional
-            slider_color="#3a444d", 
-        )
+        if is_small_screen["status"]:
+            # Horizontal slider for small screens
+            size = st.slider(
+                label="Eraser Size" if st.session_state.drawing_mode == "erase" else "Pen Size",
+                min_value=1,
+                max_value=20,
+                value=st.session_state.pen_size,
+                key="pen_size_horizontal",
+            )
+        else:
+            # Vertical slider for larger screens
+            size = vertical_slider(
+                label="Eraser Size" if st.session_state.drawing_mode == "erase" else "Pen Size",
+                min_value=1,
+                max_value=20,
+                default_value=st.session_state.pen_size,
+                key="pen_size_slider",
+                height=350,
+                track_color="#c0c0c0",
+                thumb_color="#3a444d",
+                slider_color="#3a444d", 
+            )
         
         # Update pen size in session state
         if size != st.session_state.pen_size:
