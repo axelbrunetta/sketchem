@@ -142,7 +142,13 @@ def select_next_molecule():
 
     if category and (category in MOLECULE_CATEGORIES or category in st.session_state.additional_categories):
         # Get molecules from the appropriate category
-        molecules = get_molecule_from_category(category)
+        if category in MOLECULE_CATEGORIES:
+            molecules = list(MOLECULE_CATEGORIES[category].keys())
+        elif category in st.session_state.additional_categories:
+            molecules = list(st.session_state.additional_categories[category].keys())
+        else:
+            molecules = []  # or handle the case where the category is invalid
+
         if molecules:
             current_index = st.session_state.get("molecule_index", 0)
             next_index = current_index + 1
@@ -402,7 +408,14 @@ def render_game_page():
     # Game over screen
     if st.session_state.game_over:
         if "category" in st.session_state:
-            molecules = list(MOLECULE_CATEGORIES[st.session_state.category].keys())
+            category = st.session_state.category
+            # Get the total number of molecules from the appropriate category
+            if category in MOLECULE_CATEGORIES:
+                molecules = list(MOLECULE_CATEGORIES[category].keys())
+            elif category in st.session_state.additional_categories:
+                molecules = list(st.session_state.additional_categories[category].keys())
+            else:
+                molecules = []  # Handle invalid category case
             st.markdown(f"## Game Over! Your final score: **{st.session_state.points}/{len(molecules)}**")
 
 if __name__ == "__main__":
