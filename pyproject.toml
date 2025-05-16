@@ -24,7 +24,7 @@ google-genai = "*"
 streamlit-extras = "*"
 opencv-python-headless = "*"  
 pubchempy = "*"
-streamlit-screen-stats = {git = "https://github.com/axelbrunetta/st-screen-stats", rev = "48a96a4e6c25ad7afcd563bcc94f1921c4de3cf2"}
+streamlit-screen-stats = {git = "https://github.com/axelbrunetta/st-screen-stats.git", rev = "48a96a4e6c25ad7afcd563bcc94f1921c4de3cf2"}
 streamlit-local-storage = "*"
 streamlit-browser-storage = "*"
 
