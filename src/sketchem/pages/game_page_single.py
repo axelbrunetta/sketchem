@@ -140,7 +140,8 @@ def select_next_molecule():
     elif "category" in st.session_state:
         category = st.session_state.category
 
-    if category and category in MOLECULE_CATEGORIES:
+    if category and (category in MOLECULE_CATEGORIES or category in st.session_state.additional_categories):
+        # Get molecules from the appropriate category
         molecules = get_molecule_from_category(category)
         if molecules:
             current_index = st.session_state.get("molecule_index", 0)
