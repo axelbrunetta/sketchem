@@ -76,7 +76,28 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
             # Clear any page-specific state if needed
             if current_mode in ["created_multi", "joined_multi", "multiplayer"]:
                 reset_game_state()
-            
+            st.session_state.selected_molecule_category = None
+                #delete game state
+            if "pen_size" in st.session_state:
+                del st.session_state["pen_size"]
+            if "drawing_mode" in st.session_state:
+                del st.session_state["drawing_mode"]  
+            if "last_pen_color" in st.session_state:
+                del st.session_state["last_pen_color"]
+            if "points" in st.session_state:
+                del st.session_state["points"]
+            if "molecule_index" in st.session_state:
+                del st.session_state["molecule_index"]
+            if "game_over" in st.session_state:
+                del st.session_state["game_over"]
+            if "start_time" in st.session_state:
+                del st.session_state["start_time"]
+            if "canvas_key_counter" in st.session_state:
+                del st.session_state["canvas_key_counter"]
+            if "game_code" in st.session_state:
+                del st.session_state["game_code"]
+            if "category" in st.session_state:
+                del st.session_state["category"] 
             st.rerun()
             return True
     
