@@ -52,12 +52,6 @@ def main():
     elif st.session_state.game_mode == "guide":
         render_guide_page()
 
-    @st.fragment(run_every="20m")  # Run every 20 minutes
-    def cleanup_fragment():
-        """Periodically clean up old games"""
-        cleanup_old_games()
-        st.session_state.toast_queue = {"message": f"Cleaned up inactive games", "icon": "🧹"}
-    cleanup_fragment()
 
 if __name__ == "__main__":
     main()

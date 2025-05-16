@@ -1,0 +1,69 @@
+
+div.stButton > button {
+        width: 100%;
+        border-radius: 10px;
+        font-weight: bold;
+        margin-top: 10px;
+}
+
+/* Divider styling */
+hr {
+        margin: 20px 0;
+        border-color: #f0f0f0;
+}
+
+[data-testid="column"] {
+        width: 45% !important;
+        padding: 0 2% !important;
+}
+h3 {
+        text-align: center !important;
+        margin-bottom: 20px !important;
+}
+.stSelectbox, .stSlider {
+        margin-top: 20px !important;
+}
+.molecule-container {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 20px 0;
+        background-color: #f8f9fa;
+}
+
+/* Create category button styling */
+button[kind="primary"] {
+        background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
+        background-size: 200% 100% !important;
+        color: white !important;
+        padding: 15px 32px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border-radius: 12px !important;
+        border: none !important;
+        transition: background-position 0.5s ease,
+                transform 0.3s ease, 
+                box-shadow 0.3s ease !important;
+}
+
+button[kind="primary"]:hover {
+        background-position: 100% 0 !important;
+        transform: scale(1.05) !important;
+        box-shadow: 0 0 20px 5px rgba(77, 166, 255, 0.6) !important;
+}
+
+/* Back and Start Game button styling */
+div[data-testid="stButton"] button[kind="secondary"] {
+        background-color: #4f5b66 !important;
+        color: white !important;
+        padding: 10px 20px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+        border: none !important;
+        transition: background-color 0.3s ease !important;
+}
+
+div[data-testid="stButton"] button[kind="secondary"]:hover {
+        background-color: #3a444d !important;
+}

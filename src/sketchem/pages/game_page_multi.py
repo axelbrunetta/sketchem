@@ -9,7 +9,7 @@ from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
-from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
+from sketchem.utils.smiles_validator_ai import get_molecule_with_ai
 from sketchem.utils.environment import get_gemini_api_key
 import pubchempy as pcp
 from sketchem.db.mock_db import update_player_data
@@ -70,7 +70,7 @@ def handle_submission(canvas_result):
             
             # Validate the drawing against the target SMILES
             api_key = get_gemini_api_key()
-            validation_result = validate_drawing_with_ai(api_key, img_bytes, target_smiles)
+            validation_result = get_molecule_with_ai(api_key, img_bytes, target_smiles)
 
             
             # Handle verification errors

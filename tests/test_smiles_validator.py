@@ -3,7 +3,7 @@
 import pytest
 from pathlib import Path
 from sketchem.utils.deprecated.smiles_validator import validate_drawing
-from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
+from sketchem.utils.smiles_validator_ai import get_molecule_with_ai
 from sketchem.utils.environment import get_gemini_api_key
 
 # Get current working directory and construct test data path
@@ -127,7 +127,7 @@ def test_mcs_edge_cases():
                                     method='mcs')
     assert result_invalid == False, "MCS invalid SMILES handling failed"
 
-def test_validate_drawing_with_ai():
+def test_get_molecule_with_ai():
     """Test AI-based validation using Gemini"""
 
     image_path = TEST_DATA_DIR / 'ethanol.png'
@@ -153,7 +153,7 @@ def test_validate_drawing_with_ai():
     ]
 
     for case in test_cases:
-        result = validate_drawing_with_ai(
+        result = get_molecule_with_ai(
             api_key=api_key,
             image_bytes=image_bytes,
             target_smiles=case['target'],
@@ -162,7 +162,7 @@ def test_validate_drawing_with_ai():
         assert result == case['expected'], f"Expected {case['expected']} for {case['target']}"
         assert isinstance(result, bool), "Result should be boolean" # We also verify the function runs without errors and returns expected type
 
-def test_validate_drawing_with_ai_invalid_inputs():
+def test_get_molecule_with_ai_invalid_inputs():
     """Test AI validation with invalid inputs"""
 
     image_path = TEST_DATA_DIR / 'ethanol.png'
@@ -172,7 +172,7 @@ def test_validate_drawing_with_ai_invalid_inputs():
     api_key = get_gemini_api_key()
     
     # Test with invalid API key
-    result = validate_drawing_with_ai(
+    result = get_molecule_with_ai(
         api_key="",
         image_bytes=image_bytes, 
         target_smiles='CCO'
@@ -181,7 +181,7 @@ def test_validate_drawing_with_ai_invalid_inputs():
     
     if api_key:  # Only run these tests if we have an API key
         # Test with invalid SMILES
-        result = validate_drawing_with_ai(
+        result = get_molecule_with_ai(
             api_key=api_key,
             image_bytes=image_bytes,
             target_smiles='invalid_smiles'
@@ -189,7 +189,7 @@ def test_validate_drawing_with_ai_invalid_inputs():
         assert result is False
 
         # Test with invalid image path - only test if we have API key
-        result = validate_drawing_with_ai(
+        result = get_molecule_with_ai(
             api_key=api_key,
             image_bytes=b'nonexistent.png', #creates wrong bytes object
             target_smiles='CCO'

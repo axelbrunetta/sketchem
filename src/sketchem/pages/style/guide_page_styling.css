@@ -1,0 +1,33 @@
+/* Hide the fullscreen button */
+.css-1lb4qv9 {display: none;}
+
+/* Adjust main container padding */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 0rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+/* PDF container styling */
+.pdf-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* PDF iframe styling */
+.pdf-frame {
+    width: 95%;
+    height: 85vh;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Center the title */
+h1 {
+    text-align: center !important;
+    padding-bottom: 1rem;
+}
