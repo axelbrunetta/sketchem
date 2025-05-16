@@ -7,57 +7,6 @@ from sketchem.utils.environment import is_running_locally
 
 
 def render_guide_page():
-<<<<<<< HEAD
-    # Add custom CSS for the page layout
-    st.markdown(
-        """
-        <style>
-        /* Hide the fullscreen button */
-        .css-1lb4qv9 {display: none;}
-        
-        /* Adjust main container padding */
-        .block-container {
-            padding-top: 2rem;
-            padding-bottom: 0rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
-        
-        /* PDF container styling */
-        .pdf-container {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            margin-top: 1rem;
-        }
-        
-        /* PDF iframe styling */
-        .pdf-frame {
-            width: 95%;
-            height: 85vh;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Center the title */
-        h1 {
-            text-align: center !important;
-            padding-bottom: 1rem;
-        }
-        </style>
-    """,
-        unsafe_allow_html=True,
-    )
-
-    st.title("A guide on how to use sketchem")
-
-    # Construct path to the userguide.pdf in the data directory
-    current_file = Path(__file__)
-    src_dir = current_file.parent.parent
-    pdf_path = os.path.join(src_dir, "data", "userguide.pdf")
-
-=======
     # Import CSS from file
     css_path = os.path.join(os.path.dirname(__file__), "style", "guide_page_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/guide_page_styling.css'
     
@@ -75,7 +24,6 @@ def render_guide_page():
     current_dir = os.path.dirname(__file__)
     pdf_path = os.path.join(current_dir, "..", "data", "userguide.pdf")
     
->>>>>>> origin/axel-s-branch-3
     # Check if the PDF file exists
     if os.path.exists(pdf_path):
         # Read and display the PDF file

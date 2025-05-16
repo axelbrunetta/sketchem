@@ -7,7 +7,6 @@ from streamlit_extras.vertical_slider import vertical_slider
 from sketchem.utils.back_button import back_button
 from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
-<<<<<<< HEAD
 from streamlit.logger import get_logger
 import logging
 from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
@@ -18,10 +17,8 @@ from sketchem.db.mock_db import update_player_data
 # Initialize logger
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
-=======
 from sketchem.utils.environment import is_running_locally
 import os
->>>>>>> origin/axel-s-branch-3
 
 # Define color options at module level
 COLOR_OPTIONS = {
