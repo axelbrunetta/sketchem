@@ -44,7 +44,7 @@ def validate_drawing_with_ai(response, target_smiles, threshold):
         logger.error(f"Error in validate_drawing_with_ai: {e}")
         return False
 
-def get_molecule_with_ai(api_key, image_bytes: bytes, target_smiles: str, threshold: float = 0.85) -> bool | str:
+def get_molecule_with_ai(api_key, image_bytes: bytes, target_smiles: str, threshold: float = 0.85, jupyternb: bool = False) -> bool | str:
     # Check for empty API key first
     if not api_key:
         return "❗ Gemini API key not set."
@@ -62,12 +62,13 @@ def get_molecule_with_ai(api_key, image_bytes: bytes, target_smiles: str, thresh
                 prompt,
             ],
         )
-        logger.info(f"Gemini Detected Mol: {response.text.strip()}")
+        #logger.info(f"Gemini Detected Mol: {response.text.strip()}")
         st.session_state.last_gemini_detected_mol = response.text.strip()
         
-        
-        return validate_drawing_with_ai(response, target_smiles, threshold)
-    
+        if not jupyternb:
+            return validate_drawing_with_ai(response, target_smiles, threshold)
+        else:
+            return response
     except Exception as e:
         # This should throw type error since wrong type
         return f"❗ Gemini API error: {e}"
