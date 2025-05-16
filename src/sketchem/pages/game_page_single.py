@@ -48,9 +48,6 @@ def toggle_drawing_mode():
         st.session_state.pen_color_selector = st.session_state.last_pen_color
 
 def handle_submission(canvas_result):
-    
-
-    
     # Check if canvas is all black (effectively empty)
     img_bytes = save_canvas_as_image(canvas_result.image_data)
     if img_bytes is None or Image.open(io.BytesIO(img_bytes)).getcolors() == [(400*600, (0, 0, 0))]:
@@ -67,7 +64,7 @@ def handle_submission(canvas_result):
         target_smiles = None
         
         # Get SMILES from appropriate category
-        if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
+        if category is not None and game.get("category_is_default", True):
             target_smiles = MOLECULE_CATEGORIES[category].get(st.session_state.current_molecule)
         elif not game.get("category_is_default", True) and "additional_categories" in game:
             if category in game["additional_categories"]:
@@ -144,7 +141,7 @@ def select_next_molecule():
         category = st.session_state.category
 
     if category and category in MOLECULE_CATEGORIES:
-        molecules = list(MOLECULE_CATEGORIES[category].keys())
+        molecules = get_molecule_from_category(category)
         if molecules:
             current_index = st.session_state.get("molecule_index", 0)
             next_index = current_index + 1
@@ -168,6 +165,18 @@ def handle_skip():
     select_next_molecule()
     st.session_state.toast_queue = {"message": "Skipped to next molecule", "icon": "⏭️"}
     st.rerun()
+
+def get_molecule_from_category(category):
+    """Get molecules from the specified category."""
+    # Check if the category is in MOLECULE_CATEGORIES
+    if category in MOLECULE_CATEGORIES:
+        return list(MOLECULE_CATEGORIES[category].keys())
+    elif "additional_categories" in st.session_state and category in st.session_state.additional_categories:
+        # If not, check additional categories
+        return list(st.session_state.additional_categories[category].keys())
+    else:
+        return None  # Return None if the category is invalid
+    
 
 def render_game_page():
     
@@ -208,8 +217,8 @@ def render_game_page():
         st.session_state.category = category
         
         # Initialize first molecule
-        if category in MOLECULE_CATEGORIES:
-            molecules = list(MOLECULE_CATEGORIES[category].keys())
+        if category is not None:
+            molecules = get_molecule_from_category(category)
             if molecules:
                 if "current_molecule" not in st.session_state:
                     st.session_state.current_molecule = molecules[0]
@@ -224,7 +233,7 @@ def render_game_page():
         st.markdown(f"**Score:** {st.session_state.points}")
     with col2:
         if "category" in st.session_state:
-            molecules = list(MOLECULE_CATEGORIES[st.session_state.category].keys())
+            molecules = get_molecule_from_category(st.session_state.category)
             total_molecules = len(molecules)
             st.markdown(f"**Progress:** {st.session_state.molecule_index}/{total_molecules}")
 
