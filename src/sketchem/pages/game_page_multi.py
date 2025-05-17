@@ -209,7 +209,7 @@ def render_game_page_multi():
     game_duration = game.get("game_duration") 
     
     
-    padding1, goodcolumn, padding2 = st.columns([1, 2, 1])
+    padding1, goodcolumn, padding2 = st.columns([1, 3, 1])
     
 
     with goodcolumn:
