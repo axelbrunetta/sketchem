@@ -412,7 +412,11 @@ def render_game_page_multi():
                                    reverse=True)
                 
             for i, player in enumerate(sorted_players):
-                st.markdown(f"{i+1}. **{player.get('name', 'Unknown')}**: {player.get('score', 0)}")
+                player_name = player.get('name', 'Unknown')
+                if player_name == st.session_state.player_name:
+                    st.markdown(f"{i+1}. **{player_name} (You)**: {player.get('score', 0)}")
+                else:
+                    st.markdown(f"{i+1}. **{player_name}**: {player.get('score', 0)}")
     leaderboard_fragment()           
    
 
