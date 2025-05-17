@@ -9,7 +9,7 @@ from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
-from sketchem.utils.smiles_validator_ai_2 import get_molecule_with_ai
+from sketchem.utils.smiles_validator_ai import get_molecule_with_ai
 from sketchem.utils.environment import get_gemini_api_key
 from sketchem.db.mock_db import update_player_data
 
