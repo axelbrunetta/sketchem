@@ -14,7 +14,7 @@ import logging
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
-def validate_drawing_with_ai(response, target_smiles, threshold):
+def validate_drawing_with_ai(response, target_smiles, threshold, jupyternb: bool = False):
     # Re-use MCS code from decimer integration
     try:
         # Parse the response to get the three names
@@ -32,10 +32,11 @@ def validate_drawing_with_ai(response, target_smiles, threshold):
             try:
                 compounds = pcp.get_compounds(name, 'name')
                 if not compounds:
-                    logger.info(f"No compounds found for name: {name}")
+                    if not jupyternb:
+                        logger.info(f"No compounds found for name: {name}")
                     continue
-
-                logger.info(f"Found compound SMILES for {name}: {compounds[0].canonical_smiles}")
+                if not jupyternb:
+                    logger.info(f"Found compound SMILES for {name}: {compounds[0].canonical_smiles}")
                 # Get the first compound's SMILES
                 mol1 = Chem.MolFromSmiles(compounds[0].canonical_smiles)
                 mol2 = Chem.MolFromSmiles(target_smiles)
@@ -59,7 +60,8 @@ def validate_drawing_with_ai(response, target_smiles, threshold):
                 
                 # If this name's molecule matches above threshold, return True
                 if mcs_similarity >= threshold:
-                    logger.info(f"Match found for name: {name} with similarity: {mcs_similarity}")
+                    if not jupyternb:
+                        logger.info(f"Match found for name: {name} with similarity: {mcs_similarity}")
                     return True
                     
             except Exception as e:
