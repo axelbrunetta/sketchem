@@ -15,7 +15,7 @@ def main():
 
     # Get actual screen width -> used for mobile-specific styling
     st.session_state.viewport_width = streamlit_js_eval(js_expressions="window.innerWidth", key="test_viewport_width")
-    st.session_state.is_mobile = st.session_state.viewport_width < 768 if st.session_state.viewport_width else False
+  st.session_state.is_mobile   = st.session_state.viewport_width < 768 if st.session_state.viewport_width else False
     
     st.markdown(
         """

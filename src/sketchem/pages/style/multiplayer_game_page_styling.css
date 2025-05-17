@@ -492,3 +492,38 @@ div.stElementContainer.element-container.st-key-submit_btn.st-emotion-cache-83er
     transform: none !important;
     box-shadow: none !important;
 }
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    /* Make color buttons bigger on mobile for easier tapping */
+    div.stElementContainer.element-container.st-key-White_color button,
+    div.stElementContainer.element-container.st-key-Red_color button,
+    div.stElementContainer.element-container.st-key-Blue_color button,
+    div.stElementContainer.element-container.st-key-Green_color button,
+    div.stElementContainer.element-container.st-key-Yellow_color button,
+    div.stElementContainer.element-container.st-key-Purple_color button,
+    div.stElementContainer.element-container.st-key-eraser_toggle button,
+    div.stElementContainer.element-container.st-key-pen_toggle button {
+        width: 50px !important;
+        height: 50px !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+    
+    /* Make canvas responsive */
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Adjust slider height for mobile */
+    .stSlider {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+    
+    /* Make molecule name bigger */
+    .stMarkdown h2 {
+        font-size: 1.5rem !important;
+    }
+}
