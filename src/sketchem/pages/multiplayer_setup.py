@@ -59,12 +59,12 @@ def render_multiplayer_setup():
     with open('/mount/src/sketchem/src/sketchem/pages/style/multiplayer_setup_styling.css') as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     
-    back_button(destination=None, label="Back to Home") #Display back button at the top left
-    
     col1, col2, col3 = st.columns([1, 2, 1])
     
 
     with col2:
+        back_button(destination=None, label="Back to Home") #Display back button at the top left
+        
         st.markdown("## Multiplayer Setup")
         
         # Player name input
