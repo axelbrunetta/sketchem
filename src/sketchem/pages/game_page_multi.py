@@ -9,9 +9,8 @@ from sketchem.db.mock_db import get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
-from sketchem.utils.smiles_validator_ai import get_molecule_with_ai
+from sketchem.utils.smiles_validator_ai_2 import get_molecule_with_ai
 from sketchem.utils.environment import get_gemini_api_key
-import pubchempy as pcp
 from sketchem.db.mock_db import update_player_data
 
 logger = get_logger(__name__)
@@ -112,15 +111,18 @@ def handle_submission(canvas_result):
         if game.get("hints", False):  # Check if hints are enabled
             if st.session_state.last_gemini_detected_mol:
                 try:
-                    compounds = pcp.get_compounds(st.session_state.last_gemini_detected_mol, namespace='smiles') 
-                    if compounds:
-                        compound = compounds[0]
-                        st.session_state.toast_queue = {"message": f"Wrong molecule, what you drew looks more like {compound.iupac_name}", "icon": "☝️"}
+                    # Get the first name from the list of names returned by Gemini
+                    detected_names = st.session_state.last_gemini_detected_mol.strip().split('\n')
+                    if detected_names and detected_names[0].strip():
+                        first_name = detected_names[0].strip()
+                        st.session_state.toast_queue = {"message": f"Wrong molecule, what you drew looks more like {first_name}", "icon": "☝️"}
                     else:
                         st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
                 except Exception as e:
-                    logger.error(f"PubChem error: {e}")
+                    logger.error(f"Error processing Gemini response: {e}")
                     st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
+            else:
+                st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
         else:
             st.session_state.toast_queue = {"message": "Not quite right. Try again!", "icon": "❌"}
         st.rerun()
