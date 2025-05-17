@@ -10,6 +10,7 @@ from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
 from sketchem.utils.smiles_validator_ai import validate_drawing_with_ai
+from sketchem.utils.smiles_validator_ai import get_molecule_with_ai 
 from sketchem.utils.environment import get_gemini_api_key
 import pubchempy as pcp
 from sketchem.db.mock_db import update_player_data
@@ -48,6 +49,9 @@ def toggle_drawing_mode():
         st.session_state.pen_color_selector = st.session_state.last_pen_color
 
 def handle_submission(canvas_result):
+    
+
+    
     # Check if canvas is all black (effectively empty)
     img_bytes = save_canvas_as_image(canvas_result.image_data)
     if img_bytes is None or Image.open(io.BytesIO(img_bytes)).getcolors() == [(400*600, (0, 0, 0))]:
@@ -64,7 +68,7 @@ def handle_submission(canvas_result):
         target_smiles = None
         
         # Get SMILES from appropriate category
-        if category is not None and game.get("category_is_default", True):
+        if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
             target_smiles = MOLECULE_CATEGORIES[category].get(st.session_state.current_molecule)
         elif not game.get("category_is_default", True) and "additional_categories" in game:
             if category in game["additional_categories"]:
@@ -75,9 +79,9 @@ def handle_submission(canvas_result):
             logger.info(f"Target smiles: {target_smiles}")
 
             
-            # Validate the drawingf against the target SMILES
+            # Validate the drawing against the target SMILES
             api_key = get_gemini_api_key()
-            validation_result = validate_drawing_with_ai(api_key, img_bytes, target_smiles)
+            validation_result = get_molecule_with_ai(api_key, img_bytes, target_smiles)
 
             
             # Handle verification errors
