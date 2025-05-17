@@ -286,17 +286,9 @@ def render_game_page():
             st.session_state.drawing_mode = "freedraw"
 
     # Create a centered row of color buttons using columns
-    st.markdown("""
-        <style>
-        [data-testid="column"] {
-            width: fit-content !important;
-            flex: unset !important;
-        }
-        [data-testid="column"] > div {
-            width: fit-content !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+    css_path = os.path.join(os.path.dirname(__file__), "style", "singleplayer_game_page_styling.css")
+    with open(css_path) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     cols = st.columns(9)
     
