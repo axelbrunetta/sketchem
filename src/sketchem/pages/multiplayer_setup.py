@@ -1,5 +1,5 @@
 import streamlit as st
-from sketchem.db.mock_db import create_game, join_game
+from sketchem.db.mock_db import create_game, join_game, get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
@@ -16,6 +16,13 @@ def handle_join_game(player_name: str, game_code: str):
     with st.spinner("Joining game..."):
         try:
             logger.info(f"Player {player_name} joining game: {game_code}")
+            
+            # First check if the game exists and is not already active
+            game = get_game(game_code)
+            if game and game.get("status") == "active":
+                st.error("This game has already started. Please join another game.")
+                return
+                
             response = join_game(game_code, player_name)
             if response.get("success", False): #Check that joining game worked, defaults to false
                 st.session_state.game_code = game_code
