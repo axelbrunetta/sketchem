@@ -269,8 +269,7 @@ def render_game_page_multi():
             
             # MOBILE LAYOUT
             if st.session_state.is_mobile:
-                # Canvas first (full width)
-
+                
                 # Update current_stroke_width based on the new size and drawing mode
                 if st.session_state.drawing_mode == "erase":
                     current_stroke_width = st.session_state.pen_size + 20
@@ -328,7 +327,7 @@ def render_game_page_multi():
                             stroke_width=current_stroke_width if 'current_stroke_width' in locals() else st.session_state.pen_size,
                             background_color="#000000",
                             height=350,
-                            width=None,  # Full width
+                            width="100%",  # Use 100% width to match slider
                             drawing_mode="freedraw",
                             key=f"canvas_{st.session_state.canvas_key_counter}",
                             display_toolbar=True,
