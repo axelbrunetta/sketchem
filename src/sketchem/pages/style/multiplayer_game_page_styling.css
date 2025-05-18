@@ -495,6 +495,35 @@ div.stElementContainer.element-container.st-key-submit_btn.st-emotion-cache-83er
 
 /* Mobile-specific styles */
 @media (max-width: 768px) {
+    /* Fix z-index and positioning issues */
+    .stApp {
+        overflow: visible !important;
+    }
+    
+    /* Ensure proper element stacking */
+    .element-container {
+        position: relative !important;
+        z-index: auto !important;
+    }
+    
+    /* Ensure canvas is properly positioned */
+    [data-testid="stCanvas"] {
+        position: relative !important;
+        z-index: 1 !important;
+        margin-top: 30px !important;
+        margin-bottom: 30px !important;
+    }
+    
+    /* Ensure slider is properly positioned */
+    .stSlider {
+        position: relative !important;
+        z-index: 1 !important;
+        margin-top: 30px !important;
+        margin-bottom: 30px !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+    
     /* Center the container for all buttons */
     div.stContainer {
         display: flex !important;

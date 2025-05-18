@@ -309,6 +309,9 @@ def render_game_page_multi():
                 else:
                     current_stroke_width = st.session_state.pen_size
                 
+                # Add spacing before color buttons
+                st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+                
                 # First row of color buttons using st_horizontal
                 with st_horizontal():
                     # White button
@@ -348,6 +351,9 @@ def render_game_page_multi():
                     eraser_help_message = "Switch to pen" if st.session_state.drawing_mode == "erase" else "Switch to eraser"
                     st.button("", on_click=toggle_drawing_mode, key=eraser_key, help=eraser_help_message)
                 
+                # Add spacing after color buttons
+                st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+                
                 try:
                     @st.fragment()
                     def canvas_fragment():
@@ -368,6 +374,9 @@ def render_game_page_multi():
                     st.session_state.toast_queue = {"message": f"Canvas error: {e}", "icon": "❌"}
                     st.rerun()
                 
+                # Add spacing after canvas
+                st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+                
                 # Horizontal slider below canvas
                 st.slider(
                     "Pen Size", 
@@ -377,6 +386,9 @@ def render_game_page_multi():
                     key="pen_size_slider_mobile",
                     on_change=lambda: setattr(st.session_state, "pen_size", st.session_state.pen_size_slider_mobile)
                 )
+                
+                # Add spacing after slider
+                st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
                 
             # DESKTOP LAYOUT (original)
             else:
