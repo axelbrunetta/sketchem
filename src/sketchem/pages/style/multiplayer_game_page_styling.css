@@ -588,4 +588,77 @@ div.stElementContainer.element-container.st-key-submit_btn.st-emotion-cache-83er
         width: 100% !important;
         margin: 10px auto !important;
     }
+    
+    /* Fix for pen slider width */
+    .stSlider > div {
+        width: 100% !important;
+        max-width: 90vw !important;
+        margin: 0 auto !important;
+    }
+    
+    /* Target the slider track specifically */
+    .stSlider [data-testid="stSliderBase"] {
+        width: 100% !important;
+        min-width: 200px !important;
+    }
+    
+    /* Fix for pen slider width */
+    .st-key-pen_size_slider_mobile.st-emotion-cache-17lr0tt.e1lln2w81 {
+        width: 100% !important;
+        margin: 10px auto !important;
+    }
+    
+    .st-key-pen_size_slider_mobile .stSlider [data-baseweb="slider"] {
+        width: 100% !important;
+        min-width: 200px !important;
+    }
+    
+    /* Center the leaderboard title */
+    .stMarkdown h3[id="leaderboard"] {
+        text-align: center !important;
+        width: 100% !important;
+        margin: 15px auto 10px auto !important;
+    }
+    
+    /* Align leaderboard players to the left */
+    .stMarkdown ol {
+        text-align: left !important;
+        padding-left: 20px !important;
+        margin-top: 5px !important;
+    }
+    
+    /* Fix game action buttons layout */
+    .st-emotion-cache-ocqkz7.e1lln2w80 {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        gap: 5px !important;
+        margin: 10px 0 !important;
+    }
+    
+    /* Fix columns in action buttons row */
+    .st-emotion-cache-ocqkz7.e1lln2w80 .st-emotion-cache-1mwoiw6.e1lln2w82 {
+        padding: 0 !important;
+        margin: 0 !important;
+        flex: 1 !important;
+    }
+    
+    /* Center the Leave Game button */
+    .st-key-back_button_None.st-emotion-cache-83erdr.e1lln2w81 {
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+    
+    /* Make all action buttons the same height */
+    .st-key-back_button_None.st-emotion-cache-83erdr.e1lln2w81 button,
+    .st-key-skip_btn.st-emotion-cache-83erdr.e1lln2w81 button,
+    .st-key-submit_btn.st-emotion-cache-83erdr.e1lln2w81 button {
+        height: 45px !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
 }
