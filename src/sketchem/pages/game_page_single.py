@@ -223,32 +223,14 @@ def render_game_page():
     if "category" not in st.session_state:
         st.session_state.category = "Alkanes (8)"  # Replace with an actual category name
 
-    # Get game info
-    game = get_game(st.session_state.game_code)
-    game_duration = game.get("game_duration") 
-
-    if not (st.session_state.game_over or st.session_state.player_done):
-        # Display game info
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown(f"**Score:** {st.session_state.points}")
-        with col2:
-            @st.fragment(run_every="1s")
-            def timer_fragment(game_duration):
-                elapsed_time = time.time() - st.session_state.start_time
-                remaining_time = max(0, game_duration - elapsed_time)
-                
-                # Check if game is over
-                if remaining_time <= 0 and not st.session_state.game_over:
-                    st.session_state.game_over = True
-                    st.session_state.toast_queue = {"message": "Game Over!", "icon": "🏁"}
-                    st.rerun() #rerun the whole page
-                st.markdown(f"**Time remaining:** {int(remaining_time)}s")
-            timer_fragment(game_duration)
+    
+        
+        
         
     # Get game info to get category
     game = get_game(st.session_state.game_code)
     if game and "category" in game:
+        game_duration = game.get("game_duration")
         category = game["category"]
         st.session_state.category = category
         
@@ -264,7 +246,7 @@ def render_game_page():
         return
 
     # Display game info
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown(f"**Score:** {st.session_state.points}")
     with col2:
@@ -272,6 +254,19 @@ def render_game_page():
             molecules = get_molecule_from_category(st.session_state.category)
             total_molecules = len(molecules)
             st.markdown(f"**Progress:** {st.session_state.molecule_index}/{total_molecules}")
+    with col3:
+            @st.fragment(run_every="1s")
+            def timer_fragment(game_duration):
+                elapsed_time = time.time() - st.session_state.start_time
+                remaining_time = max(0, game_duration - elapsed_time)
+                
+                # Check if game is over
+                if remaining_time <= 0 and not st.session_state.game_over:
+                    st.session_state.game_over = True
+                    st.session_state.toast_queue = {"message": "Game Over!", "icon": "🏁"}
+                    st.rerun() #rerun the whole page
+                st.markdown(f"**Time remaining:** {int(remaining_time)}s")
+            timer_fragment(game_duration)
 
     # Display target molecule
     st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
