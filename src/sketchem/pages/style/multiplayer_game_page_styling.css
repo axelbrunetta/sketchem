@@ -495,24 +495,43 @@ div.stElementContainer.element-container.st-key-submit_btn.st-emotion-cache-83er
 
 /* Mobile-specific styles */
 @media (max-width: 768px) {
-    /* Make color buttons bigger on mobile for easier tapping */
-    div.stElementContainer.element-container.st-key-White_color button,
-    div.stElementContainer.element-container.st-key-Red_color button,
-    div.stElementContainer.element-container.st-key-Blue_color button,
-    div.stElementContainer.element-container.st-key-Green_color button,
-    div.stElementContainer.element-container.st-key-Yellow_color button,
-    div.stElementContainer.element-container.st-key-Purple_color button,
-    div.stElementContainer.element-container.st-key-eraser_toggle button,
-    div.stElementContainer.element-container.st-key-pen_toggle button {
-        width: 50px !important;
-        height: 50px !important;
+    /* Horizontal layout for color buttons */
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) {
+        justify-content: center !important;
+        align-items: center !important; /* Ensure vertical alignment */
         margin: 0 auto !important;
-        display: block !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
     }
     
-    /* Make canvas responsive */
-    canvas {
-        max-width: 100% !important;
+    /* Make all buttons the same size and alignment regardless of state */
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) button,
+    div.stElementContainer.element-container[class*="st-key-"] button {
+        width: 40px !important;
+        height: 40px !important;
+        margin: 5px !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* Force all button containers to have the same dimensions */
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) > div,
+    div.stElementContainer.element-container[class*="st-key-"] {
+        height: 50px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+    }
+    
+    /* Ensure all buttons in the horizontal container have consistent styling */
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) div[data-testid="element-container"] {
+        margin: 0 !important;
+        padding: 0 !important;
         height: auto !important;
     }
     
