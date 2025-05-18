@@ -8,11 +8,16 @@ from sketchem.utils.toast import display_queued_toast
 from sketchem.pages.game_page_single import render_game_page
 from sketchem.pages.game_page_multi import render_game_page_multi
 from sketchem.pages.guide_page import render_guide_page
-from sketchem.db.mock_db import cleanup_old_games
+from streamlit_js_eval import streamlit_js_eval
 
 def main():
-    st.set_page_config(page_title="Sketchem", layout="centered", initial_sidebar_state="collapsed")
+    st.set_page_config(page_title="Sketchem", layout="wide", initial_sidebar_state="collapsed")
 
+    # Get actual screen width -> used for mobile-specific styling
+    st.session_state.viewport_width = streamlit_js_eval(js_expressions="window.innerWidth", key="test_viewport_width")
+
+    st.session_state.is_mobile = st.session_state.viewport_width < 768 if st.session_state.viewport_width else False
+    
     st.markdown(
         """
     <style>
@@ -31,7 +36,11 @@ def main():
     )
     display_queued_toast() #Show any active toast notifications
 
-    st.title("🧪 Sketchem")
+    col1, col2, col3 = st.columns([1, 2, 1]) # Columns are now needed because "wide" mode has to be enabled for streamlit so that the proper width of the screen can be determined for phone / computer detection -> otherwise everything is stretched by wide mode
+    
+
+    with col2:
+        st.title("🧪 Sketchem")
 
     # Initialize the game state parameters
     initialize_game_state()

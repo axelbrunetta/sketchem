@@ -492,3 +492,173 @@ div.stElementContainer.element-container.st-key-submit_btn.st-emotion-cache-83er
     transform: none !important;
     box-shadow: none !important;
 }
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    /* Target the vertical block wrapper */
+    .st-emotion-cache-13o7eu2.e1lln2w84 {
+        margin: 0 !important;
+        padding: 5px !important;
+        width: 100% !important;
+    }
+    
+    /* Target the vertical block */
+    .st-emotion-cache-vlxhtx.e1lln2w83 {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 5px !important;
+        width: 100% !important;
+    }
+    
+    /* Target element containers */
+    .st-emotion-cache-17lr0tt.e1lln2w81 {
+        width: auto !important;
+        height: auto !important;
+        margin: 3px !important;
+        padding: 0 !important;
+        flex: 0 0 auto !important;
+    }
+    
+    /* Target buttons */
+    .st-emotion-cache-8atqhb.e1mlolmg0 button,
+    .st-emotion-cache-8koct5.eacrzsi2 {
+        width: 40px !important;
+        height: 40px !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* Target tooltip containers */
+    .st-emotion-cache-6dnr6u.eacrzsi21,
+    .st-emotion-cache-1cyexbd.eacrzsi22 {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    /* Target canvas container */
+    .st-emotion-cache-17lr0tt.e1lln2w81:has(iframe) {
+        width: 100% !important;
+        margin: 10px auto !important;
+        padding: 0 !important;
+    }
+    
+    /* Target canvas iframe */
+    .st-emotion-cache-1tvzk6f.e1begtbc0 {
+        width: 100% !important;
+        max-width: 100vw !important;
+        height: auto !important;
+        aspect-ratio: 1/1 !important;
+        margin: 0 auto !important;
+    }
+    
+    /* Target horizontal blocks */
+    .stHorizontalBlock {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        gap: 5px !important;
+        margin: 10px 0 !important;
+    }
+    
+    /* Target columns in horizontal blocks */
+    .stHorizontalBlock .stColumn {
+        padding: 0 !important;
+        margin: 0 !important;
+        flex: 1 !important;
+    }
+    
+    /* Target markdown containers */
+    .st-emotion-cache-1c7pr9.erovr380 {
+        text-align: center !important;
+        width: 100% !important;
+        margin: 5px auto !important;
+    }
+    
+    /* Target markdown headings */
+    .st-emotion-cache-1c7pr9.erovr380 h2 {
+        font-size: 1.5rem !important;
+        text-align: center !important;
+        width: 100% !important;
+        margin: 10px auto !important;
+    }
+    
+    /* Fix for pen slider width */
+    .stSlider > div {
+        width: 100% !important;
+        max-width: 90vw !important;
+        margin: 0 auto !important;
+    }
+    
+    /* Target the slider track specifically */
+    .stSlider [data-testid="stSliderBase"] {
+        width: 100% !important;
+        min-width: 200px !important;
+    }
+    
+    /* Fix for pen slider width */
+    .st-key-pen_size_slider_mobile.st-emotion-cache-17lr0tt.e1lln2w81 {
+        width: 100% !important;
+        margin: 10px auto !important;
+    }
+    
+    .st-key-pen_size_slider_mobile .stSlider [data-baseweb="slider"] {
+        width: 100% !important;
+        min-width: 200px !important;
+    }
+    
+    /* Center the leaderboard title */
+    .stMarkdown h3[id="leaderboard"] {
+        text-align: center !important;
+        width: 100% !important;
+        margin: 15px auto 10px auto !important;
+    }
+    
+    /* Align leaderboard players to the left */
+    .stMarkdown ol {
+        text-align: left !important;
+        padding-left: 20px !important;
+        margin-top: 5px !important;
+    }
+    
+    /* Fix game action buttons layout */
+    .st-emotion-cache-ocqkz7.e1lln2w80 {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        gap: 5px !important;
+        margin: 10px 0 !important;
+    }
+    
+    /* Fix columns in action buttons row */
+    .st-emotion-cache-ocqkz7.e1lln2w80 .st-emotion-cache-1mwoiw6.e1lln2w82 {
+        padding: 0 !important;
+        margin: 0 !important;
+        flex: 1 !important;
+    }
+    
+    /* Center the Leave Game button */
+    .st-key-back_button_None.st-emotion-cache-83erdr.e1lln2w81 {
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+    
+    /* Make all action buttons the same height */
+    .st-key-back_button_None.st-emotion-cache-83erdr.e1lln2w81 button,
+    .st-key-skip_btn.st-emotion-cache-83erdr.e1lln2w81 button,
+    .st-key-submit_btn.st-emotion-cache-83erdr.e1lln2w81 button {
+        height: 45px !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}

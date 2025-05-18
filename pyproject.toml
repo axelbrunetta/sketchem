@@ -24,6 +24,7 @@ google-genai = "*"
 streamlit-extras = "*"
 opencv-python-headless = "*"  
 pubchempy = "*"
+streamlit_js_eval = "*"
 
 
 [tool.poetry.group.dev.dependencies]
