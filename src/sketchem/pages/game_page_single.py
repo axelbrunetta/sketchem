@@ -391,16 +391,7 @@ def render_game_page():
 
             # Add spacing before buttons
             st.markdown("<div style='height: 20px'></div>", unsafe_allow_html=True)
-            
-            # Custom CSS to ensure button columns are properly spaced
-            st.markdown("""
-                <style>
-                [data-testid="column"] {
-                    padding: 0 !important;
-                    margin: 0 !important;
-                }
-                </style>
-            """, unsafe_allow_html=True)
+
             
             # Create 7 columns for better spacing control
             cols = st.columns([1, 0.1, 1, 0.1, 1])

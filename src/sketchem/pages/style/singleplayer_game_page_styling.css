@@ -408,3 +408,10 @@ div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj
     font-weight: 900;
     color: white;
 } 
+
+
+/* Remove padding and margin from layout columns */
+[data-testid="column"] {
+    padding: 0 !important;
+    margin: 0 !important;
+}
