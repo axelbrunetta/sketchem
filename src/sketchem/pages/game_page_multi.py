@@ -326,8 +326,8 @@ def render_game_page_multi():
                             fill_color="rgba(255, 255, 255, 0)",
                             stroke_width=current_stroke_width if 'current_stroke_width' in locals() else st.session_state.pen_size,
                             background_color="#000000",
-                            height=350,
-                            width="100%",  # Use 100% width to match slider
+                            height=st.session_state.viewport_width,
+                            width=st.session_state.viewport_width,  
                             drawing_mode="freedraw",
                             key=f"canvas_{st.session_state.canvas_key_counter}",
                             display_toolbar=True,
