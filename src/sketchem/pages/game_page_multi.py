@@ -12,11 +12,44 @@ import logging
 from sketchem.utils.smiles_validator_ai import get_molecule_with_ai
 from sketchem.utils.environment import get_gemini_api_key
 from sketchem.db.mock_db import update_player_data
+from contextlib import contextmanager
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
-    
+# Add the st_horizontal function from waiting_room.py
+HORIZONTAL_STYLE = """
+<style class="hide-element">
+    /* Hides the style container and removes the extra spacing */
+    .element-container:has(.hide-element) {
+        display: none;
+    }
+    /*
+        The selector for >.element-container is necessary to avoid selecting the whole
+        body of the streamlit app, which is also a stVerticalBlock.
+    */
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) {
+        display: flex;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: baseline;
+    }
+    /* Buttons and their parent container all have a width of 704px, which we need to override */
+    div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) div {
+        width: max-content !important;
+    }
+</style>
+"""
+
+@contextmanager
+def st_horizontal():
+    st.markdown(HORIZONTAL_STYLE, unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<span class="hide-element horizontal-marker"></span>', unsafe_allow_html=True)
+        yield
+
+
 def save_canvas_as_image(canvas_data):  # convert canvas data to png image
     if canvas_data is not None:
         img_data = canvas_data.astype("uint8")
@@ -276,43 +309,40 @@ def render_game_page_multi():
                 else:
                     current_stroke_width = st.session_state.pen_size
                 
-                # First row of color buttons (3 buttons)
-                col1, col2, col3 = st.columns(3)
-                
-                with col1:
+                # First row of color buttons using st_horizontal
+                with st_horizontal():
+                    # White button
                     is_white_selected = st.session_state.last_pen_color == "White"
                     white_key = "White_selected" if is_white_selected else "White_color"
                     st.button("", key=white_key, on_click=select_color, args=("White",), help="Select White")
-                
-                with col2:
+                    
+                    # Red button
                     is_red_selected = st.session_state.last_pen_color == "Red"
                     red_key = "Red_selected" if is_red_selected else "Red_color"
                     st.button("", key=red_key, on_click=select_color, args=("Red",), help="Select Red")
-                
-                with col3:
+                    
+                    # Blue button
                     is_blue_selected = st.session_state.last_pen_color == "Blue"
                     blue_key = "Blue_selected" if is_blue_selected else "Blue_color"
                     st.button("", key=blue_key, on_click=select_color, args=("Blue",), help="Select Blue")
                 
-                # Second row of color buttons (4 buttons)
-                col4, col5, col6, col7 = st.columns(4)
-                
-                with col4:
+                # Second row of color buttons using st_horizontal
+                with st_horizontal():
+                    # Green button
                     is_green_selected = st.session_state.last_pen_color == "Green"
                     green_key = "Green_selected" if is_green_selected else "Green_color"
                     st.button("", key=green_key, on_click=select_color, args=("Green",), help="Select Green")
-                
-                with col5:
+                    
+                    # Yellow button
                     is_yellow_selected = st.session_state.last_pen_color == "Yellow"
                     yellow_key = "Yellow_selected" if is_yellow_selected else "Yellow_color"
                     st.button("", key=yellow_key, on_click=select_color, args=("Yellow",), help="Select Yellow")
-                
-                with col6:
+                    
+                    # Purple button
                     is_purple_selected = st.session_state.last_pen_color == "Purple"
                     purple_key = "Purple_selected" if is_purple_selected else "Purple_color"
                     st.button("", key=purple_key, on_click=select_color, args=("Purple",), help="Select Purple")
-                
-                with col7:
+                    
                     # Eraser/pen toggle button
                     eraser_key = "pen_toggle" if st.session_state.drawing_mode == "erase" else "eraser_toggle"
                     eraser_help_message = "Switch to pen" if st.session_state.drawing_mode == "erase" else "Switch to eraser"
