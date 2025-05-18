@@ -495,10 +495,19 @@ div.stElementContainer.element-container.st-key-submit_btn.st-emotion-cache-83er
 
 /* Mobile-specific styles */
 @media (max-width: 768px) {
+    /* Center the container for all buttons */
+    div.stContainer {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+    
     /* Horizontal layout for color buttons */
     div[data-testid="stVerticalBlock"]:has(> .element-container .horizontal-marker) {
         justify-content: center !important;
-        align-items: center !important; /* Ensure vertical alignment */
+        align-items: center !important;
         margin: 0 auto !important;
         width: 100% !important;
         display: flex !important;
