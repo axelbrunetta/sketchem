@@ -309,50 +309,52 @@ def render_game_page_multi():
                 else:
                     current_stroke_width = st.session_state.pen_size
                 
-                # Add spacing before color buttons
-                st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+                # Add a centered container for all color buttons
+                st.markdown("<div style='display: flex; justify-content: center; width: 100%;'>", unsafe_allow_html=True)
                 
-                # First row of color buttons using st_horizontal
-                with st_horizontal():
-                    # White button
-                    is_white_selected = st.session_state.last_pen_color == "White"
-                    white_key = "White_selected" if is_white_selected else "White_color"
-                    st.button("", key=white_key, on_click=select_color, args=("White",), help="Select White")
+                # Create a container for all color buttons
+                with st.container():
+                    # First row of color buttons
+                    with st_horizontal():
+                        # White button
+                        is_white_selected = st.session_state.last_pen_color == "White"
+                        white_key = "White_selected" if is_white_selected else "White_color"
+                        st.button("", key=white_key, on_click=select_color, args=("White",), help="Select White")
+                        
+                        # Red button
+                        is_red_selected = st.session_state.last_pen_color == "Red"
+                        red_key = "Red_selected" if is_red_selected else "Red_color"
+                        st.button("", key=red_key, on_click=select_color, args=("Red",), help="Select Red")
+                        
+                        # Blue button
+                        is_blue_selected = st.session_state.last_pen_color == "Blue"
+                        blue_key = "Blue_selected" if is_blue_selected else "Blue_color"
+                        st.button("", key=blue_key, on_click=select_color, args=("Blue",), help="Select Blue")
                     
-                    # Red button
-                    is_red_selected = st.session_state.last_pen_color == "Red"
-                    red_key = "Red_selected" if is_red_selected else "Red_color"
-                    st.button("", key=red_key, on_click=select_color, args=("Red",), help="Select Red")
-                    
-                    # Blue button
-                    is_blue_selected = st.session_state.last_pen_color == "Blue"
-                    blue_key = "Blue_selected" if is_blue_selected else "Blue_color"
-                    st.button("", key=blue_key, on_click=select_color, args=("Blue",), help="Select Blue")
+                    # Second row of color buttons
+                    with st_horizontal():
+                        # Green button
+                        is_green_selected = st.session_state.last_pen_color == "Green"
+                        green_key = "Green_selected" if is_green_selected else "Green_color"
+                        st.button("", key=green_key, on_click=select_color, args=("Green",), help="Select Green")
+                        
+                        # Yellow button
+                        is_yellow_selected = st.session_state.last_pen_color == "Yellow"
+                        yellow_key = "Yellow_selected" if is_yellow_selected else "Yellow_color"
+                        st.button("", key=yellow_key, on_click=select_color, args=("Yellow",), help="Select Yellow")
+                        
+                        # Purple button
+                        is_purple_selected = st.session_state.last_pen_color == "Purple"
+                        purple_key = "Purple_selected" if is_purple_selected else "Purple_color"
+                        st.button("", key=purple_key, on_click=select_color, args=("Purple",), help="Select Purple")
+                        
+                        # Eraser/pen toggle button
+                        eraser_key = "pen_toggle" if st.session_state.drawing_mode == "erase" else "eraser_toggle"
+                        eraser_help_message = "Switch to pen" if st.session_state.drawing_mode == "erase" else "Switch to eraser"
+                        st.button("", on_click=toggle_drawing_mode, key=eraser_key, help=eraser_help_message)
                 
-                # Second row of color buttons using st_horizontal
-                with st_horizontal():
-                    # Green button
-                    is_green_selected = st.session_state.last_pen_color == "Green"
-                    green_key = "Green_selected" if is_green_selected else "Green_color"
-                    st.button("", key=green_key, on_click=select_color, args=("Green",), help="Select Green")
-                    
-                    # Yellow button
-                    is_yellow_selected = st.session_state.last_pen_color == "Yellow"
-                    yellow_key = "Yellow_selected" if is_yellow_selected else "Yellow_color"
-                    st.button("", key=yellow_key, on_click=select_color, args=("Yellow",), help="Select Yellow")
-                    
-                    # Purple button
-                    is_purple_selected = st.session_state.last_pen_color == "Purple"
-                    purple_key = "Purple_selected" if is_purple_selected else "Purple_color"
-                    st.button("", key=purple_key, on_click=select_color, args=("Purple",), help="Select Purple")
-                    
-                    # Eraser/pen toggle button
-                    eraser_key = "pen_toggle" if st.session_state.drawing_mode == "erase" else "eraser_toggle"
-                    eraser_help_message = "Switch to pen" if st.session_state.drawing_mode == "erase" else "Switch to eraser"
-                    st.button("", on_click=toggle_drawing_mode, key=eraser_key, help=eraser_help_message)
-                
-                # Add spacing after color buttons
-                st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+                # Close the centered container
+                st.markdown("</div>", unsafe_allow_html=True)
                 
                 try:
                     @st.fragment()
@@ -374,9 +376,6 @@ def render_game_page_multi():
                     st.session_state.toast_queue = {"message": f"Canvas error: {e}", "icon": "❌"}
                     st.rerun()
                 
-                # Add spacing after canvas
-                st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
-                
                 # Horizontal slider below canvas
                 st.slider(
                     "Pen Size", 
@@ -386,9 +385,6 @@ def render_game_page_multi():
                     key="pen_size_slider_mobile",
                     on_change=lambda: setattr(st.session_state, "pen_size", st.session_state.pen_size_slider_mobile)
                 )
-                
-                # Add spacing after slider
-                st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
                 
             # DESKTOP LAYOUT (original)
             else:
