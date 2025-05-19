@@ -145,31 +145,35 @@ def render_singleplayer_setup():
     st.divider()
 
     
-    start_disabled = selected_category is None
-    if st.button("Start Game", type="secondary", use_container_width=True, disabled=start_disabled, key="start_button"):
-        # Create a game object for single player
-        game_code = "single_" + str(int(time.time()))  # Create a unique game code
-        st.session_state.game_code = game_code
-        
-        # Create game data
-        game_data = {
-            "code": game_code,
-            "status": "active",
-            "created_at": int(time.time()),
-            "category": selected_category,
-            "category_is_default": st.session_state.category_is_default,  # Use the stored value
-            "additional_categories": st.session_state.additional_categories,  # Include additional categories
-            "game_duration": game_duration,
-            "hints": False,  # No hints in single player
-            "players": {}
-        }
-        
-        # Add game to mock database
-        from sketchem.db.mock_db import _games
-        _games[game_code] = game_data
-        
-        st.session_state.game_mode = "single"
-        st.rerun()
+    if st.button("Start Game", type="secondary", use_container_width=True, key="start_button"):
+        if selected_category is None:
+            st.toast("Please select a category", icon="⚠️")
+        else:
+            # Create a game object for single player
+            game_code = "single_" + str(int(time.time()))  # Create a unique game code
+            st.session_state.game_code = game_code
+
+            # Create game data
+            game_data = {
+                "code": game_code,
+                "status": "active",
+                "created_at": int(time.time()),
+                "category": selected_category,
+                "category_is_default": st.session_state.category_is_default,  # Use the stored value
+                "additional_categories": st.session_state.additional_categories,  # Include additional categories
+                "game_duration": game_duration,
+                "hints": False,  # No hints in single player
+                "players": {}
+            }
+
+            # Add game to mock database
+            from sketchem.db.mock_db import _games
+            _games[game_code] = game_data
+
+            st.session_state.game_mode = "single"
+            st.rerun()
+
+
 
 if __name__ == "__main__":
     render_singleplayer_setup()
