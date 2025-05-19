@@ -40,7 +40,7 @@ def main():
     
 
     with col2:
-        st.title("🧪 Sketchem")
+        st.title("sketchem")
 
     # Initialize the game state parameters
     initialize_game_state()

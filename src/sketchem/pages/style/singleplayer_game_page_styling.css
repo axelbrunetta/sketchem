@@ -410,17 +410,7 @@ div.stElementContainer.element-container.st-key-Purple_color.st-emotion-cache-kj
 } 
 
 
-/* Create a centered row of color buttons using columns */
-[data-testid="column"] {
-    width: fit-content !important;
-    flex: unset !important;
-}
-
-[data-testid="column"] > div {
-    width: fit-content !important;
-}
-
-/* Custom CSS to ensure button columns are properly spaced */
+/* Remove padding and margin from layout columns */
 [data-testid="column"] {
     padding: 0 !important;
     margin: 0 !important;

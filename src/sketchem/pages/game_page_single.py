@@ -14,6 +14,7 @@ from sketchem.utils.smiles_validator_ai import get_molecule_with_ai
 from sketchem.utils.environment import get_gemini_api_key
 import pubchempy as pcp
 from sketchem.db.mock_db import update_player_data
+import random
 
 # Initialize logger
 logger = get_logger(__name__)
@@ -96,6 +97,9 @@ def handle_submission(canvas_result):
         st.session_state.points += 1
         st.session_state.toast_queue = {"message": f"Correct! You drew {st.session_state.current_molecule} correctly.", "icon": "✅"}
         
+        # Add the current molecule to the displayed list
+        st.session_state.displayed_molecules.append(st.session_state.current_molecule)
+
         # Update score and gameplay_time in database
         try:
             # Calculate elapsed time since game start
@@ -154,13 +158,16 @@ def select_next_molecule():
             molecules = []  # or handle the case where the category is invalid
 
         if molecules:
-            current_index = st.session_state.get("molecule_index", 0)
-            next_index = current_index + 1
-            if next_index >= len(molecules):
-                st.session_state.game_over = True
+            if "displayed_molecules" not in st.session_state:
+                st.session_state.displayed_molecules = []
+
+            # Select a random molecule that hasn't been displayed yet
+            remaining_molecules = list(set(molecules) - set(st.session_state.displayed_molecules))
+            if remaining_molecules:
+                st.session_state.current_molecule = random.choice(remaining_molecules)
+                st.session_state.displayed_molecules.append(st.session_state.current_molecule)
             else:
-                st.session_state.current_molecule = molecules[next_index]
-                st.session_state.molecule_index = next_index
+                st.session_state.game_over = True  # All molecules have been displayed
         else:
             st.error("Invalid category. Please go back and choose a valid category.")
     else:
@@ -172,7 +179,8 @@ def handle_skip():
     if "canvas_key_counter" not in st.session_state:
         st.session_state.canvas_key_counter = 0
     st.session_state.canvas_key_counter += 1
-    
+    st.session_state.progress_counter += 1
+
     select_next_molecule()
     st.session_state.toast_queue = {"message": "Skipped to next molecule", "icon": "⏭️"}
     st.rerun()
@@ -190,7 +198,12 @@ def get_molecule_from_category(category):
     
 
 def render_game_page():
-    
+    # Check if the user wants to go back to the home page
+    if 'go_to_home' in st.session_state and st.session_state.go_to_home:
+        render_home_page()  # Call the function to render the home page
+        st.session_state.go_to_home = False  # Reset the variable after handling
+        return  # Exit the function early
+
     css_path = os.path.join(os.path.dirname(__file__), "style", "singleplayer_game_page_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/singleplayer_game_page_styling.css'
     
     with open(css_path) as f:
@@ -222,38 +235,19 @@ def render_game_page():
         st.session_state.game_code = "demo_code"
     if "category" not in st.session_state:
         st.session_state.category = "Alkanes (8)"  # Replace with an actual category name
+    if "progress_counter" not in st.session_state:
+        st.session_state.progress_counter = 0
 
-    # Get game info
-    game = get_game(st.session_state.game_code)
-    game_duration = game.get("game_duration") 
+    # Initialize displayed molecules if not already done
+    if "displayed_molecules" not in st.session_state:
+        st.session_state.displayed_molecules = []
 
-    padding1, goodcolumn, padding2 = st.columns([1, 2, 1])
-
-    with goodcolumn:
-        if not (st.session_state.game_over or st.session_state.player_done):
-            # Display game info
-            col1, col2 = st.columns(2)
-            with col1:
-                st.markdown(f"**Score:** {st.session_state.points}")
-            with col2:
-                @st.fragment(run_every="1s")
-                def timer_fragment(game_duration):
-                    elapsed_time = time.time() - st.session_state.start_time
-                    remaining_time = max(0, game_duration - elapsed_time)
-                
-                    # Check if game is over
-                    if remaining_time <= 0 and not st.session_state.game_over:
-                        st.session_state.game_over = True
-                        st.session_state.toast_queue = {"message": "Game Over!", "icon": "🏁"}
-                        st.rerun() #rerun the whole page
-                    st.markdown(f"**Time remaining:** {int(remaining_time)}s")
-                timer_fragment(game_duration)
-        
     # Get game info to get category
     game = get_game(st.session_state.game_code)
     if game and "category" in game:
         category = game["category"]
         st.session_state.category = category
+        game_duration = game.get("game_duration", 0)  # Set a default value if not found
         
         # Initialize first molecule
         if category is not None:
@@ -262,22 +256,55 @@ def render_game_page():
                 if "current_molecule" not in st.session_state:
                     st.session_state.current_molecule = molecules[0]
                     st.session_state.molecule_index = 0
+                    st.session_state.progress_counter = 0
     else:
         st.error("No category selected. Please go back and choose one.")
         return
 
-    # Display game info
-    col1, col2 = st.columns(2)
+    # Check if the game is over
+    if st.session_state.game_over:
+        if "category" in st.session_state:
+            category = st.session_state.category
+            # Get the total number of molecules from the appropriate category
+            if category in MOLECULE_CATEGORIES:
+                molecules = list(MOLECULE_CATEGORIES[category].keys())
+            elif category in st.session_state.additional_categories:
+                molecules = list(st.session_state.additional_categories[category].keys())
+            else:
+                molecules = []  # Handle invalid category case
+            st.markdown(f"## Game Over! Your final score: **{st.session_state.points}/{len(molecules)}**")
+            
+            # Display the back button
+            back_button(destination=None, label="Back to Home")
+        return  # Exit the function early to prevent rendering other elements
+
+    # Timer fragment logic
+    @st.fragment(run_every="1s")
+    def timer_fragment():
+        elapsed_time = time.time() - st.session_state.start_time
+        remaining_time = max(0, game_duration - elapsed_time)
+        
+        # Check if game is over
+        if remaining_time <= 0 and not st.session_state.game_over:
+            st.session_state.game_over = True
+            st.session_state.toast_queue = {"message": "Game Over!", "icon": "🏁"}
+            st.rerun()  # rerun the whole page
+        st.markdown(f"**Time remaining:** {int(remaining_time)}s")
+    
+    timer_fragment()  # Call the timer fragment
+
+    # Display target molecule only if the game is not over
+    st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
+
+    # Display game info in columns only if the game is not over
+    col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown(f"**Score:** {st.session_state.points}")
     with col2:
         if "category" in st.session_state:
             molecules = get_molecule_from_category(st.session_state.category)
             total_molecules = len(molecules)
-            st.markdown(f"**Progress:** {st.session_state.molecule_index}/{total_molecules}")
-
-    # Display target molecule
-    st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
+            st.markdown(f"**Progress:** {st.session_state.progress_counter}/{total_molecules}")
 
     # Function to handle color selection
     def select_color(color_name):
@@ -399,12 +426,7 @@ def render_game_page():
 
             # Add spacing before buttons
             st.markdown("<div style='height: 20px'></div>", unsafe_allow_html=True)
-            
-            # Custom CSS to ensure button columns are properly spaced
-            css_path = os.path.join(os.path.dirname(__file__), "style", "singleplayer_game_page_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/singleplayer_game_page_styling.css'
 
-            with open(css_path) as f:
-                st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
             
             # Create 7 columns for better spacing control
             cols = st.columns([1, 0.1, 1, 0.1, 1])
@@ -424,19 +446,6 @@ def render_game_page():
                 if st.button("Submit Drawing", type="primary", key="submit_btn", use_container_width=True, 
                             disabled=st.session_state.game_over):
                     handle_submission(canvas_result)
-
-    # Game over screen
-    if st.session_state.game_over:
-        if "category" in st.session_state:
-            category = st.session_state.category
-            # Get the total number of molecules from the appropriate category
-            if category in MOLECULE_CATEGORIES:
-                molecules = list(MOLECULE_CATEGORIES[category].keys())
-            elif category in st.session_state.additional_categories:
-                molecules = list(st.session_state.additional_categories[category].keys())
-            else:
-                molecules = []  # Handle invalid category case
-            st.markdown(f"## Game Over! Your final score: **{st.session_state.points}/{len(molecules)}**")
 
 if __name__ == "__main__":
     render_game_page()
