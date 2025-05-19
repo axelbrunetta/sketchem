@@ -28,13 +28,7 @@ conda activate sketchem
 
 ## Requirements
 
-### DECIMER
-The DECIMER Canonical model for molecule recognition will be automatically downloaded during installation. If you need to manually trigger the model download, you can run:
 
-```bash
-sketchem-setup
-
-```
 ### Gemini AI
 
 To use the Gemini AI for molecule recognition and category creation, you need to set up your Google Generative AI API key. Go to [Google Generative AI](https://aistudio.google.com/app/apikey) and create an API key. 
