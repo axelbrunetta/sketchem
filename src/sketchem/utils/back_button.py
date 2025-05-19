@@ -22,17 +22,17 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
     # Create columns with 0.1 and 0.9 width ratio
     
     
-    
     with stylable_container(
-    key="back_button_container",
-    css_styles="""
-    div[data-testid="stButton"] {
-        width: auto !important;
-        display: inline-block !important;
-    }
-    button {
-        width: auto !important;
-    }
+        key="back_button_container",
+        css_styles="""
+        div[data-testid="stButton"] > button {
+            background-color: #88888F !important;
+            color: white !important;
+            border-radius: 8px !important;
+            padding: 0.5em 1em !important;
+            width: auto !important;
+            border: 2px solid transparent !important;
+        }
     """):
         if st.button(label, use_container_width=use_container_width, key=button_key):
             # If in a multiplayer game, remove the player from the game

@@ -291,20 +291,34 @@ def render_game_page():
             st.rerun()  # rerun the whole page
         st.markdown(f"**Time remaining:** {int(remaining_time)}s")
     
+
+    
     timer_fragment()  # Call the timer fragment
 
     # Display target molecule only if the game is not over
     st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
 
-    # Display game info in columns only if the game is not over
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown(f"**Score:** {st.session_state.points}")
-    with col2:
-        if "category" in st.session_state:
-            molecules = get_molecule_from_category(st.session_state.category)
-            total_molecules = len(molecules)
-            st.markdown(f"**Progress:** {st.session_state.progress_counter}/{total_molecules}")
+    padding1, goodcolumn, padding2 = st.columns([1, 2, 1])
+
+    with goodcolumn:
+        if not (st.session_state.game_over or st.session_state.player_done):
+            # Display game info
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown(f"**Score:** {st.session_state.points}")
+            with col2:
+                @st.fragment(run_every="1s")
+                def timer_fragment(game_duration):
+                    elapsed_time = time.time() - st.session_state.start_time
+                    remaining_time = max(0, game_duration - elapsed_time)
+                
+                    # Check if game is over
+                    if remaining_time <= 0 and not st.session_state.game_over:
+                        st.session_state.game_over = True
+                        st.session_state.toast_queue = {"message": "Game Over!", "icon": "🏁"}
+                        st.rerun() #rerun the whole page
+                    st.markdown(f"**Time remaining:** {int(remaining_time)}s")
+                timer_fragment(game_duration)
 
     # Function to handle color selection
     def select_color(color_name):
@@ -434,6 +448,7 @@ def render_game_page():
             # Back button
             with cols[0]:
                 back_button(destination=None, label="Leave Game")
+                
             
             # Skip button
             with cols[2]:
