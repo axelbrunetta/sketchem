@@ -13,6 +13,11 @@ import os
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
+# Reset game duration to default when entering setup
+st.session_state["game_duration"] = 60
+st.session_state["single_game_duration"] = 60
+
+
 def render_singleplayer_setup():
     # Initialize session state variables if they don't exist
     if "category_update_counter" not in st.session_state:
@@ -114,14 +119,14 @@ def render_singleplayer_setup():
             max_value=180,
             value=st.session_state.get("game_duration", 60),
             step=10,
-            key="single_game_duration",
+            key="game_duration",
             label_visibility="collapsed"  #hide label
         )
+        
 
     #store selections
     if selected_category:
         st.session_state.selected_molecule_category = selected_category
-    st.session_state.game_duration = game_duration
 
     st.markdown("<br>", unsafe_allow_html=True)
 
