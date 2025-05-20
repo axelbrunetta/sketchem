@@ -118,6 +118,10 @@ def handle_submission(canvas_result):
         if "canvas_key_counter" not in st.session_state:
             st.session_state.canvas_key_counter = 0
         st.session_state.canvas_key_counter += 1
+
+        if "progress_counter" not in st.session_state:
+            st.session_state.progress_counter = 0
+        st.session_state.progress_counter += 1
         
         # Move to next molecule
         select_next_molecule()
@@ -178,6 +182,7 @@ def handle_skip():
     # Reset the canvas by incrementing the counter
     if "canvas_key_counter" not in st.session_state:
         st.session_state.canvas_key_counter = 0
+        st.session_state.progress_counter = 0
     st.session_state.canvas_key_counter += 1
     st.session_state.progress_counter += 1
 
@@ -200,6 +205,7 @@ def get_molecule_from_category(category):
 def render_game_page():
     # Check if the user wants to go back to the home page
     if 'go_to_home' in st.session_state and st.session_state.go_to_home:
+        st.session_state.progress_counter = 0
         render_home_page()  # Call the function to render the home page
         st.session_state.go_to_home = False  # Reset the variable after handling
         return  # Exit the function early
@@ -256,7 +262,7 @@ def render_game_page():
                 if "current_molecule" not in st.session_state:
                     st.session_state.current_molecule = molecules[0]
                     st.session_state.molecule_index = 0
-                    st.session_state.progress_counter = 0
+                    st.session_state.progress_counter = 0  
     else:
         st.error("No category selected. Please go back and choose one.")
         return
@@ -289,24 +295,30 @@ def render_game_page():
             st.session_state.game_over = True
             st.session_state.toast_queue = {"message": "Game Over!", "icon": "🏁"}
             st.rerun()  # rerun the whole page
-        st.markdown(f"**Time remaining:** {int(remaining_time)}s")
-    
-
+        # Remove this line to eliminate the time remaining display at the top left
+        # st.markdown(f"**Time remaining:** {int(remaining_time)}s")
     
     timer_fragment()  # Call the timer fragment
 
-    # Display target molecule only if the game is not over
-    st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
+    # Create a row of columns for alignment
+    padding1, title_column, padding2 = st.columns([1, 2, 1])  # Adjust the proportions as needed
 
+    with title_column:
+        # Display target molecule title centered in its column
+        st.markdown(f"<h2 style='margin-bottom: 20px; '>Please draw: <strong>{st.session_state.current_molecule}</strong></h2>", unsafe_allow_html=True)
+
+    # Continue with the rest of your layout
     padding1, goodcolumn, padding2 = st.columns([1, 2, 1])
 
     with goodcolumn:
         if not (st.session_state.game_over or st.session_state.player_done):
             # Display game info
-            col1, col2 = st.columns(2)
+            col1, col2, col3 = st.columns(3)
             with col1:
                 st.markdown(f"**Score:** {st.session_state.points}")
             with col2:
+                st.markdown(f"**Progress:** {st.session_state.progress_counter}/{len(molecules)}")
+            with col3:
                 @st.fragment(run_every="1s")
                 def timer_fragment(game_duration):
                     elapsed_time = time.time() - st.session_state.start_time
@@ -316,7 +328,7 @@ def render_game_page():
                     if remaining_time <= 0 and not st.session_state.game_over:
                         st.session_state.game_over = True
                         st.session_state.toast_queue = {"message": "Game Over!", "icon": "🏁"}
-                        st.rerun() #rerun the whole page
+                        st.rerun()  # rerun the whole page
                     st.markdown(f"**Time remaining:** {int(remaining_time)}s")
                 timer_fragment(game_duration)
 
