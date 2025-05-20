@@ -97,7 +97,16 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
             if "game_code" in st.session_state:
                 del st.session_state["game_code"]
             if "category" in st.session_state:
-                del st.session_state["category"] 
+                del st.session_state["category"]
+            if "progress_counter" in st.session_state:
+                del st.session_state["progress_counter"]
+            if "displayed_molecules" in st.session_state:
+                del st.session_state["displayed_molecules"]
+            if "current_molecule" in st.session_state:
+                del st.session_state["current_molecule"]
+            if "molecule_index" in st.session_state:
+                del st.session_state["molecule_index"]
+                
             st.rerun()
             return True
     

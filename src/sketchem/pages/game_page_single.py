@@ -182,7 +182,6 @@ def handle_skip():
     # Reset the canvas by incrementing the counter
     if "canvas_key_counter" not in st.session_state:
         st.session_state.canvas_key_counter = 0
-        st.session_state.progress_counter = 0
     st.session_state.canvas_key_counter += 1
     st.session_state.progress_counter += 1
 
@@ -263,6 +262,7 @@ def render_game_page():
                     st.session_state.current_molecule = molecules[0]
                     st.session_state.molecule_index = 0
                     st.session_state.progress_counter = 0  
+                    st.session_state.displayed_molecules.append(st.session_state.current_molecule)
     else:
         st.error("No category selected. Please go back and choose one.")
         return
