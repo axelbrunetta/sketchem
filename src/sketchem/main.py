@@ -13,6 +13,7 @@ from streamlit_js_eval import streamlit_js_eval
 def main():
     st.set_page_config(page_title="Sketchem", layout="wide", initial_sidebar_state="collapsed")
 
+    
     # Get actual screen width -> used for mobile-specific styling
     st.session_state.viewport_width = streamlit_js_eval(js_expressions="window.innerWidth", key="test_viewport_width")
 
@@ -39,8 +40,9 @@ def main():
     col1, col2, col3 = st.columns([1, 2, 1]) # Columns are now needed because "wide" mode has to be enabled for streamlit so that the proper width of the screen can be determined for phone / computer detection -> otherwise everything is stretched by wide mode
     
 
-    with col2:
-        st.title("sketchem")
+    #with col2:
+        #st.title("sketchem")
+
 
     # Initialize the game state parameters
     initialize_game_state()

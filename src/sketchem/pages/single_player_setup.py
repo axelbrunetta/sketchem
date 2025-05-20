@@ -37,7 +37,7 @@ def render_singleplayer_setup():
     api_key = get_gemini_api_key()
 
     #page title
-    st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
+    #st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
 
     css_path = os.path.join(os.path.dirname(__file__), "style", "single_setup_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/single_setup_styling.css'
     
