@@ -20,17 +20,19 @@ def render_home_page():
         with open(css_path) as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-        image_width = 300
-        st.image(logo_path, width=image_width if not st.session_state.is_mobile else None, use_container_width=True if st.session_state.is_mobile else False)
+        padding3, col1, padding4 = st.columns([1, 2, 1])
+        with col1:
+            image_width = 300
+            st.image(logo_path, width=image_width if not st.session_state.is_mobile else None, use_container_width=True if st.session_state.is_mobile else False)
         
         
-        col4, col5 = st.columns(2)
-        with col4:
+        col2, col3 = st.columns(2)
+        with col2:
             if st.button("Single Player", use_container_width=True):
                 st.session_state.game_mode = "singleplayer_setup"
                 st.rerun()
 
-        with col5:
+        with col3:
             if not is_running_locally(): # Prevents multiplayer button from showing when running locally
                 if st.button("Multiplayer", use_container_width=True):
                     st.session_state.game_mode = "multiplayer_setup"
