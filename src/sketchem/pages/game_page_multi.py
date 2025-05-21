@@ -247,6 +247,10 @@ def render_game_page_multi():
 
     with goodcolumn:
         if not (st.session_state.game_over or st.session_state.player_done):
+
+            # Display target molecule
+            st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
+            
             # Display game info
             col1, col2 = st.columns(2)
             with col1:
@@ -284,8 +288,6 @@ def render_game_page_multi():
                     st.session_state.last_pen_color = "White"  # Default to white if invalid
                 current_stroke_color = color_options[st.session_state.last_pen_color]
 
-            # Display target molecule
-            st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
             
             # Function to handle color selection
             def select_color(color_name):
