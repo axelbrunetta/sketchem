@@ -16,53 +16,54 @@ logger.setLevel(logging.DEBUG)
 
 
 def render_singleplayer_setup():
-    # Initialize session state variables if they don't exist
+    #initialize session state variables if they don't exist
     if "category_update_counter" not in st.session_state:
         st.session_state.category_update_counter = 0
     if "additional_categories" not in st.session_state:
         st.session_state.additional_categories = {}
-    # Add this line to store the last created category
+    #store last created category
     if "last_created_category" not in st.session_state:
         st.session_state.last_created_category = None
     if "toast_queue" not in st.session_state:
         st.session_state.toast_queue = None
-    # Add this to track if category is default
+    #add this to track if category is default
     if "category_is_default" not in st.session_state:
         st.session_state.category_is_default = True
-        # Only initialize game_duration if it doesn't exist yet
+    #only initialize game_duration if it doesn't exist yet
     if "game_duration" not in st.session_state:
         st.session_state["game_duration"] = 60
     if "single_game_duration" not in st.session_state:
         st.session_state["single_game_duration"] = 60
 
-    # Get the API key using the environment utility function
+    #get API key from environment.py
     api_key = get_gemini_api_key()
 
     
 
+    #get CSS file path
     css_path = os.path.join(os.path.dirname(__file__), "style", "single_setup_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/single_setup_styling.css'
     
     with open(css_path) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-
+    #create columns
     padding1, goodcolumn, padding2 = st.columns([1, 3, 1])
     
 
     with goodcolumn:
-        # page title
-        
+        #display back button
         back_button(destination=None, label="Back to Home")
 
         st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
 
+        #display title
         st.markdown("### Molecule Category")
 
         #prepare categories list but don't display it yet, only when category selected
         all_categories = list(MOLECULE_CATEGORIES.keys())
         update_counter = st.session_state.get("category_update_counter", 0)
 
-        # Add custom categories to the list
+        #add generated categories to list
         if st.session_state.additional_categories:
             all_categories.extend(st.session_state.additional_categories.keys())
 
@@ -77,11 +78,11 @@ def render_singleplayer_setup():
             initial_index = all_categories.index(st.session_state.selected_molecule_category) + 1
 
         selected_category = st.selectbox(
-            "Select a category",  # Add a label for accessibility
+            "Select a category",  #title
             options=["Choose Category"] + all_categories,
             index=initial_index,
             key=f"molecule_category_{update_counter}",
-            label_visibility="collapsed"  # Hide the label but keep it for accessibility
+            label_visibility="collapsed"  #hide the label but keep it for accessibility
         )
 
         #update the selected category in session state
@@ -92,13 +93,13 @@ def render_singleplayer_setup():
             selected_category = None
             st.session_state.selected_molecule_category = None
 
-        # Dialog for category creation
+        #dialog (window) for category creation
         @st.dialog("Generate a molecule category")
         def openModal():
             st.write(f"What kind of molecule category are you looking for?")
             user_input = st.text_input("", placeholder="e.g., 'drugs', 'alcohols', 'sugars', 'vitamins'")
             if st.button("Submit"):
-                returned_var = get_molecules_for_category_pubchem(api_key=api_key, user_prompt=user_input)
+                returned_var = get_molecules_for_category_pubchem(api_key=api_key, user_prompt=user_input) #gemini creates category, we use function from create_category.py
 
                 st.session_state.category_update_counter += 1
 
@@ -116,13 +117,14 @@ def render_singleplayer_setup():
         if st.button("Create a molecule category using AI", key="create_category_button", help="This is an experimental feature, some things may not work as intended.", type="primary", use_container_width=True):
             openModal()
 
+        #title for game duration slider
         st.markdown("### Game Duration (seconds)")
 
         game_duration = st.slider(
             label="Time per molecule",  #required parameter but will be hidden
             min_value=180,
             max_value=600,
-            value=st.session_state["game_duration"],  # Use the value directly without get()
+            value=st.session_state["game_duration"],  #slider shows current game duration
             step=10,
             key="game_duration_slider",  # Use a different key
             label_visibility="collapsed"  #hide label
@@ -137,16 +139,18 @@ def render_singleplayer_setup():
 
         #only show molecule list if a valid category is selected (not "Choose Category")
         if selected_category and selected_category != "Choose Category":
-            # Display molecules in selected category
+            #update selected category in session state
             st.session_state.selected_molecule_category = selected_category
             molecule_list = ""
+            #default categories
             if selected_category in MOLECULE_CATEGORIES:
                 for mol in MOLECULE_CATEGORIES[selected_category].keys():
                     molecule_list += f"- {mol}<br>"
+            #generated categories
             elif selected_category in st.session_state.additional_categories:
                 for mol in st.session_state.additional_categories[selected_category].keys():
                     molecule_list += f"- {mol}<br>"
-            
+            #display molecules in selected category
             stoggle(
                 f"Molecules in {selected_category}:",
                 f"{molecule_list}",
@@ -156,29 +160,31 @@ def render_singleplayer_setup():
 
         
         if st.button("Start Game", type="secondary", use_container_width=True, key="start_button"):
+            #if no category selected, show toast message
             if selected_category is None:
                 st.toast("Please select a category", icon="⚠️")
             else:
-                # Create a game object for single player
-                game_code = "single_" + str(int(time.time()))  # Create a unique game code
+                #create a game object for single player
+                game_code = "single_" + str(int(time.time()))  #create unique game code
                 st.session_state.game_code = game_code
 
-                # Create game data
+                #create game data
                 game_data = {
                     "code": game_code,
                     "status": "active",
                     "created_at": int(time.time()),
                     "category": selected_category,
-                    "category_is_default": st.session_state.category_is_default,  # Use the stored value
-                    "additional_categories": st.session_state.additional_categories,  # Include additional categories
+                    "category_is_default": st.session_state.category_is_default,  #use stored value
+                    "additional_categories": st.session_state.additional_categories,  #include additional categories
                     "game_duration": game_duration,
-                    "hints": False,  # No hints in single player
+                    "hints": False,  #no hints in single player
                     "players": {}
                 }
 
-                # Add game to mock database
+                #store game data in mock database
                 _games[game_code] = game_data
 
+                #update game mode in session state
                 st.session_state.game_mode = "single"
                 st.rerun()
 
