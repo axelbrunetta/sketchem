@@ -1,4 +1,3 @@
-
 import streamlit as st
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
@@ -16,7 +15,6 @@ logger.setLevel(logging.DEBUG)
 # Reset game duration to default when entering setup
 st.session_state["game_duration"] = 60
 st.session_state["single_game_duration"] = 60
-
 
 def render_singleplayer_setup():
     # Initialize session state variables if they don't exist
@@ -37,7 +35,7 @@ def render_singleplayer_setup():
     api_key = get_gemini_api_key()
 
     #page title
-    st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
+    #st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
 
     css_path = os.path.join(os.path.dirname(__file__), "style", "single_setup_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/single_setup_styling.css'
     
@@ -177,7 +175,6 @@ def render_singleplayer_setup():
 
             st.session_state.game_mode = "single"
             st.rerun()
-
 
 
 if __name__ == "__main__":

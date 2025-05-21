@@ -9,7 +9,9 @@ def render_home_page():
 
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        st.markdown("## Choose Game Mode")
+        st.markdown("## ")
+
+        st.image("assets/logo.jpg", use_column_width=True)
         col4, col5 = st.columns(2)
         with col4:
             if st.button("Single Player", use_container_width=True):
