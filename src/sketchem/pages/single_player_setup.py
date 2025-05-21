@@ -12,9 +12,7 @@ import os
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
-# Reset game duration to default when entering setup
-st.session_state["game_duration"] = 60
-st.session_state["single_game_duration"] = 60
+
 
 def render_singleplayer_setup():
     # Initialize session state variables if they don't exist
@@ -30,6 +28,11 @@ def render_singleplayer_setup():
     # Add this to track if category is default
     if "category_is_default" not in st.session_state:
         st.session_state.category_is_default = True
+        # Only initialize game_duration if it doesn't exist yet
+    if "game_duration" not in st.session_state:
+        st.session_state["game_duration"] = 60
+    if "single_game_duration" not in st.session_state:
+        st.session_state["single_game_duration"] = 60
 
     # Get the API key using the environment utility function
     api_key = get_gemini_api_key()
@@ -115,9 +118,9 @@ def render_singleplayer_setup():
             label="Time per molecule",  #required parameter but will be hidden
             min_value=30,
             max_value=180,
-            value=st.session_state.get("game_duration", 60),
+            value=st.session_state["game_duration"],  # Use the value directly without get()
             step=10,
-            key="game_duration",
+            key="game_duration_slider",  # Use a different key
             label_visibility="collapsed"  #hide label
         )
         
