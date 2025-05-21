@@ -15,7 +15,8 @@ def render_home_page():
     
 
     with goodcolumn:
-        st.image(logo_path, use_container_width=True)
+        image_width = 300
+        st.image(logo_path, width=image_width if not st.session_state.is_mobile else None, use_container_width=True if st.session_state.is_mobile else False)
         st.markdown("## Choose Game Mode")
         col4, col5 = st.columns(2)
         with col4:
