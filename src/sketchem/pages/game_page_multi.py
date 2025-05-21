@@ -246,6 +246,9 @@ def render_game_page_multi():
     
 
     with goodcolumn:
+        if st.session_state.game_over or st.session_state.player_done:
+            back_button(destination=None, label="Leave")
+        
         if not (st.session_state.game_over or st.session_state.player_done):
 
             # Display target molecule

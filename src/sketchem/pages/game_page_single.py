@@ -268,6 +268,7 @@ def render_game_page():
     
 
     with goodcolumn:
+        
         # Check if the game is over
         if st.session_state.game_over:
             if "category" in st.session_state:
