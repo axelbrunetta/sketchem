@@ -117,7 +117,7 @@ def render_singleplayer_setup():
         game_duration = st.slider(
             label="Time per molecule",  #required parameter but will be hidden
             min_value=30,
-            max_value=180,
+            max_value=600,
             value=st.session_state["game_duration"],  # Use the value directly without get()
             step=10,
             key="game_duration_slider",  # Use a different key
