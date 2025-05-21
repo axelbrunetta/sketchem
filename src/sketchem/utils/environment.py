@@ -5,7 +5,7 @@ import os
 import streamlit as st
 
 
-# Behavior for streamlit is different in cloud and locally run -> especially for what we will do with the databse, hence the need for this
+#behavior for streamlit is different in cloud and locally run -> especially for what we will do with the databse, hence the need for this
 
 def is_running_locally():
     """
@@ -14,7 +14,7 @@ def is_running_locally():
     Returns:
         bool: True if running locally, False if running in a deployed environment
     """
-    # This works since Streamlit Cloud runs on Linux without a processor name
+    #streamlit cloud runs on Linux without processor name
     return platform.processor() != ''
 
 def get_gemini_api_key():
@@ -24,5 +24,5 @@ def get_gemini_api_key():
             return st.secrets["GEMINI_API_KEY"]
     except Exception:
         from dotenv import load_dotenv
-        load_dotenv()  # Load environment variables from .env file
+        load_dotenv()  #load environment variables from .env file
         return os.environ.get("GEMINI_API_KEY")
