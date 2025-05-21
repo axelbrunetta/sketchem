@@ -59,7 +59,7 @@ div[data-testid="element-container"] button[kind="primary"] {
     margin-left: 0 !important;
     width: auto !important;
     display: inline-block !important;
-    float: left !important;
+    float: none !important;
 }
 
 /* Target the button container */
