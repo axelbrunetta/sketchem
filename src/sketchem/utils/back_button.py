@@ -22,7 +22,6 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
     # Create columns with 0.1 and 0.9 width ratio
     
     
-    
     with stylable_container(
     key="back_button_container",
     css_styles="""
@@ -76,7 +75,38 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
             # Clear any page-specific state if needed
             if current_mode in ["created_multi", "joined_multi", "multiplayer"]:
                 reset_game_state()
-            
+            st.session_state.selected_molecule_category = None
+                #delete game state
+            # Delete session states associate with the single player game
+            if "pen_size" in st.session_state:
+                del st.session_state["pen_size"]
+            if "drawing_mode" in st.session_state:
+                del st.session_state["drawing_mode"]  
+            if "last_pen_color" in st.session_state:
+                del st.session_state["last_pen_color"]
+            if "points" in st.session_state:
+                del st.session_state["points"]
+            if "molecule_index" in st.session_state:
+                del st.session_state["molecule_index"]
+            if "game_over" in st.session_state:
+                del st.session_state["game_over"]
+            if "start_time" in st.session_state:
+                del st.session_state["start_time"]
+            if "canvas_key_counter" in st.session_state:
+                del st.session_state["canvas_key_counter"]
+            if "game_code" in st.session_state:
+                del st.session_state["game_code"]
+            if "category" in st.session_state:
+                del st.session_state["category"]
+            if "progress_counter" in st.session_state:
+                del st.session_state["progress_counter"]
+            if "displayed_molecules" in st.session_state:
+                del st.session_state["displayed_molecules"]
+            if "current_molecule" in st.session_state:
+                del st.session_state["current_molecule"]
+            if "molecule_index" in st.session_state:
+                del st.session_state["molecule_index"]
+                
             st.rerun()
             return True
     
