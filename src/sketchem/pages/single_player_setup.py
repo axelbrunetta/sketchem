@@ -45,9 +45,8 @@ def render_singleplayer_setup():
     with open(css_path) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-    back_button(destination=None, label="Back to Home")
 
-    padding1, goodcolumn, padding2 = st.columns([1, 2, 1])
+    padding1, goodcolumn, padding2 = st.columns([1, 3, 1])
     
 
     with goodcolumn:
@@ -57,7 +56,6 @@ def render_singleplayer_setup():
 
         st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
 
-        col1, col2 = st.columns([1,2])
         st.markdown("### Molecule Category")
 
         #prepare categories list but don't display it yet, only when category selected

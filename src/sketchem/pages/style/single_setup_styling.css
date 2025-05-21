@@ -1,9 +1,23 @@
 
-div.stButton > button {
-        width: 100%;
-        border-radius: 10px;
-        font-weight: bold;
-        margin-top: 10px;
+/* Align all content to the left */
+h2, h3, .stSelectbox, .stSlider, .stButton, .stMarkdown p, .stMarkdown div {
+    text-align: left !important;
+    margin-left: 0 !important;
+}
+
+/* Override any center alignment */
+[data-testid="stMarkdownContainer"] {
+    text-align: left !important;
+}
+
+/* Remove any auto margins that might center content */
+.stButton > button {
+    margin-left: 0 !important;
+}
+
+/* Ensure selectbox and other inputs align left */
+.stSelectbox [data-baseweb="select"] {
+    text-align: left !important;
 }
 
 /* Divider styling */
@@ -31,6 +45,43 @@ h3 {
         background-color: #f8f9fa;
 }
 
+/* Target section headers specifically */
+h3, .stMarkdown h3 {
+    text-align: left !important;
+    margin-left: 0 !important;
+}
+
+/* Target the "Create a molecule category using AI" button with more specific selectors */
+button[kind="primary"], 
+div[data-testid="stButton"] button[kind="primary"],
+div[data-testid="element-container"] button[kind="primary"] {
+    text-align: left !important;
+    margin-left: 0 !important;
+    width: auto !important;
+    display: inline-block !important;
+    float: left !important;
+}
+
+/* Target the button container */
+div[data-testid="stButton"] {
+    text-align: left !important;
+    margin-left: 0 !important;
+    width: auto !important;
+    display: block !important;
+}
+
+/* Override use_container_width for primary buttons */
+button[kind="primary"][data-testid="baseButton-secondary"] {
+    width: auto !important;
+    margin-right: auto !important;
+}
+
+/* Target the markdown elements that contain section titles */
+[data-testid="stMarkdownContainer"] > p {
+    text-align: left !important;
+    margin-left: 0 !important;
+}
+
 /* Create category button styling */
 button[kind="primary"] {
         background: linear-gradient(90deg, #0066cc, #4da6ff, #0066cc) !important;
@@ -44,6 +95,13 @@ button[kind="primary"] {
         transition: background-position 0.5s ease,
                 transform 0.3s ease, 
                 box-shadow 0.3s ease !important;
+        /* Add these properties for left alignment */
+        text-align: left !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        float: left !important;
+        width: auto !important;
+        display: inline-block !important;
 }
 
 button[kind="primary"]:hover {
