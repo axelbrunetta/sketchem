@@ -1,0 +1,24 @@
+/* Home Page Styling */
+
+/* Center the logo container */
+div.stImage.st-emotion-cache-1dvmtd8.evl31sl0 {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+/* Center the image inside the container */
+div[data-testid="stImageContainer"].st-emotion-cache-7czcpc.evl31sl1 {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+/* Ensure the image itself is centered */
+div[data-testid="stImageContainer"] img {
+    margin: 0 auto !important;
+    display: block !important;
+}

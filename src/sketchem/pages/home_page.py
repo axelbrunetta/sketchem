@@ -15,6 +15,11 @@ def render_home_page():
     
 
     with goodcolumn:
+        css_path = os.path.join(os.path.dirname(__file__), "style", "home_page_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/home_page_styling.css'
+    
+        with open(css_path) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
         image_width = 300
         st.image(logo_path, width=image_width if not st.session_state.is_mobile else None, use_container_width=True if st.session_state.is_mobile else False)
         
