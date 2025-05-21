@@ -34,8 +34,8 @@ def render_singleplayer_setup():
     # Get the API key using the environment utility function
     api_key = get_gemini_api_key()
 
-    #page title
-    #st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
+    # page title
+    st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
 
     css_path = os.path.join(os.path.dirname(__file__), "style", "single_setup_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/single_setup_styling.css'
     
@@ -44,10 +44,11 @@ def render_singleplayer_setup():
 
     back_button(destination=None, label="Back to Home")
 
-    #columns for setup
-    col1, col2 = st.columns([1, 1])
+    padding1, goodcolumn, padding2 = st.columns([1, 2, 1])
+    
 
-    with col1:
+    with goodcolumn:
+        col1, col2 = st.columns([1,2])
         st.markdown("### Molecule Category")
 
         #prepare categories list but don't display it yet, only when category selected
@@ -108,7 +109,6 @@ def render_singleplayer_setup():
         if st.button("Create a molecule category using AI", key="create_category_button", help="This is an experimental feature, some things may not work as intended.", type="primary", use_container_width=True):
             openModal()
 
-    with col2:
         st.markdown("### Game Duration (seconds)")
 
         game_duration = st.slider(
