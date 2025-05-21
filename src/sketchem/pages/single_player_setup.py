@@ -8,6 +8,7 @@ from sketchem.utils.create_category import get_molecules_for_category_pubchem
 import time
 from sketchem.utils.environment import is_running_locally, get_gemini_api_key
 import os
+from sketchem.db.mock_db import _games
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -37,8 +38,7 @@ def render_singleplayer_setup():
     # Get the API key using the environment utility function
     api_key = get_gemini_api_key()
 
-    # page title
-    st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
+    
 
     css_path = os.path.join(os.path.dirname(__file__), "style", "single_setup_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/single_setup_styling.css'
     
@@ -51,6 +51,12 @@ def render_singleplayer_setup():
     
 
     with goodcolumn:
+        # page title
+        
+        back_button(destination=None, label="Back to Home")
+
+        st.markdown("<h2 style='margin-bottom: 20px;'>Single Player Setup</h2>", unsafe_allow_html=True)
+
         col1, col2 = st.columns([1,2])
         st.markdown("### Molecule Category")
 
@@ -125,59 +131,58 @@ def render_singleplayer_setup():
         )
         
 
-    #store selections
-    if selected_category:
-        st.session_state.selected_molecule_category = selected_category
+        #store selections
+        if selected_category:
+            st.session_state.selected_molecule_category = selected_category
 
-    st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
 
-    #only show molecule list if a valid category is selected (not "Choose Category")
-    if selected_category and selected_category != "Choose Category":
-        # Display molecules in selected category
-        st.session_state.selected_molecule_category = selected_category
-        molecule_list = ""
-        if selected_category in MOLECULE_CATEGORIES:
-            for mol in MOLECULE_CATEGORIES[selected_category].keys():
-                molecule_list += f"- {mol}<br>"
-        elif selected_category in st.session_state.additional_categories:
-            for mol in st.session_state.additional_categories[selected_category].keys():
-                molecule_list += f"- {mol}<br>"
+        #only show molecule list if a valid category is selected (not "Choose Category")
+        if selected_category and selected_category != "Choose Category":
+            # Display molecules in selected category
+            st.session_state.selected_molecule_category = selected_category
+            molecule_list = ""
+            if selected_category in MOLECULE_CATEGORIES:
+                for mol in MOLECULE_CATEGORIES[selected_category].keys():
+                    molecule_list += f"- {mol}<br>"
+            elif selected_category in st.session_state.additional_categories:
+                for mol in st.session_state.additional_categories[selected_category].keys():
+                    molecule_list += f"- {mol}<br>"
+            
+            stoggle(
+                f"Molecules in {selected_category}:",
+                f"{molecule_list}",
+            )
+
+        st.divider()
+
         
-        stoggle(
-            f"Molecules in {selected_category}:",
-            f"{molecule_list}",
-        )
+        if st.button("Start Game", type="secondary", use_container_width=True, key="start_button"):
+            if selected_category is None:
+                st.toast("Please select a category", icon="⚠️")
+            else:
+                # Create a game object for single player
+                game_code = "single_" + str(int(time.time()))  # Create a unique game code
+                st.session_state.game_code = game_code
 
-    st.divider()
+                # Create game data
+                game_data = {
+                    "code": game_code,
+                    "status": "active",
+                    "created_at": int(time.time()),
+                    "category": selected_category,
+                    "category_is_default": st.session_state.category_is_default,  # Use the stored value
+                    "additional_categories": st.session_state.additional_categories,  # Include additional categories
+                    "game_duration": game_duration,
+                    "hints": False,  # No hints in single player
+                    "players": {}
+                }
 
-    
-    if st.button("Start Game", type="secondary", use_container_width=True, key="start_button"):
-        if selected_category is None:
-            st.toast("Please select a category", icon="⚠️")
-        else:
-            # Create a game object for single player
-            game_code = "single_" + str(int(time.time()))  # Create a unique game code
-            st.session_state.game_code = game_code
+                # Add game to mock database
+                _games[game_code] = game_data
 
-            # Create game data
-            game_data = {
-                "code": game_code,
-                "status": "active",
-                "created_at": int(time.time()),
-                "category": selected_category,
-                "category_is_default": st.session_state.category_is_default,  # Use the stored value
-                "additional_categories": st.session_state.additional_categories,  # Include additional categories
-                "game_duration": game_duration,
-                "hints": False,  # No hints in single player
-                "players": {}
-            }
-
-            # Add game to mock database
-            from sketchem.db.mock_db import _games
-            _games[game_code] = game_data
-
-            st.session_state.game_mode = "single"
-            st.rerun()
+                st.session_state.game_mode = "single"
+                st.rerun()
 
 
 if __name__ == "__main__":
