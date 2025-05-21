@@ -11,10 +11,11 @@ from sketchem.pages.guide_page import render_guide_page
 from streamlit_js_eval import streamlit_js_eval
 
 def main():
+    #set page configuration (changes tab title in browser from streamlit to sketchem)
     st.set_page_config(page_title="Sketchem", layout="wide", initial_sidebar_state="collapsed")
 
     
-    # Get actual screen width -> used for mobile-specific styling
+    #get actual screen width -> used for mobile-specific styling
     st.session_state.viewport_width = streamlit_js_eval(js_expressions="window.innerWidth", key="test_viewport_width")
 
     st.session_state.is_mobile = st.session_state.viewport_width < 768 if st.session_state.viewport_width else False
@@ -35,19 +36,19 @@ def main():
     """,
         unsafe_allow_html=True,
     )
-    display_queued_toast() #Show any active toast notifications
+    display_queued_toast() #show any active toast notifications
 
     
 
-    # Initialize the game state parameters
+    #initialize game state parameters
     initialize_game_state()
 
-    # Route to appropriate page based on game mode chosen
+    #route to appropriate page based on game mode chosen
     if st.session_state.game_mode is None:
         render_home_page()
     elif st.session_state.game_mode == "singleplayer_setup":
         render_singleplayer_setup()
-    elif st.session_state.game_mode == "multiplayer_setup": # reroute to multiplayer setup page
+    elif st.session_state.game_mode == "multiplayer_setup": 
         render_multiplayer_setup()
     elif st.session_state.game_mode in ["created_multi", "joined_multi"]: # reroute to waiting room for both host and joining players
         render_waiting_room()

@@ -7,16 +7,19 @@ import os
 
                    
 def render_home_page():
-
+    #get logo path
     current_dir = os.path.dirname(__file__)
     logo_path = os.path.join(current_dir, "..", "..", "..", "assets", "logo.jpg")
 
+    #create columns
     padding1, goodcolumn, padding2 = st.columns([1, 2, 1])
     
-
+    #display logo
     with goodcolumn:
         image_width = 300
         st.image(logo_path, width=image_width if not st.session_state.is_mobile else None, use_container_width=True if st.session_state.is_mobile else False)
+
+        #display title and buttons  
         st.markdown("## Choose Game Mode")
         col4, col5 = st.columns(2)
         with col4:
@@ -36,6 +39,7 @@ def render_home_page():
                     st.session_state.game_mode = "guide"
                     st.rerun()
 
+    #display credits
     with bottom():
         stoggle(
         "Credits",
