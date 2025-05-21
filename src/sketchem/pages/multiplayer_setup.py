@@ -1,6 +1,6 @@
 import streamlit as st
 from sketchem.db.mock_db import create_game, join_game, get_game
-from sketchem.data.molecules import MOLECULE_CATEGORIES
+from data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
 import logging
 from sketchem.utils.back_button import back_button
