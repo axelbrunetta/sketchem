@@ -1,4 +1,11 @@
 
+:root {
+    --primary-bg: #ffffff;
+    --secondary-bg: #f0f2f6;
+    --accent-blue: #0066cc;
+    --accent-grey: #4f5b66;
+    --highlight: #e6f3ff;
+}
 
 /* Eraser button styling */
 div.stElementContainer.element-container.st-key-eraser_toggle.st-emotion-cache-17lr0tt.e1lln2w81 button {
