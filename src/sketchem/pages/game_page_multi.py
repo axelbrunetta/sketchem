@@ -252,10 +252,25 @@ def render_game_page_multi():
             st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
             
             # Display game info
-            col1, col2 = st.columns(2)
+            col1, col2, col3 = st.columns(3)
             with col1:
                 st.markdown(f"**Score:** {st.session_state.points}")
             with col2:
+                # Get total number of molecules for progress display
+                game = get_game(st.session_state.game_code)
+                total_molecules = 0
+                if game and "category" in game:
+                    category = game["category"]
+                    if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
+                        total_molecules = len(MOLECULE_CATEGORIES[category])
+                    elif not game.get("category_is_default", True) and "additional_categories" in game:
+                        if category in game["additional_categories"]:
+                            total_molecules = len(game["additional_categories"][category])
+                
+                # Display progress as current molecule index + 1 out of total
+                current_progress = getattr(st.session_state, 'molecule_index', 0) + 1
+                st.markdown(f"**Progress:** {current_progress}/{total_molecules}")
+            with col3:
                 @st.fragment(run_every="1s")
                 def timer_fragment(game_duration):
                     elapsed_time = time.time() - st.session_state.start_time
