@@ -99,7 +99,7 @@ button[kind="primary"] {
         text-align: left !important;
         margin-left: 0 !important;
         margin-right: auto !important;
-        float: left !important;
+        float: none !important;
         width: auto !important;
         display: inline-block !important;
 }
