@@ -17,11 +17,9 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
     Returns:
         True if the button was clicked, False otherwise
     """
-    button_key = key or f"back_button_{destination}" # buttons and elements in streamlit need unique identifier -> prevents errors if multiple back buttons because of a problem with the refresh
+    button_key = key or f"back_button_{destination}" #buttons and elements in streamlit need unique identifier -> prevents errors if multiple back buttons because of a problem with the refresh
     
-    # Create columns with 0.1 and 0.9 width ratio
-    
-    
+    #styling
     with stylable_container(
         key="back_button_container",
         css_styles="""
@@ -35,11 +33,9 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
         }
     """):
         if st.button(label, use_container_width=use_container_width, key=button_key):
-            # If in a multiplayer game, remove the player from the game
+            #multiplayer game: remove player from the game
             current_mode = st.session_state.game_mode
             if current_mode in ["created_multi", "joined_multi", "multiplayer"] :
-                
-                # Remove player from the game
                 result = remove_player_from_game(
                     st.session_state.game_code, 
                     st.session_state.player_id
@@ -54,12 +50,12 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
                     st.session_state.toast_queue = {"message": "Error leaving the game.", "icon": "❌"}
             
             if destination is not None:
-                # Navigate to specific destination
+                #leads to specific destination
                 st.session_state.game_mode = destination
             else:
-                # Determine previous page based on current game_mode
+                #determine previous page based on current game mode
                 
-                # Define reroutes
+                #define reroutes
                 navigation_map = { #for now all back buttons go to home page for simplicity
                     "multiplayer": None,  # multiplayer game goes back to home
                     "multiplayer_setup": None,  # setup goes back to home
@@ -67,18 +63,17 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
                     "joined_multi": None,  # waiting room (player) goes back home
                     "guide": None,
                     "singleplayer_setup": None,
-                    # need one for single player goes back to home from setup + game page
+                    #need one for single player goes back to home from setup + game page
                 }
                 
-                # Set the previous page as the destination
+                #previous page set as destination
                 st.session_state.game_mode = navigation_map.get(current_mode, None)
             
-            # Clear any page-specific state if needed
+            #clear any page-specific state if needed
             if current_mode in ["created_multi", "joined_multi", "multiplayer"]:
                 reset_game_state()
             st.session_state.selected_molecule_category = None
-                #delete game state
-            # Delete session states associate with the single player game
+            #delete session states to set them to default values
             if "pen_size" in st.session_state:
                 del st.session_state["pen_size"]
             if "drawing_mode" in st.session_state:
@@ -111,5 +106,5 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
             st.rerun()
             return True
     
-    # Return false if button wasn't clicked
+    #return false if button wasn't clicked
     return False
