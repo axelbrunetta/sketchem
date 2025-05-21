@@ -202,12 +202,7 @@ def get_molecule_from_category(category):
     
 
 def render_game_page():
-    # Check if the user wants to go back to the home page
-    if 'go_to_home' in st.session_state and st.session_state.go_to_home:
-        st.session_state.progress_counter = 0
-        render_home_page()  # Call the function to render the home page
-        st.session_state.go_to_home = False  # Reset the variable after handling
-        return  # Exit the function early
+    
 
     css_path = os.path.join(os.path.dirname(__file__), "style", "singleplayer_game_page_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/singleplayer_game_page_styling.css'
     

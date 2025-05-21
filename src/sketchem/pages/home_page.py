@@ -9,13 +9,13 @@ import os
 def render_home_page():
 
     current_dir = os.path.dirname(__file__)
-    logo_path = os.path.join(current_dir, "....", "assets", "logo.jpg")
+    logo_path = os.path.join(current_dir, "..", "..", "..", "assets", "logo.jpg")
 
     padding1, goodcolumn, padding2 = st.columns([1, 2, 1])
     
 
     with goodcolumn:
-        st.image(logo_path, use_column_width=True)
+        st.image(logo_path, use_container_width=True)
         st.markdown("## Choose Game Mode")
         col4, col5 = st.columns(2)
         with col4:
