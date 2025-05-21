@@ -36,11 +36,7 @@ def main():
     )
     display_queued_toast() #Show any active toast notifications
 
-    col1, col2, col3 = st.columns([1, 2, 1]) # Columns are now needed because "wide" mode has to be enabled for streamlit so that the proper width of the screen can be determined for phone / computer detection -> otherwise everything is stretched by wide mode
     
-
-    #with col2:
-        #st.title("sketchem")
 
     # Initialize the game state parameters
     initialize_game_state()

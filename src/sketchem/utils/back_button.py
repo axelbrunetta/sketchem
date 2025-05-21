@@ -78,6 +78,7 @@ def back_button(destination=None, label="Back", use_container_width=True, key=No
                 reset_game_state()
             st.session_state.selected_molecule_category = None
                 #delete game state
+            # Delete session states associate with the single player game
             if "pen_size" in st.session_state:
                 del st.session_state["pen_size"]
             if "drawing_mode" in st.session_state:

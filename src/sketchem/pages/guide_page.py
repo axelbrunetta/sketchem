@@ -22,7 +22,7 @@ def render_guide_page():
 
     # Get user's home directory and construct path to Downloads
     current_dir = os.path.dirname(__file__)
-    pdf_path = os.path.join(current_dir, "..", "data", "userguide.pdf")
+    pdf_path = os.path.join(current_dir, "..", "..", "..", "assets", "userguide.pdf")
     
     # Check if the PDF file exists
     if os.path.exists(pdf_path):
