@@ -13,6 +13,7 @@ from streamlit_js_eval import streamlit_js_eval
 def main():
     st.set_page_config(page_title="Sketchem", layout="wide", initial_sidebar_state="collapsed")
 
+    
     # Get actual screen width -> used for mobile-specific styling
     st.session_state.viewport_width = streamlit_js_eval(js_expressions="window.innerWidth", key="test_viewport_width")
 
