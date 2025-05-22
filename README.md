@@ -1,49 +1,77 @@
 ![Project Logo](assets/banner.png)
 
-![Coverage Status](assets/coverage-badge.svg)
-
 <h1 align="center">
-sketchem
+Sketchem
 </h1>
 
 <br>
 
 
-A molecular pictionary
+Sketchem is an interactive molecular pictionary game where users compete to draw chemical molecules correctly. The app uses AI to recognize hand-drawn molecular structures and provides a fun way to learn about chemistry through gameplay.
 
+## Live Game
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sketchem.streamlit.app)
 
-## Environment 
+## Features
 
-Create a new environment, you may also give the environment a different name.
+- **Single-player and multiplayer modes**: Practice alone or compete with friends
+- **Real-time drawing canvas**: Sketch molecules with an intuitive drawing interface
+- **AI-powered recognition**: Gemini AI analyzes drawings to identify molecules
+- **AI-powered molecule category generation**: Gemini AI creates categories for molecules based on user input
+- **Leaderboard system**: Track scores and compete for the top spot
+- **Educational value**: Learn about molecular structures while having fun
 
-```
+## Installation
+
+```bash
+# Create a new environment
 conda create -n sketchem python=3.10
+conda activate sketchem
+
+# Clone the repository
+git clone https://github.com/axelbrunetta/sketchem.git
+cd sketchem
+
+# Install the package
+pip install .
 ```
 
-```
-conda activate sketchem
-(conda_env) $ pip install .
-```
 
 ## Requirements
 
 
 ### Gemini AI
 
-To use the Gemini AI for molecule recognition and category creation, you need to set up your Google Generative AI API key. Go to [Google Generative AI](https://aistudio.google.com/app/apikey) and create an API key. 
+To use the Gemini AI for molecule recognition and category creation, you need to set up your Google Generative AI API key:
 
+1. Go to [Google Generative AI](https://aistudio.google.com/app/apikey) and create an API key
+2. Create a `.env` file in the root of your project with:
+   ```
+   GEMINI_API_KEY=your-gemini-api-key
+   ```
 
+### Jupyter (Optional)
 
-### JUPYTER
+If you need Jupyter Lab to open the notebook:
 
-If you need jupyter lab, install it 
-
-```
+```bash
 (sketchem) $ pip install jupyterlab
 ```
 
+## How to Run Locally
 
+1. Make sure your `.env` file is in the root of your project with (from requirements above):
+   ```
+   GEMINI_API_KEY=your-gemini-api-key
+   ```
+
+2. Run the app:
+   ```bash
+   streamlit run src/sketchem/main.py
+   ```
+
+**Note**: Multiplayer game mode is not available when running the app locally; it only works on the deployed version.
 
 ## How to deploy on Streamlit Cloud
 
@@ -54,29 +82,15 @@ If you need jupyter lab, install it
 ```
 GEMINI_API_KEY = "your-gemini-api-key"
 ```
-4. In you app's settings, change the python version to <3.12 as 3.12+ leads to issues with numpy
+4. In you app's settings, change the python version to < 3.12 as 3.12+ leads to issues with dependencies
 
 
-## Local Development
 
-Keep in mind that mulptiplayer game mode is not available when running the app locally, it only works on the deployed version
+### Run Tests and Coverage
 
-
-1. Create a `.env` file in the root of your project with:
-```
-GEMINI_API_KEY=your-gemini-api-key
-```
-
-2. Run the app:
-```
-streamlit run src/sketchem/main.py
-```
-
-## Run tests and coverage
-
-```
-(conda_env) $ pip install tox
-(conda_env) $ tox
+```bash
+(sketchem) $ pip install tox
+(sketchem) $ tox
 ```
 
 
@@ -91,3 +105,14 @@ streamlit.errors.StreamlitSetPageConfigMustBeFirstCommandError: This app has enc
 ```
 
 This is a normal occurrence during the first load of the app on Streamlit Cloud and is linked to us disabling the default Streamlit sidebar. Simply reload the page once and the error will disappear. 
+
+## Contributions
+
+
+Ivana and Ariadna worked on the singleplayer game page, the guide page, and styling of various pages.
+
+Axel worked on the multiplayer integration, the multiplayer game page, and other features like category creation and molecule recognition.
+
+## License
+
+This project is licensed under the MIT License.
