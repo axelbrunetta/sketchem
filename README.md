@@ -19,8 +19,8 @@ Sketchem is an interactive molecular pictionary game where users compete to draw
 - **Real-time drawing canvas**: Sketch molecules with an intuitive drawing interface
 - **AI-powered recognition**: Gemini AI analyzes drawings to identify molecules
 - **AI-powered molecule category generation**: Gemini AI creates categories for molecules based on user input
-- **Leaderboard system**: Track scores and compete for the top spot
-- **Educational value**: Learn about molecular structures while having fun
+- **Leaderboard system**: Track scores based on accuracy and speed, and compete for the top spot!
+- **Hints**: Get feedback on your drawings to improve your skills
 
 ## Installation
 
