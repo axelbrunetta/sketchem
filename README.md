@@ -99,7 +99,7 @@ GEMINI_API_KEY = "your-gemini-api-key"
 
 
 
-### Run Tests and Coverage
+### Run Tests
 
 ```bash
 (sketchem) $ pip install tox
