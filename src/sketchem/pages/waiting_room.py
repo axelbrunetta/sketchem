@@ -1,3 +1,10 @@
+
+"""
+Waiting room page for Sketchem.
+
+This file contains the UI and other functions for the waiting room page.
+"""
+
 import streamlit as st
 import time
 from sketchem.db.mock_db import get_game, start_game
@@ -6,6 +13,7 @@ from streamlit.logger import get_logger
 import logging
 from contextlib import contextmanager
 from sketchem.utils.back_button import back_button
+from streamlit_extras.stoggle import stoggle
 
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -47,7 +55,11 @@ def st_horizontal(): #Function to create an "inline" block for streamlit element
         yield
 
 def render_waiting_room():
-    """Renders the waiting room for both host and joining players"""
+    """
+    Renders the waiting room for both host and joining players
+    
+    Displays the game code, player list, category, and molecules. Host can start the game.
+    """
     st.empty() #Clears the page -> fix for elements of the multiplayer setup page staying on screen
     padding1, goodcolumn, padding2 = st.columns([1, 3, 1])
     
@@ -90,14 +102,21 @@ def render_waiting_room():
                 # Display selected category and molecules for both host and joining players
                 category = game["category"]
                 st.markdown(f"Selected Category: **{category}**")
-                st.markdown("### Molecules:")
                 
+                # Create molecule list for stoggle
+                molecule_list = ""
                 if game["category_is_default"]:
                     for molecule in MOLECULE_CATEGORIES[category].keys():
-                        st.markdown(f"- {molecule}")
+                        molecule_list += f"- {molecule}<br>"
                 else:
                     for molecule in game["additional_categories"][category].keys():
-                        st.markdown(f"- {molecule}")
+                        molecule_list += f"- {molecule}<br>"
+                
+                # Display molecules using stoggle
+                stoggle(
+                    f"Molecules in {category}:",
+                    f"{molecule_list}",
+                )
             
         
 

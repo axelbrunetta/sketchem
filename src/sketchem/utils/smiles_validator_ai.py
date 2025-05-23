@@ -1,5 +1,9 @@
-#main function that compares drawn molecule with target SMILES string using gemini
+"""
+AI-powered molecule validation for Sketchem.
 
+This file contains functions that use Google's Gemini AI to analyze
+hand-drawn molecular structures and validate them against target molecules.
+"""
 
 import streamlit as st
 from rdkit import Chem
@@ -15,7 +19,19 @@ logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
 def validate_drawing_with_ai(response, target_smiles, threshold, jupyternb: bool = False):
-    #reuse MCS code from decimer integration
+    """
+    Validate Gemini's response against the target molecule.
+    
+    Args:
+        response: The Gemini API response containing the molecule names
+        target_smiles: The target molecule's SMILES string
+        threshold: The MCS similarity threshold for validation
+        jupyternb: Whether we are running in a Jupyter notebook (for testing)
+        
+    Returns:
+        bool: True if the drawing is valid, False otherwise
+    """
+    # Re-use MCS code from decimer integration
     try:
         #parse response to get the three names
         names = response.text.strip().split('\n')
@@ -75,7 +91,21 @@ def validate_drawing_with_ai(response, target_smiles, threshold, jupyternb: bool
         return False
 
 def get_molecule_with_ai(api_key, image_bytes: bytes, target_smiles: str, threshold: float = 0.85, jupyternb: bool = False) -> bool | str:
-    #check for empty api key first
+    """
+    Validate a hand-drawn molecule against a target SMILES string using Gemini AI.
+    
+    Args:
+        api_key: The Gemini API key
+        image_bytes: The image bytes containing the hand-drawing
+        target_smiles: The target molecule's SMILES string
+        threshold: The MCS similarity threshold for validation
+        jupyternb: Whether we are running in a Jupyter notebook (for testing)
+        
+    Returns:
+        bool: True if the drawing is valid, False otherwise
+        str: Error message if there was an error
+    """
+    # Check for empty API key first
     if not api_key:
         return "❗ Gemini API key not set."
     

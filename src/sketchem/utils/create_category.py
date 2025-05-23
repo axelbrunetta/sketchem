@@ -1,4 +1,9 @@
-# This file contains the main function that creates a new molecule category using Gemini AI and smiles from Pubchem 
+"""
+Category creation utilities for Sketchem.
+
+This file contains functions to create custom molecule categories
+using Gemini AI and PubChem data.
+"""
 
 from google import genai
 import pubchempy as pcp
@@ -13,6 +18,15 @@ logger.setLevel(logging.DEBUG)
 
 #check if category is default
 def check_category_is_default(selected_category):
+    """
+    Check if a category is one of the default categories.
+    
+    Updates the session state to indicate whether the selected category
+    is a default category or a custom one.
+    
+    Args:
+        selected_category: The name of the category to check
+    """
     if selected_category in MOLECULE_CATEGORIES.keys():
         st.session_state.category_is_default = True
     else:
@@ -20,6 +34,20 @@ def check_category_is_default(selected_category):
 
 #get molecules for category using pubchem
 def get_molecules_for_category_pubchem(api_key, user_prompt, jupyternb: bool = False):
+    """
+    Generate a new molecule category based on user input.
+    
+    Uses Gemini AI to interpret the user's request and find relevant
+    molecules from PubChem.
+    
+    Args:
+        api_key: Google Gemini API key
+        user_prompt: User's description of the desired category
+        jupyternb: Whether this is being run in a Jupyter notebook
+        
+    Returns:
+        Success message or error message
+    """
     full_prompt = create_prompt(user_prompt)
 
     try:

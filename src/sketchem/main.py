@@ -1,3 +1,10 @@
+"""
+Main entry point for the Sketchem web application.
+
+This file initializes the Streamlit app, sets up the game state, sets up mobile / desktop mode
+and handles routing to the appropriate pages based on game mode.
+"""
+
 import streamlit as st
 from sketchem.utils.game_state import initialize_game_state
 from sketchem.pages.home_page import render_home_page
@@ -10,8 +17,14 @@ from sketchem.pages.game_page_multi import render_game_page_multi
 from sketchem.pages.guide_page import render_guide_page
 from streamlit_js_eval import streamlit_js_eval
 
+
 def main():
-    #set page configuration (changes tab title in browser from streamlit to sketchem)
+    """
+    Initialize and run the Sketchem application.
+    
+    Sets up the page configuration, initializes game state,
+    displays toasts, and routes to the appropriate page based on game mode.
+    """
     st.set_page_config(page_title="Sketchem", layout="wide", initial_sidebar_state="collapsed")
 
     

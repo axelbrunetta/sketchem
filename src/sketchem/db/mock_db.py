@@ -1,3 +1,9 @@
+"""
+In-memory database for Sketchem.
+
+This file implements a simple in-memory database for storing game state,
+player information, and multiplayer game information.
+"""
 
 import uuid
 import time
@@ -15,16 +21,28 @@ logger.setLevel(logging.DEBUG)
 
 _games = {} # This will be a dictionary of all the games running
 
-def remove_player_from_game(game_id: str, player_id: str):
-    # TODO: implement logic to remove player
-    pass
-
-def generate_game_code(length: int = 6) -> str: #Self-explanatory
-    """Generate a random game code"""
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
+def generate_game_code(length: int = 6) -> str:
+    """
+    Generate a random game code for multiplayer games.
+    
+    Args:
+        length: Length of the game code
+        
+    Returns:
+        A random string of uppercase letters and digits
+    """
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length)) 
 
 def create_game(player_name: str) -> Dict:
-    """Create a new game with a unique code"""
+    """
+    Create a new game with a unique code.
+    
+    Args:
+        player_name: The name of the player creating the game
+        
+    Returns:
+        Dict with game code and player ID
+    """
 
     code = generate_game_code() #Generate code using function above
 
@@ -56,8 +74,17 @@ def create_game(player_name: str) -> Dict:
 
 
 
-def join_game(code: str, player_name: str) -> Dict: #Processes code entered by player and allowsthem to join a hosted game
-    """Join an existing game"""
+def join_game(code: str, player_name: str) -> Dict: 
+    """
+    Join an existing game.
+    
+    Args:
+        code: The game code
+        player_name: The name of the player joining the game
+        
+    Returns:
+        Dict with success status and error message if applicable
+    """
     if code not in _games:
         logger.info("Game not found")
         return {"success": False, "error": "Game not found"}
@@ -75,16 +102,32 @@ def join_game(code: str, player_name: str) -> Dict: #Processes code entered by p
     logger.info("Successfully joined game")
     return {"success": True, "player_id": player_id}
 
-def get_game(code: str) -> Optional[Dict]: #Returns game for given code -> used in waiting room to display game info
-    """Get game data"""
+def get_game(code: str) -> Optional[Dict]: 
+    """
+    Get game data
+    
+    Args:
+        code: The game code
+        
+    Returns:
+        Dict with game data or None if game does not exist
+    """
     if code not in _games:
         return None
     return _games[code]
 
 
 
-def start_game(code: str) -> Dict: #Self-explanatory
-    """Start the game"""
+def start_game(code: str) -> Dict: 
+    """
+    Start the game
+    
+    Args:
+        code: The game code
+        
+    Returns:
+        Dict with success status and error message if applicable
+    """
     if code not in _games:
         return {"success": False, "error": "Game not found"}
 
@@ -124,7 +167,15 @@ def remove_player_from_game(code: str, player_id: str) -> Dict:
     return {"success": True}
 
 def update_player_data(elapsed_time):
-    """Update a player's score and gameplay time."""
+    """
+    Update a player's score and gameplay time.
+
+    Args:
+        elapsed_time: The elapsed time since the game started
+
+    Returns:
+        Dict with success status and error message if applicable
+    """
     code = st.session_state.game_code
 
     if code not in _games:
@@ -143,8 +194,10 @@ def update_player_data(elapsed_time):
     return {"success": True}
 
 
-def cleanup_old_games():
-    """Delete games that are older than 20 minutes"""
+def cleanup_old_games(): # Not used as could not find a way to run this function automatically
+    """
+    Delete games that are older than 20 minutes
+    """
     current_time = int(time.time())
     timeout = 20 * 60  # 20 minutes in seconds
     

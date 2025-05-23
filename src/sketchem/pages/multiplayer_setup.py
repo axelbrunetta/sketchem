@@ -1,3 +1,10 @@
+
+"""
+Multiplayer setup page for Sketchem.
+
+This file contains the UI and other functions for the multiplayer setup page.
+"""
+
 import streamlit as st
 from sketchem.db.mock_db import create_game, join_game, get_game
 from sketchem.data.molecules import MOLECULE_CATEGORIES
@@ -12,7 +19,13 @@ logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
 def handle_join_game(player_name: str, game_code: str):
-    """Handles join game button click"""
+    """
+    Handles join game button click
+    
+    Args:
+        player_name: The name of the player joining the game
+        game_code: The code of the game to join
+    """
     with st.spinner("Joining game..."):
         try:
             logger.info(f"Player {player_name} joining game: {game_code}")
@@ -37,7 +50,12 @@ def handle_join_game(player_name: str, game_code: str):
             st.error("Failed to join game")
 
 def handle_create_game(player_name: str):
-    """Handles create game button click"""
+    """
+    Handles create game button click
+    
+    Args:
+        player_name: The name of the player creating the game
+    """
 
     with st.spinner("Creating game..."):
         try:
@@ -60,7 +78,11 @@ def handle_create_game(player_name: str):
 
 
 def render_multiplayer_setup():
-    """Renders the multiplayer setup page"""
+    """
+    Renders the multiplayer setup page
+    
+    Displays the player name input, game settings, molecule selection, and buttons for creating and joining games.
+    """
     
     # Try to load the style from file, fall back to inline style if file doesn't exist
     try:

@@ -1,3 +1,10 @@
+
+"""
+Guide page for Sketchem.
+
+This file contains the UI and other functions for the guide page.
+"""
+
 import streamlit as st
 import os
 from pathlib import Path
@@ -7,7 +14,12 @@ from sketchem.utils.environment import is_running_locally
 
 
 def render_guide_page():
-    #import css
+    """
+    Render the guide page UI.
+    
+    Displays a PDF user guide for the application.
+    """
+    # Import CSS from file
     css_path = os.path.join(os.path.dirname(__file__), "style", "guide_page_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/guide_page_styling.css'
     
     with open(css_path) as f:

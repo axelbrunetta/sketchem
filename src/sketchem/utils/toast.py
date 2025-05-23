@@ -1,4 +1,9 @@
-#implementation of toast notifications
+"""
+Toast notification utilities for Sketchem.
+
+This file contains functions to display toast notifications
+that persist across page reloads.
+"""
 
 import streamlit as st
 

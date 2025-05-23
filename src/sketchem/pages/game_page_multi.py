@@ -1,3 +1,9 @@
+"""
+Multiplayer game page for Sketchem.
+
+This file contains the UI and other functions for the multiplayer drawing game.
+"""
+
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 from PIL import Image
@@ -17,7 +23,7 @@ from contextlib import contextmanager
 logger = get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
-# Add the st_horizontal function from waiting_room.py
+
 HORIZONTAL_STYLE = """
 <style class="hide-element">
     /* Hides the style container and removes the extra spacing */
@@ -44,13 +50,24 @@ HORIZONTAL_STYLE = """
 
 @contextmanager
 def st_horizontal():
+    """
+    Used to reate a horizontal layout for Streamlit elements.
+    """
     st.markdown(HORIZONTAL_STYLE, unsafe_allow_html=True)
     with st.container():
         st.markdown('<span class="hide-element horizontal-marker"></span>', unsafe_allow_html=True)
         yield
 
 
-def save_canvas_as_image(canvas_data):  # convert canvas data to png image
+def save_canvas_as_image(canvas_data):  
+    """
+    Convert canvas data to image bytes.
+    
+    Args:
+        canvas_data: The canvas data to convert
+    Returns:
+        The image data as bytes
+    """
     if canvas_data is not None:
         img_data = canvas_data.astype("uint8")
         img = Image.fromarray(img_data[..., :3])
@@ -60,8 +77,13 @@ def save_canvas_as_image(canvas_data):  # convert canvas data to png image
     return None
 
 
-# switch between pen and eraser
 def toggle_drawing_mode():
+    """
+    Switch between pen and eraser modes.
+    
+    Updates the session state to toggle between freedraw and erase modes,
+    and restores the last pen color when switching back to pen mode.
+    """
     if st.session_state.drawing_mode == "freedraw":
         st.session_state.drawing_mode = "erase"
     else:
@@ -70,6 +92,15 @@ def toggle_drawing_mode():
         st.session_state.pen_color_selector = st.session_state.last_pen_color
 
 def handle_submission(canvas_result):
+    """
+    Process a player's drawing submission.
+    
+    Validates the drawing against the target molecule using AI, updates score
+    if correct, and provides feedback to the player.
+    
+    Args:
+        canvas_result: The canvas data containing the player's drawing
+    """
     
 
     
@@ -161,6 +192,12 @@ def handle_submission(canvas_result):
         st.rerun()
 
 def select_next_molecule():
+    """
+    Select the next molecule for the player to draw.
+    
+    Gets the next molecule in sequence rather than randomly selecting one.
+    If all molecules have been used, marks the player as done.
+    """
     # Get the selected category
     game = get_game(st.session_state.game_code)
     if game and "category" in game:  
@@ -199,6 +236,11 @@ def select_next_molecule():
 
 
 def handle_skip():
+    """
+    Handle when a player skips the current molecule.
+    
+    Resets the canvas, selects the next molecule, and shows a notification.
+    """
     # Reset the canvas by incrementing the counter
     if "canvas_key_counter" not in st.session_state:
         st.session_state.canvas_key_counter = 0
@@ -209,6 +251,12 @@ def handle_skip():
     st.rerun()
 
 def render_game_page_multi():
+    """
+    Render the multiplayer game page UI.
+    
+    Sets up the drawing canvas, color selection buttons, timer, and game state.
+    Handles different layouts for mobile and desktop views.
+    """
     
     # Try to load the style from file, fall back to inline style if file doesn't exist
     try:
@@ -314,12 +362,34 @@ def render_game_page_multi():
     
 
     with goodcolumn:
+        if st.session_state.game_over or st.session_state.player_done:
+            back_button(destination=None, label="Leave")
+        
         if not (st.session_state.game_over or st.session_state.player_done):
+
+            # Display target molecule
+            st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
+            
             # Display game info
-            col1, col2 = st.columns(2)
+            col1, col2, col3 = st.columns(3)
             with col1:
                 st.markdown(f"**Score:** {st.session_state.points}")
             with col2:
+                # Get total number of molecules for progress display
+                game = get_game(st.session_state.game_code)
+                total_molecules = 0
+                if game and "category" in game:
+                    category = game["category"]
+                    if category in MOLECULE_CATEGORIES and game.get("category_is_default", True):
+                        total_molecules = len(MOLECULE_CATEGORIES[category])
+                    elif not game.get("category_is_default", True) and "additional_categories" in game:
+                        if category in game["additional_categories"]:
+                            total_molecules = len(game["additional_categories"][category])
+                
+                # Display progress as current molecule index + 1 out of total
+                current_progress = getattr(st.session_state, 'molecule_index', 0) + 1
+                st.markdown(f"**Progress:** {current_progress}/{total_molecules}")
+            with col3:
                 @st.fragment(run_every="1s")
                 def timer_fragment(game_duration):
                     elapsed_time = time.time() - st.session_state.start_time
@@ -352,8 +422,6 @@ def render_game_page_multi():
                     st.session_state.last_pen_color = "White"  # Default to white if invalid
                 current_stroke_color = color_options[st.session_state.last_pen_color]
 
-            # Display target molecule
-            st.markdown(f"## Please draw: **{st.session_state.current_molecule}**")
             
             # Function to handle color selection
             def select_color(color_name):

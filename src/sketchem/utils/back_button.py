@@ -1,3 +1,10 @@
+"""
+Back button functionality for Sketchem.
+
+This file contains the implementation of the back button that appears
+on various pages, handling navigation and cleanup when leaving games.
+"""
+
 import streamlit as st
 from sketchem.utils.game_state import reset_game_state
 from streamlit_extras.stylable_container import stylable_container

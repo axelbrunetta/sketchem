@@ -1,10 +1,19 @@
-#used to keep track of the parameters like game duration, user id, etc -> THIS IS FOR A PER-USER SESSION (i.e. different browser tab, computer, etc)
+"""
+Game state management for Sketchem.
+
+This file contains functions to initialize and manage the game state
+using Streamlit's session state.
+"""
 
 import streamlit as st
 
 def initialize_game_state():
-    """Initialize game state"""
-
+    """
+    Initialize game state variables in Streamlit session state.
+    
+    Sets up default values for game mode, player information,
+    game settings, and other state variables needed across the app.
+    """
     if "game_mode" not in st.session_state:
         st.session_state.game_mode = None  #None, "single", "multiplayer_setup", "create_multi", "join_multi", "multiplayer", "singleplayer_setup"
 
