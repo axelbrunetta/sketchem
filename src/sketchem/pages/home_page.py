@@ -33,8 +33,7 @@ def render_home_page():
 
         padding3, col1, padding4 = st.columns([1, 2, 1])
         with col1:
-            image_width = 300
-            st.image(logo_path, width=image_width if not st.session_state.is_mobile else None, use_container_width=True if st.session_state.is_mobile else False)
+            st.image(logo_path, use_container_width=True if st.session_state.is_mobile else False)
         
         
         col2, col3 = st.columns(2)
