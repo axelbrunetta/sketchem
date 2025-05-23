@@ -1,3 +1,10 @@
+
+"""
+Waiting room page for Sketchem.
+
+This file contains the UI and other functions for the waiting room page.
+"""
+
 import streamlit as st
 import time
 from sketchem.db.mock_db import get_game, start_game
@@ -48,7 +55,11 @@ def st_horizontal(): #Function to create an "inline" block for streamlit element
         yield
 
 def render_waiting_room():
-    """Renders the waiting room for both host and joining players"""
+    """
+    Renders the waiting room for both host and joining players
+    
+    Displays the game code, player list, category, and molecules. Host can start the game.
+    """
     st.empty() #Clears the page -> fix for elements of the multiplayer setup page staying on screen
     padding1, goodcolumn, padding2 = st.columns([1, 3, 1])
     

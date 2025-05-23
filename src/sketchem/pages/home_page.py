@@ -1,3 +1,9 @@
+"""
+Home page for Sketchem.
+
+This file contains the UI and other functions for the home page.
+"""
+
 import streamlit as st
 from sketchem.utils.environment import is_running_locally
 from streamlit_extras.bottom_container import bottom
@@ -7,6 +13,11 @@ import os
 
                    
 def render_home_page():
+    """
+    Render the home page UI.
+    
+    Displays the logo and buttons for single player, multiplayer, and guide. Also displays credits at the bottom.
+    """
 
     current_dir = os.path.dirname(__file__)
     logo_path = os.path.join(current_dir, "..", "..", "..", "assets", "logo.jpg")

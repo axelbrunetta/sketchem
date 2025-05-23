@@ -1,3 +1,8 @@
+"""
+Single player setup page for Sketchem.
+
+This file contains the UI and other functions for the single player setup page.
+"""
 import streamlit as st
 from sketchem.data.molecules import MOLECULE_CATEGORIES
 from streamlit.logger import get_logger
@@ -16,6 +21,12 @@ logger.setLevel(logging.DEBUG)
 
 
 def render_singleplayer_setup():
+    """
+    Render the single player setup page UI.
+    
+    Displays the category selection, game duration, and start game button.
+    Handles the creation of custom categories using AI.
+    """
     # Initialize session state variables if they don't exist
     if "category_update_counter" not in st.session_state:
         st.session_state.category_update_counter = 0

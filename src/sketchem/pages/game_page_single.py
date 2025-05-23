@@ -1,3 +1,10 @@
+"""
+Single player game page for Sketchem.
+
+This file contains the UI and logic for the single player drawing game where
+players draw molecules and get feedback on their accuracy.
+"""
+
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 from PIL import Image
@@ -51,9 +58,15 @@ def toggle_drawing_mode():
         st.session_state.pen_color_selector = st.session_state.last_pen_color
 
 def handle_submission(canvas_result):
+    """
+    Process a player's drawing submission.
     
-
+    Validates the drawing against the target molecule using AI, updates score
+    if correct, and provides feedback to the player.
     
+    Args:
+        canvas_result: The canvas data containing the player's drawing
+    """
     # Check if canvas is all black (effectively empty)
     img_bytes = save_canvas_as_image(canvas_result.image_data)
     if img_bytes is None or Image.open(io.BytesIO(img_bytes)).getcolors() == [(400*600, (0, 0, 0))]:
@@ -146,6 +159,12 @@ def handle_submission(canvas_result):
         st.rerun()
 
 def select_next_molecule():
+    """
+    Select the next molecule for the player to draw.
+    
+    Randomly selects a molecule that hasn't been displayed yet.
+    If all molecules have been used, marks the game as over.
+    """
     # Get the game to find the category
     game = get_game(st.session_state.game_code)
     if game and "category" in game:
@@ -180,6 +199,12 @@ def select_next_molecule():
 
 
 def handle_skip():
+    """
+    Handle when a player skips the current molecule.
+    
+    Resets the canvas, selects the next molecule, and shows a notification.
+    Updates the progress counter.
+    """
     # Reset the canvas by incrementing the counter
     if "canvas_key_counter" not in st.session_state:
         st.session_state.canvas_key_counter = 0
@@ -191,7 +216,12 @@ def handle_skip():
     st.rerun()
 
 def get_molecule_from_category(category):
-    """Get molecules from the specified category."""
+    """
+    Get molecules from the specified category.
+    
+    Args:
+        category: The category to get molecules from
+    """
     # Check if the category is in MOLECULE_CATEGORIES
     if category in MOLECULE_CATEGORIES:
         return list(MOLECULE_CATEGORIES[category].keys())
@@ -203,6 +233,12 @@ def get_molecule_from_category(category):
     
 
 def render_game_page():
+    """
+    Render the single player game page UI.
+    
+    Sets up the drawing canvas, color selection buttons, timer, and game state.
+    Handles different layouts for mobile and desktop views.
+    """
     # Load CSS
     css_path = os.path.join(os.path.dirname(__file__), "style", "singleplayer_game_page_styling.css") if is_running_locally() else '/mount/src/sketchem/src/sketchem/pages/style/singleplayer_game_page_styling.css'
     
@@ -553,7 +589,9 @@ def render_game_page():
 
 # Add the st_horizontal function for mobile layout
 def st_horizontal():
-    """Create a horizontal layout for Streamlit elements."""
+    """
+    Used to create a horizontal layout for Streamlit elements.
+    """
     html(HORIZONTAL_STYLE + '<div class="horizontal-marker"></div>', height=0)
     return st.container()
 
