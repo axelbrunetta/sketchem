@@ -7,7 +7,20 @@ Sketchem
 <br>
 
 
-Sketchem is an interactive molecular pictionary game where users compete to draw chemical molecules correctly. The app uses AI to recognize hand-drawn molecular structures and provides a fun way to learn about chemistry through gameplay.
+Sketchem is an interactive molecular pictionary game where users compete to draw molecules correctly. The app uses AI to recognize hand-drawn molecular structures and provides a fun way to learn about chemistry through gameplay.
+
+## Table of Contents
+
+- [Live Game](#Live-game)
+- [Features](#Features)
+- [Installation](#Installation)
+- [Requirements](#Requirements)
+- [How to Run Locally](#How-to-Run-Locally)
+- [How to deploy on Streamlit Cloud](#How-to-deploy-on-Streamlit-Cloud)
+- [Run Tests and Coverage](#Run-Tests-and-Coverage)
+- [Troubleshooting](#Troubleshooting)
+- [Contributions](#Contributions)
+- [License](#License)
 
 ## Live Game
 
@@ -15,12 +28,12 @@ Sketchem is an interactive molecular pictionary game where users compete to draw
 
 ## Features
 
-- **Single-player and multiplayer modes**: Practice alone or compete with friends
-- **Real-time drawing canvas**: Sketch molecules with an intuitive drawing interface
-- **AI-powered recognition**: Gemini AI analyzes drawings to identify molecules
+- **Single-player and multiplayer modes**: Challenge yourself or compete with friends in real time
+- **Paper-like drawing canvas**: Sketch molecules with an intuitive drawing interface
+- **AI-powered recognition**: Google Generative AI (Gemini) interprets hand-drawn structures to identify the drawn molecule
 - **AI-powered molecule category generation**: Gemini AI creates categories for molecules based on user input
 - **Leaderboard system**: Track scores based on accuracy and speed, and compete for the top spot!
-- **Hints**: Get feedback on your drawings to improve your skills
+- **Hints**: Get feedback on your drawings to improve your structure-drawing skills
 
 ## Installation
 
@@ -115,4 +128,4 @@ Axel worked on the multiplayer integration, the multiplayer game page, and other
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
