@@ -128,12 +128,12 @@ def render_multiplayer_setup():
                 # Game settings 
                 st.markdown("### Game Settings")
 
-                
+                st.markdown("##### Game duration (seconds)")
                 @st.fragment()
                 def slider_fragment():
                     
                     displayed_duration = st.slider(
-                        "Game Duration (seconds)",
+                        "",
                         min_value=180,
                         max_value=600,
                         value=300,
@@ -144,13 +144,14 @@ def render_multiplayer_setup():
                 slider_fragment()
 
                 st.divider()
-                
+
+                st.markdown("##### Hints")
                 st.session_state.enable_hints = st.toggle("Enable hints")
 
                 st.divider()
 
                 # Molecule category selection
-                st.markdown("### Molecule Category")
+                st.markdown("##### Molecule Category")
 
 
                 # Function to increment the counter when a new category is added
