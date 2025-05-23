@@ -1,4 +1,4 @@
-# This file contains the tests for smile_validator.py
+# This file contains the tests for smile_validator_ai.py
 
 import pytest
 from pathlib import Path
@@ -75,7 +75,7 @@ def test_threshold_bounds():
                                 method='morgan', threshold=0.1)
     assert result_low == True 
 """
-
+@pytest.mark.skipif(not get_gemini_api_key(), reason="Gemini API key not found")
 def test_mcs_comparison():
     """Test Maximum Common Substructure comparison with different thresholds"""
     # Test cases with expected results
@@ -108,6 +108,7 @@ def test_mcs_comparison():
                                           method='mcs', threshold=0.6)
         assert result_different == False, "MCS different structure check failed"
 
+@pytest.mark.skipif(not get_gemini_api_key(), reason="Gemini API key not found")
 def test_mcs_edge_cases():
     """Test MCS comparison with edge cases"""
     image_path = TEST_DATA_DIR / 'ethanol.png'
@@ -127,6 +128,7 @@ def test_mcs_edge_cases():
                                     method='mcs')
     assert result_invalid == False, "MCS invalid SMILES handling failed"
 
+@pytest.mark.skipif(not get_gemini_api_key(), reason="Gemini API key not found")
 def test_get_molecule_with_ai():
     """Test AI-based validation using Gemini"""
 
@@ -162,6 +164,7 @@ def test_get_molecule_with_ai():
         assert result == case['expected'], f"Expected {case['expected']} for {case['target']}"
         assert isinstance(result, bool), "Result should be boolean" # We also verify the function runs without errors and returns expected type
 
+@pytest.mark.skipif(not get_gemini_api_key(), reason="Gemini API key not found")
 def test_get_molecule_with_ai_invalid_inputs():
     """Test AI validation with invalid inputs"""
 
