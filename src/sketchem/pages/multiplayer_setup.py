@@ -142,6 +142,9 @@ def render_multiplayer_setup():
                     # Add 5 seconds to the actual game duration to account for loading time of the game page -> because of the timer
                     st.session_state.game_duration = displayed_duration + 5
                 slider_fragment()
+
+                st.divider()
+                
                 st.session_state.enable_hints = st.toggle("Enable hints")
 
                 st.divider()
